@@ -34,7 +34,7 @@ namespace LexerTests
         {
             var tokenMatcher = new LabelReferenceToken();
 
-            Assert.That(tokenMatcher.Match("labelreference") == "labelreference");
+            Assert.That(tokenMatcher.Match("labelreference"), Is.EqualTo("labelreference"));
         }
     }
 }

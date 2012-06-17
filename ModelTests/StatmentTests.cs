@@ -51,7 +51,7 @@ namespace ModelTests
         {
             var statment = new Statment { Menemonic = menemonic };
 
-            Assert.That(statment.Opcode == (int)expectedOpcodeValue);
+            Assert.That(statment.Opcode, Is.EqualTo((int)expectedOpcodeValue));
         }
 
         [Test]

@@ -161,7 +161,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.RegisterValue == (int)RegisterIdentifier.RegA);
+            Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegA));
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.RegisterValue == (int)RegisterIdentifier.RegB);
+            Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegB));
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.RegisterValue == (int)RegisterIdentifier.RegC);
+            Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegC));
         }
 
         [Test]
@@ -197,7 +197,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.RegisterValue == (int)RegisterIdentifier.RegX);
+            Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegX));
         }
 
         [Test]
@@ -209,7 +209,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.RegisterValue == (int)RegisterIdentifier.RegY);
+            Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegY));
         }
 
         [Test]
@@ -221,7 +221,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.RegisterValue == (int)RegisterIdentifier.RegZ);
+            Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegZ));
         }
 
         [Test]
@@ -233,7 +233,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.RegisterValue == (int)RegisterIdentifier.RegI);
+            Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegI));
         }
 
         [Test]
@@ -245,7 +245,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.RegisterValue == (int)RegisterIdentifier.RegJ);
+            Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegJ));
         }
 
         [Test]
@@ -267,7 +267,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.RegisterValue == (int)RegisterIdentifier.RegJ);
+            Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegJ));
         }
 
         [Test]
@@ -279,7 +279,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.NextWord == 15);
+            Assert.That(operand.NextWord, Is.EqualTo(15));
         }
 
         [Test]
@@ -291,7 +291,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.NextWord == 10);
+            Assert.That(operand.NextWord, Is.EqualTo(10));
         }
 
         [Test]
@@ -303,7 +303,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.NextWord == 10);
+            Assert.That(operand.NextWord, Is.EqualTo(10));
         }
 
         [Test]
@@ -315,7 +315,7 @@ namespace ModelTests
 
             var operand = builder.Build(token);
 
-            Assert.That(operand.NextWord == 15);
+            Assert.That(operand.NextWord, Is.EqualTo(15));
         }
 
         [Test]
@@ -329,7 +329,7 @@ namespace ModelTests
 
             var operand = builder.Build(rigthToken);
 
-            Assert.That(operand.NextWord == 15);
+            Assert.That(operand.NextWord, Is.EqualTo(15));
         }
 
         [Test]
@@ -343,7 +343,7 @@ namespace ModelTests
 
             var operand = builder.Build(rigthToken);
 
-            Assert.That(operand.RegisterValue == (int)RegisterIdentifier.RegA);
+            Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegA));
         }
     }
 }

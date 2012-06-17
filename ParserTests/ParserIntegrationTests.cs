@@ -75,12 +75,12 @@ namespace ParserTests
 
             var statment = parser.Statments.First();
 
-            Assert.That(statment.Menemonic == "SET");
-            Assert.That(statment.Opcode == (int)BasicOpcode.OpSet);
+            Assert.That(statment.Menemonic, Is.EqualTo("SET"));
+            Assert.That(statment.Opcode, Is.EqualTo((int)BasicOpcode.OpSet));
             Assert.That(statment.OperandA is RegisterOperand);
-            Assert.That(statment.OperandA.RegisterValue == (int)RegisterIdentifier.RegI);
+            Assert.That(statment.OperandA.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegI));
             Assert.That(statment.OperandB is NextWordOperand);
-            Assert.That(statment.OperandB.NextWord == 10);
+            Assert.That(statment.OperandB.NextWord, Is.EqualTo(10));
         }
 
         [Test]
@@ -95,12 +95,12 @@ namespace ParserTests
 
             var statment = parser.Statments.First();
 
-            Assert.That(statment.Menemonic == "SET");
-            Assert.That(statment.Opcode == (int)BasicOpcode.OpSet);
+            Assert.That(statment.Menemonic, Is.EqualTo("SET"));
+            Assert.That(statment.Opcode, Is.EqualTo((int)BasicOpcode.OpSet));
             Assert.That(statment.OperandA is IndirectNextWordOperand);
-            Assert.That(statment.OperandA.NextWord == 4096);
+            Assert.That(statment.OperandA.NextWord, Is.EqualTo(4096));
             Assert.That(statment.OperandB is NextWordOperand);
-            Assert.That(statment.OperandB.NextWord == 32);
+            Assert.That(statment.OperandB.NextWord, Is.EqualTo(32));
         }
 
         [Test]
@@ -115,12 +115,12 @@ namespace ParserTests
 
             var statment = parser.Statments.First();
 
-            Assert.That(statment.Menemonic == "SET");
-            Assert.That(statment.Opcode == (int)BasicOpcode.OpSet);
+            Assert.That(statment.Menemonic, Is.EqualTo("SET"));
+            Assert.That(statment.Opcode, Is.EqualTo((int)BasicOpcode.OpSet));
             Assert.That(statment.OperandA is ProgramCounterOperand);
             Assert.That(statment.OperandB is NextWordOperand);
-            Assert.That(statment.OperandB.Label == "crash");
-            Assert.That(statment.OperandB.NextWord == 0);
+            Assert.That(statment.OperandB.Label, Is.EqualTo("crash"));
+            Assert.That(statment.OperandB.NextWord, Is.EqualTo(0));
         }
 
         [Test]
@@ -135,11 +135,11 @@ namespace ParserTests
 
             var statment = parser.Statments.First();
 
-            Assert.That(statment.Menemonic == "JSR");
-            Assert.That(statment.Opcode == (int)NonBasicOpcode.OpJsr);
+            Assert.That(statment.Menemonic, Is.EqualTo("JSR"));
+            Assert.That(statment.Opcode, Is.EqualTo(0));
             Assert.That(statment.OperandA is NextWordOperand);
-            Assert.That(statment.OperandA.Label == "testsub");
-            Assert.That(statment.OperandA.NextWord == 0);
+            Assert.That(statment.OperandA.Label, Is.EqualTo("testsub"));
+            Assert.That(statment.OperandA.NextWord, Is.EqualTo(0));
         }
 
         [Test]

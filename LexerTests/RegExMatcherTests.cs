@@ -34,7 +34,7 @@ namespace LexerTests
         {
             var matcher = new RegExMatcher(string.Empty);
 
-            Assert.That(matcher.Match(string.Empty) == string.Empty);
+            Assert.That(matcher.Match(string.Empty), Is.EqualTo(string.Empty));
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace LexerTests
         {
             var matcher = new RegExMatcher(string.Empty);
 
-            Assert.That(matcher.Match(string.Empty) == string.Empty);
+            Assert.That(matcher.Match(string.Empty), Is.EqualTo(string.Empty));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace LexerTests
         {
             var matcher = new RegExMatcher("PUSH");
 
-            Assert.That(matcher.Match("SET PUSH") == string.Empty);
+            Assert.That(matcher.Match("SET PUSH"), Is.EqualTo(string.Empty));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace LexerTests
         {
             var matcher = new RegExMatcher("POSH");
 
-            Assert.That(matcher.Match("SET PUSH") == string.Empty);
+            Assert.That(matcher.Match("SET PUSH"), Is.EqualTo(string.Empty));
         }
     }
 }
