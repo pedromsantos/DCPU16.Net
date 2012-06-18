@@ -30,17 +30,18 @@ namespace Assembler
 
     public class Assembler
     {
+        protected const int OpcodeWidth = 4;
         protected const int OperandWidth = 6;
         protected const int OperandLiteralMax = 0x1F;
 
-        private readonly IDictionary<string, int> labelDefinitions;
+        private readonly IDictionary<string, int> labelAddresses;
         private readonly IDictionary<int, string> labelReferences;
 
         private readonly IList<ushort> program;
 
         public Assembler()
         {
-            this.labelDefinitions = new Dictionary<string, int>();
+            this.labelAddresses = new Dictionary<string, int>();
             this.labelReferences = new Dictionary<int, string>();
 
             this.program = new List<ushort>();
@@ -64,7 +65,7 @@ namespace Assembler
 
             if (!string.IsNullOrEmpty(statment.Label))
             {
-                this.labelDefinitions[statment.Label.Substring(1)] = this.program.Count;
+                this.labelAddresses[statment.Label.Substring(1)] = this.program.Count;
             }
 
             if (opcode == 0)
@@ -75,8 +76,8 @@ namespace Assembler
                 }
 
                 opcode = 0;
-                opcode |= (int)NonBasicOpcode.OpJsr << OperandWidth;
-                opcode |= statment.OperandA.AssembleOperand(0);
+                opcode |= (ushort)NonBasicOpcode.OpJsr << OpcodeWidth;
+                opcode |= statment.OperandA.AssembleOperand(1);
                 this.program.Add(opcode);
                 this.AssembleNextWordOperand(statment.OperandA);
             }
@@ -104,6 +105,7 @@ namespace Assembler
                 if (!string.IsNullOrEmpty(operand.Label))
                 {
                     this.labelReferences[this.program.Count] = operand.Label;
+                    this.program.Add(0);
                 }
                 else if (operand.NextWord > OperandLiteralMax)
                 {
@@ -114,16 +116,16 @@ namespace Assembler
 
         private void ResolveLabelReferences()
         {
-            foreach (var labelReference in this.labelReferences)
+            foreach (var key in this.labelReferences.Keys)
             {
-                var label = this.labelReferences[labelReference.Key];
+                var labelName = this.labelReferences[key];
 
-                if (this.labelDefinitions.ContainsKey(label))
+                if (!this.labelAddresses.ContainsKey(labelName))
                 {
-                    var instructionIndex = labelReference.Key - 1;
-                    var labelDefinitionIndex = this.labelDefinitions[label];
-                    this.program[instructionIndex] = (ushort)labelDefinitionIndex;
+                    throw new Exception(string.Format("Unknown label reference '{0}'", labelName));
                 }
+
+                this.program[key] = (ushort)this.labelAddresses[labelName];
             } 
         }
     }

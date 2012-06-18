@@ -84,6 +84,26 @@ namespace ParserTests
         }
 
         [Test]
+        public void ParseWhenCalledWithSetRegisterWithHexLiteralGenertesCorrectStatments()
+        {
+            const string Code = "SET X, 0x4";
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            parser.Parse();
+
+            var statment = parser.Statments.First();
+
+            Assert.That(statment.Menemonic, Is.EqualTo("SET"));
+            Assert.That(statment.Opcode, Is.EqualTo((int)BasicOpcode.OpSet));
+            Assert.That(statment.OperandA is RegisterOperand);
+            Assert.That(statment.OperandA.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegX));
+            Assert.That(statment.OperandB is NextWordOperand);
+            Assert.That(statment.OperandB.NextWord, Is.EqualTo(4));
+        }
+
+        [Test]
         public void ParseWhenCalledWithSetMemoryAddressWithLiteralGenertesCorrectStatments()
         {
             const string Code = "SET [0x1000], 0x20";

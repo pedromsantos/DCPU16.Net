@@ -185,7 +185,7 @@ namespace AssemblerTests
 
             for (var i = 0; i < 28; i++)
             {
-                Assert.That(program[0], Is.EqualTo(expectedInstruction[i]));
+                Assert.That(program[i], Is.EqualTo(expectedInstruction[i]));
             }
         }
     }
