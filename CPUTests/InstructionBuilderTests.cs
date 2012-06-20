@@ -20,20 +20,44 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace CPUTests
 {
     using System;
 
-    public class StackPointerOperand : Operand
-    {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
-        {
-            return cpuStateManager.StackPointer;
-        }
+    using CPU;
+    using CPU.Instructions;
 
-        protected override ushort Assemble(ushort shift)
+    using Model;
+    using Model.Operands;
+
+    using Moq;
+
+    using NUnit.Framework;
+
+    [TestFixture]
+    public class InstructionBuilderTests
+    {
+        [Test]
+        [TestCase((ushort)0x7c01, typeof(SetInstruction))] // SET A 
+        [TestCase((ushort)0x7de1, typeof(SetInstruction))] // SET [0xxxxx] 
+        [TestCase((ushort)0xA861, typeof(SetInstruction))] // SET I, 10
+        [TestCase((ushort)0x9031, typeof(SetInstruction))] // SET X, 0x4
+        [TestCase((ushort)0x8463, typeof(SubInstruction))] // SUB I, 1
+        [TestCase((ushort)0x8463, typeof(SubInstruction))] // SUB I, 1
+        [TestCase((ushort)0x7803, typeof(SubInstruction))] // SUB A,  [0xxxxx]
+        [TestCase((ushort)0x9037, typeof(ShlInstruction))] // SHL X, 4
+        public void BuildWhenCalledForRawInstructionBuildsExpectedInstructionInstance(ushort rawInstruction, Type expectedInstruction)
         {
-            return (ushort)((ushort)OperandType.OSp << shift);
+            var cpu = new Mock<ICentralProcessingUnitStateOperations>();
+            var operandFactory = new Mock<IInstructionOperandFactory>();
+
+            operandFactory.Setup(m => m.Create(It.IsAny<ushort>())).Returns(new NullOperand());
+
+            var builder = new InstructionBuilder(cpu.Object, operandFactory.Object);
+
+            var instruction = builder.Build(rawInstruction);
+
+            Assert.That(instruction, Is.InstanceOf(expectedInstruction));
         }
     }
 }

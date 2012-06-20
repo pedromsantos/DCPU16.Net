@@ -22,8 +22,18 @@
 
 namespace Model.Operands
 {
+    using System;
+
     public class IndirectNextWordOffsetOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            var programCounter = cpuStateManager.IncrementProgramCounter();
+            var nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
+            var registerValue = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+            return (ushort)(cpuStateManager.ReadMemoryValueAtAddress((ushort)(nextWordAddress + registerValue)) & ShortMask);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)(((ushort)OperandType.OIndirectNextWordOffset + this.RegisterValue) << shift);

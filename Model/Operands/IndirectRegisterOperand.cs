@@ -22,8 +22,22 @@
 
 namespace Model.Operands
 {
+    using System;
+
     public class IndirectRegisterOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            var address = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+            return cpuStateManager.ReadMemoryValueAtAddress(address);
+        }
+
+        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        {
+            var memoryAddress = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+            cpuStateManager.WriteMemoryValueAtAddress(memoryAddress, value);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)(((ushort)OperandType.OIndirectReg + this.RegisterValue) << shift);

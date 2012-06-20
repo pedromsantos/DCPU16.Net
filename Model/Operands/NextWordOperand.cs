@@ -22,8 +22,16 @@
 
 namespace Model.Operands
 {
+    using System;
+
     public class NextWordOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            cpuStateManager.IncrementProgramCounter();
+            return cpuStateManager.ReadValueAtProgramCounter();
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))

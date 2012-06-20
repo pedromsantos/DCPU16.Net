@@ -20,23 +20,10 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace CPU
 {
-    public class OverflowOperand : Operand
+    public interface IInstructionBuilder
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
-        {
-            return cpuStateManager.Overflow;
-        }
-
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
-        {
-            cpuStateManager.Overflow = value;
-        }
-
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OO << shift);
-        }
+        Instruction Build(ushort instructionValue);
     }
 }

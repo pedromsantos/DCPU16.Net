@@ -22,8 +22,17 @@
 
 namespace Model.Operands
 {
+    using System;
+
     public class IndirectNextWordOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            var programCounter = cpuStateManager.IncrementProgramCounter();
+            var nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
+            return cpuStateManager.ReadMemoryValueAtAddress(nextWordAddress);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))

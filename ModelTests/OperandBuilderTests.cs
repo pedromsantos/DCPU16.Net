@@ -345,5 +345,15 @@ namespace ModelTests
 
             Assert.That(operand.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegA));
         }
+
+        [Test]
+        public void CreateWhenCalledWithRegisterAOperandValueBuildsRegisterOperand()
+        {
+            var builder = new InstructionOperandFactory();
+
+            var operand = builder.Create((ushort)RegisterIdentifier.RegA);
+
+            Assert.That(operand, Is.InstanceOf(typeof(RegisterOperand)));
+        }
     }
 }

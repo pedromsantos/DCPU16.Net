@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -20,23 +20,10 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model
 {
-    public class OverflowOperand : Operand
+    public interface IInstructionOperandFactory
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
-        {
-            return cpuStateManager.Overflow;
-        }
-
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
-        {
-            cpuStateManager.Overflow = value;
-        }
-
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OO << shift);
-        }
+        Operand Create(ushort operandValue);
     }
 }

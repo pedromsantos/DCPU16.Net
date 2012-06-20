@@ -26,6 +26,12 @@ namespace Model.Operands
 
     public class PushOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            var stackPointerValue = cpuStateManager.DecrementStackPointer();
+            return cpuStateManager.ReadMemoryValueAtAddress(stackPointerValue);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)((ushort)OperandType.OPush << shift);

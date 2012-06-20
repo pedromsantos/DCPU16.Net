@@ -22,8 +22,15 @@
 
 namespace Model.Operands
 {
+    using System;
+
     public class LiteralOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            return (ushort)((this.OperandValue - 0x20) % NumberOfLiterals);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return 1;

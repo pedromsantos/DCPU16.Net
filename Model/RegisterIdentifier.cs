@@ -24,7 +24,7 @@ namespace Model
 {
     public enum RegisterIdentifier
     {
-        RegA,
+        RegA = 0,
         RegB,
         RegC,
         RegX,

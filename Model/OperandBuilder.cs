@@ -26,7 +26,7 @@ namespace Model
 
     public abstract class OperandBuilder
     {
-        public Operand Operand { get; protected set; }
+        protected Operand Operand { get; set; }
 
         public Operand Build(TokenBase token)
         {

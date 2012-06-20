@@ -24,6 +24,16 @@ namespace Model.Operands
 {
     public class RegisterOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            return cpuStateManager.ReadGeneralPursoseRegisterValue(this.OperandValue);
+        }
+
+        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        {
+            cpuStateManager.WriteGeneralPursoseRegisterValue(this.OperandValue, value);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)(((ushort)OperandType.OReg + (ushort)this.RegisterValue) << shift);

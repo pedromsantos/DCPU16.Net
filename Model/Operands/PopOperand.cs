@@ -26,6 +26,12 @@ namespace Model.Operands
 
     public class PopOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            var stackPointerValue = cpuStateManager.IncrementStackPointer();
+            return cpuStateManager.ReadMemoryValueAtAddress(stackPointerValue);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)((ushort)OperandType.OPop << shift);

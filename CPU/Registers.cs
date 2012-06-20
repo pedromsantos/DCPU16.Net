@@ -20,23 +20,43 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace CPU
 {
-    public class OverflowOperand : Operand
+    using System;
+
+    public class Registers
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public const int NumbrOfGeneralPursposeRegisters = 8;
+
+        public Registers()
         {
-            return cpuStateManager.Overflow;
+            this.GeneralPurpose = new ushort[NumbrOfGeneralPursposeRegisters];
         }
 
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public ushort[] GeneralPurpose { get; set; }
+
+        public ushort StackPointer { get; set; }
+
+        public ushort ProgramCounter { get; set; }
+
+        public ushort Overflow { get; set; }
+
+        public ushort ReadGeneralPursoseRegisterValue(ushort register)
         {
-            cpuStateManager.Overflow = value;
+            return this.GeneralPurpose[register];
         }
 
-        protected override ushort Assemble(ushort shift)
+        public void WriteGeneralPursoseRegisterValue(int register, ushort value)
         {
-            return (ushort)((ushort)OperandType.OO << shift);
+            this.GeneralPurpose[register] = value;
+        }
+
+        public void Reset()
+        {
+            Array.Clear(this.GeneralPurpose, 0, NumbrOfGeneralPursposeRegisters);
+            this.StackPointer = 0x0;
+            this.ProgramCounter = 0x0;
+            this.Overflow = 0x0;
         }
     }
 }

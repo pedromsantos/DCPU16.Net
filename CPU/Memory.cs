@@ -20,23 +20,53 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace CPU
 {
-    public class OverflowOperand : Operand
+    using System;
+    using System.Collections.Generic;
+
+    public class Memory
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        private const int MemorySize = 0x10000;
+
+        private readonly ushort[] ram;
+
+        public Memory()
         {
-            return cpuStateManager.Overflow;
+            this.ram = new ushort[MemorySize];            
         }
 
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public Memory(uint size)
         {
-            cpuStateManager.Overflow = value;
+            this.ram = new ushort[size];
         }
 
-        protected override ushort Assemble(ushort shift)
+        public ushort ReadValueAtAddress(ushort address)
         {
-            return (ushort)((ushort)OperandType.OO << shift);
+            return this.ram[address];
+        }
+
+        public void WriteValueAtAddress(int address, ushort value)
+        {
+            this.ram[address] = value;
+        }
+
+        public void LoadProgram(IEnumerable<ushort> program)
+        {
+            this.Reset();
+
+            var address = 0;
+
+            foreach (var instruction in program)
+            {
+                this.WriteValueAtAddress(address, instruction);
+                address++;
+            }
+        }
+
+        public void Reset()
+        {
+            Array.Clear(this.ram, 0, MemorySize);
         }
     }
 }

@@ -22,18 +22,33 @@
 
 namespace Model
 {
+    using System;
+
     public abstract class Operand
     {
         protected const ushort OpcodeWidth = 4;
         protected const ushort OperandWidth = 6;
         protected const ushort OperandLiteralMax = 0x1F;
         protected const ushort OperandLiteralOffset = 0x20;
+        protected const ushort ShortMask = 0xFFFF;
+        protected const ushort NumberOfRegisters = 8;
+        protected const ushort NumberOfLiterals = 32;
+        protected const ushort ShortShift = 16;
+
+        public ushort OperandValue { get; set; }
 
         public int RegisterValue { get; set; }
 
         public string Label { get; set; }
 
         public int NextWord { get; set; }
+
+        public abstract ushort Read(ICentralProcessingUnitStateOperations cpuStateManager);
+
+        public virtual void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        {
+            throw new InvalidOperationException();
+        }
 
         public ushort AssembleOperand(ushort index)
         {

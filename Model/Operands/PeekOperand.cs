@@ -26,6 +26,11 @@ namespace Model.Operands
 
     public class PeekOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            return cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)((ushort)OperandType.OPeek << shift);

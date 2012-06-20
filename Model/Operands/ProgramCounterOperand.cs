@@ -26,6 +26,16 @@ namespace Model.Operands
 
     public class ProgramCounterOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            return cpuStateManager.ProgramCounter;
+        }
+
+        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        {
+            cpuStateManager.SetProgramCounterTovalue(value);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)((ushort)OperandType.OPc << shift);

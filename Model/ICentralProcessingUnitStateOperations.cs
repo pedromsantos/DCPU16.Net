@@ -20,23 +20,32 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model
 {
-    public class OverflowOperand : Operand
+    public interface ICentralProcessingUnitStateOperations
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
-        {
-            return cpuStateManager.Overflow;
-        }
+        ushort ProgramCounter { get; }
 
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
-        {
-            cpuStateManager.Overflow = value;
-        }
+        ushort StackPointer { get; }
 
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OO << shift);
-        }
+        ushort Overflow { get; set; }
+
+        ushort ReadMemoryValueAtAddress(ushort address);
+
+        void WriteMemoryValueAtAddress(int address, ushort value);
+
+        ushort ReadGeneralPursoseRegisterValue(ushort register);
+
+        void WriteGeneralPursoseRegisterValue(int register, ushort value);
+
+        ushort IncrementProgramCounter();
+
+        ushort IncrementStackPointer();
+
+        ushort DecrementStackPointer();
+
+        ushort ReadValueAtProgramCounter();
+
+        ushort SetProgramCounterTovalue(ushort value);
     }
 }

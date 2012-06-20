@@ -22,8 +22,15 @@
 
 namespace Model.Operands
 {
+    using System;
+
     public class NullOperand : Operand
     {
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            throw new InvalidOperationException();
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return 0;

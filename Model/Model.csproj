@@ -39,6 +39,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicOpcode.cs" />
+    <Compile Include="ICentralProcessingUnitStateOperations.cs" />
+    <Compile Include="IInstructionOperandFactory.cs" />
+    <Compile Include="InstructionOperandFactory.cs" />
     <Compile Include="NonBasicOpcode.cs" />
     <Compile Include="Opcode.cs" />
     <Compile Include="Operand.cs" />
