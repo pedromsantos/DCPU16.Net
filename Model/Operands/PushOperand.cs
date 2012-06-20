@@ -32,6 +32,12 @@ namespace Model.Operands
             return cpuStateManager.ReadMemoryValueAtAddress(stackPointerValue);
         }
 
+		public override void Write (ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        {
+            var stackPointerValue = cpuStateManager.DecrementStackPointer();
+            cpuStateManager.WriteMemoryValueAtAddress(stackPointerValue, value);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)((ushort)OperandType.OPush << shift);

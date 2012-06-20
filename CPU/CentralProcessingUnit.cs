@@ -123,12 +123,12 @@ namespace CPU
 
         public ushort IncrementStackPointer()
         {
-            return this.registers.StackPointer++;
+            return ++this.registers.StackPointer;
         }
 
         public ushort DecrementStackPointer()
         {
-            return this.registers.StackPointer--;
+            return --this.registers.StackPointer;
         }
 
         public ushort ReadValueAtProgramCounter()
