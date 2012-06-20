@@ -434,5 +434,54 @@ namespace CPUTests
 
             Assert.That(cpu.StackPointer, Is.EqualTo(ushort.MaxValue));
         }
+
+		[Test]
+        public void ExecuteWhenCalledWithSetPushWithLiteralSetsCorrectMemoryValue()
+        {
+            var reader = new StringReader("SET PUSH, 0x10");
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser.Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+			cpu.LoadProgram(program);
+            var instruction = builder.Build(program[0]);
+            instruction.Execute();
+
+            Assert.That(cpu.ReadMemoryValueAtAddress(cpu.StackPointer), Is.EqualTo(0x10));
+        }
+
+		[Test]
+        public void ExecuteWhenCalledWithSetRegisterWithPOPResultSetsCorrectRegistryValue()
+        {
+			const string Code = @"SET PUSH, 0x10
+								  SET I, POP";
+
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser.Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+			cpu.LoadProgram(program);
+            var instruction1 = builder.Build(program[0]);
+			var instruction2 = builder.Build(program[1]);
+            instruction1.Execute();
+			instruction2.Execute();
+
+            Assert.That(cpu.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegI), Is.EqualTo(0x10));
+        }
     }
 }

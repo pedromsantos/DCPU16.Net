@@ -28,8 +28,7 @@ namespace Model.Operands
     {
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            var stackPointerValue = cpuStateManager.DecrementStackPointer();
-            return cpuStateManager.ReadMemoryValueAtAddress(stackPointerValue);
+			return 0;
         }
 
 		public override void Write (ICentralProcessingUnitStateOperations cpuStateManager, ushort value)

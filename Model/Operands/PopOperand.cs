@@ -28,8 +28,9 @@ namespace Model.Operands
     {
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            var stackPointerValue = cpuStateManager.IncrementStackPointer();
-            return cpuStateManager.ReadMemoryValueAtAddress(stackPointerValue);
+			var value = cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
+            cpuStateManager.IncrementStackPointer();
+			return value;
         }
 
         protected override ushort Assemble(ushort shift)
