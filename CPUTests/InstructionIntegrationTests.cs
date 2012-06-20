@@ -300,5 +300,51 @@ namespace CPUTests
 
             Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
         }
+
+		[Test]
+        [TestCase("SET [0x1000+I], 0x10", (ushort)(0x1000 + 0x0), 0x10)]
+        public void ExecuteWhenCalledWithSetOffsetMemoryAddressWithLiteralSetsCorrectMemoryValue(string code, ushort memoryAddress, int expectedValue)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser.Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+			cpu.LoadProgram(program);
+            var instruction = builder.Build(program[0]);
+            instruction.Execute();
+
+            Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
+        }
+
+		[Test]
+        [TestCase("SET [0x1000+I], 0x30", (ushort)(0x1000 + 0x0), 0x30)]
+        public void ExecuteWhenCalledWithSetOffsetMemoryAddressWithNextWordSetsCorrectMemoryValue(string code, ushort memoryAddress, int expectedValue)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser.Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+			cpu.LoadProgram(program);
+            var instruction = builder.Build(program[0]);
+            instruction.Execute();
+
+            Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
+        }
     }
 }
