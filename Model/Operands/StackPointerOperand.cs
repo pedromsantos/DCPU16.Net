@@ -31,6 +31,11 @@ namespace Model.Operands
             return cpuStateManager.StackPointer;
         }
 
+		public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        {
+            cpuStateManager.SetStackPointerToValue(value);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)((ushort)OperandType.OSp << shift);

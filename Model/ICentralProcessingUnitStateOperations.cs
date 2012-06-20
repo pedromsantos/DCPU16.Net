@@ -47,5 +47,7 @@ namespace Model
         ushort ReadValueAtProgramCounter();
 
         ushort SetProgramCounterTovalue(ushort value);
+
+		ushort SetStackPointerToValue(ushort value);
     }
 }
