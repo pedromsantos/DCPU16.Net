@@ -50,6 +50,10 @@ namespace Model
             throw new InvalidOperationException();
         }
 
+		public virtual void Process(ICentralProcessingUnitStateOperations cpuStateManager)
+		{
+		}
+
         public ushort AssembleOperand(ushort index)
         {
             var shift = (ushort)(OpcodeWidth + (ushort)(index * OperandWidth));

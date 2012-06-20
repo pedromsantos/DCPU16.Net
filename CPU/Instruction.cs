@@ -37,10 +37,17 @@ namespace CPU
 
         protected ushort RawInstruction { get; private set; }
 
-        public abstract void Execute();
+		public virtual void Execute()
+		{
+			OperationA.Process();
+			OperationB.Process();
+			this.Process();
+		}
 
         public virtual void Undo()
         {
         }
+
+		protected abstract void Process();
     }
 }

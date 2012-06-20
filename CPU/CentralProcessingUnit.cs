@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -118,7 +118,7 @@ namespace CPU
 
         public ushort IncrementProgramCounter()
         {
-            return this.registers.ProgramCounter++;
+            return ++this.registers.ProgramCounter;
         }
 
         public ushort IncrementStackPointer()

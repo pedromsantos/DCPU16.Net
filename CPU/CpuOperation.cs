@@ -15,6 +15,11 @@ namespace CPU
             this.cpuStateManager = cpuStateManager;
         }
 
+		public void Process()
+		{
+			this.operand.Process(this.cpuStateManager);
+		}
+
         public ushort Read
         {
             get

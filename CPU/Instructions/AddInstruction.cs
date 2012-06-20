@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -29,7 +29,7 @@ namespace CPU.Instructions
         {
         }
 
-        public override void Execute()
+        protected override void Process()
         {
             this.OperationA.Write = (ushort)(OperationA.Read + OperationB.Read);
         }

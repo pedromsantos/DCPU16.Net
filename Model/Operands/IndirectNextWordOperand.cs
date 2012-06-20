@@ -26,12 +26,23 @@ namespace Model.Operands
 
     public class IndirectNextWordOperand : Operand
     {
+		private ushort nextWordAddress;
+
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            var programCounter = cpuStateManager.IncrementProgramCounter();
-            var nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
             return cpuStateManager.ReadMemoryValueAtAddress(nextWordAddress);
         }
+
+		public override void Write (ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+		{
+            cpuStateManager.WriteMemoryValueAtAddress(nextWordAddress, value);
+		}
+
+		public override void Process(ICentralProcessingUnitStateOperations cpuStateManager)
+		{
+			var programCounter = cpuStateManager.IncrementProgramCounter();
+            nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
+		}
 
         protected override ushort Assemble(ushort shift)
         {

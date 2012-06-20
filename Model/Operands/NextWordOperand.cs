@@ -29,7 +29,8 @@ namespace Model.Operands
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
             cpuStateManager.IncrementProgramCounter();
-            return cpuStateManager.ReadValueAtProgramCounter();
+            var value = cpuStateManager.ReadValueAtProgramCounter();
+			return value;
         }
 
         protected override ushort Assemble(ushort shift)

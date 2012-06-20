@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -158,6 +158,7 @@ namespace CPUTests
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
             
+			cpu.LoadProgram(program);
             var instruction = builder.Build(program[0]);
             instruction.Execute();
 
@@ -187,6 +188,7 @@ namespace CPUTests
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
+			cpu.LoadProgram(program);
             var instruction = builder.Build(program[0]);
             instruction.Execute();
 
@@ -232,7 +234,7 @@ namespace CPUTests
         [TestCase("SET [X], 0x10", (ushort)0x0, 0x10)]
         [TestCase("SET [Y], 0x10", (ushort)0x0, 0x10)]
         [TestCase("SET [Z], 0x10", (ushort)0x0, 0x10)]
-        public void ExecuteWhenCalledWithWithSetIndirectRegisterMemoryAddressWithLiteralSetsCorrectMemoryValue(string code, ushort memoryAddress, int expectedValue)
+        public void ExecuteWhenCalledWithSetIndirectRegisterMemoryAddressWithLiteralSetsCorrectMemoryValue(string code, ushort memoryAddress, int expectedValue)
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
@@ -246,6 +248,53 @@ namespace CPUTests
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
+			cpu.LoadProgram(program);
+            var instruction = builder.Build(program[0]);
+            instruction.Execute();
+
+            Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
+        }
+
+		[Test]
+        [TestCase("SET [0x1000], 0x10", (ushort)0x1000, 0x10)]
+        public void ExecuteWhenCalledWithSetMemoryAddressWithLiteralSetsCorrectMemoryValue(string code, ushort memoryAddress, int expectedValue)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser.Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+			cpu.LoadProgram(program);
+            var instruction = builder.Build(program[0]);
+            instruction.Execute();
+
+            Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
+        }
+
+		[Test]
+        [TestCase("SET [0x1000], 0x30", (ushort)0x1000, 0x30)]
+        public void ExecuteWhenCalledWithSetMemoryAddressWithNextWordSetsCorrectMemoryValue(string code, ushort memoryAddress, int expectedValue)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser.Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+			cpu.LoadProgram(program);
             var instruction = builder.Build(program[0]);
             instruction.Execute();
 
