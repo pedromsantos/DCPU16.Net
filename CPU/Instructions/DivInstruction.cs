@@ -33,9 +33,20 @@ namespace CPU.Instructions
         {
             var divisor = OperationB.Read;
             var divident = OperationA.Read;
-            var result = divisor == 0 ? 0 : divisor / divident;
+            int result;
+
+            if (divisor == 0)
+            {
+                result = 0;
+            }
+            else
+            {
+                result = divident / divisor;
+                this.OperationA.SetOverflowRegister((ushort)((ushort)((divident << 16) / divisor) & 0xFFFF));
+            }
+
             this.OperationA.Write = result;
-            this.OperationA.SetOverflowRegister((ushort)((ushort)((divident << 16) / divisor) & 0xFFFF));
+
             return result;
         }
     }
