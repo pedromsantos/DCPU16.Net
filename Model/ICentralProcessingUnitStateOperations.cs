@@ -30,6 +30,8 @@ namespace Model
 
         ushort Overflow { get; set; }
 
+        bool IgnoreNextInstruction { get; set; }
+
         ushort ReadMemoryValueAtAddress(ushort address);
 
         void WriteMemoryValueAtAddress(int address, ushort value);

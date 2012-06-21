@@ -31,6 +31,12 @@ namespace CPU.Instructions
 
         protected override int Process()
         {
+            if (this.OperationA.Read > this.OperationB.Read)
+            {
+                return 1;
+            }
+
+            OperationA.SetIgnoreNextInstruction();
             return 0;
         }
     }

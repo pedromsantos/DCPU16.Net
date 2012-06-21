@@ -66,6 +66,11 @@ namespace CPU
             this.cpuStateManager.Overflow = value;
         }
 
+        public void SetIgnoreNextInstruction()
+        {
+            this.cpuStateManager.IgnoreNextInstruction = true;
+        }
+
         public void Process()
         {
             this.operand.Process(this.cpuStateManager);

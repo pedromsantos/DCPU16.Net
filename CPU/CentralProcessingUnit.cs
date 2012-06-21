@@ -45,6 +45,8 @@ namespace CPU
             this.registers = new Registers();
         }
 
+        public bool IgnoreNextInstruction { get; set; }
+
         public ushort ProgramCounter
         {
             get
@@ -91,7 +93,10 @@ namespace CPU
 
             var instruction = this.instructionBuilder.Build(rawInstruction);
 
-            instruction.Execute();
+            if (!this.IgnoreNextInstruction)
+            {
+                instruction.Execute();
+            }
 
             return true;
         }

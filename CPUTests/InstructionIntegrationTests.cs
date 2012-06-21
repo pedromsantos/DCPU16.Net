@@ -843,6 +843,94 @@ namespace CPUTests
         }
 
         [Test]
+        public void ExecuteWhenCalledWithIfEqualsAndResultIsFalseSetsIgnoreNextInstruction()
+        {
+            var reader = new StringReader("IFE A, 1");
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            var instruction = builder.Build(program[0]);
+            instruction.Execute();
+
+            Assert.That(cpu.IgnoreNextInstruction, Is.EqualTo(true));
+        }
+
+        [Test]
+        public void ExecuteWhenCalledWithIfNotEqualsAndResultIsFalseSetsIgnoreNextInstruction()
+        {
+            var reader = new StringReader("IFN A, 0");
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            var instruction = builder.Build(program[0]);
+            instruction.Execute();
+
+            Assert.That(cpu.IgnoreNextInstruction, Is.EqualTo(true));
+        }
+
+        [Test]
+        public void ExecuteWhenCalledWithIfGreaterAndResultIsFalseSetsIgnoreNextInstruction()
+        {
+            var reader = new StringReader("IFG A, 0");
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            var instruction = builder.Build(program[0]);
+            instruction.Execute();
+
+            Assert.That(cpu.IgnoreNextInstruction, Is.EqualTo(true));
+        }
+
+        [Test]
+        public void ExecuteWhenCalledWithIfBinaryAndResultIsFalseSetsIgnoreNextInstruction()
+        {
+            var reader = new StringReader("IFB A, 0x0");
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            var instruction = builder.Build(program[0]);
+            instruction.Execute();
+
+            Assert.That(cpu.IgnoreNextInstruction, Is.EqualTo(true));
+        }
+
+        [Test]
         public void InstructionBuilderWhenCalledWithNotchSampleGeneratesCorrectNumberOfInstructions()
         {
             const string Code =
