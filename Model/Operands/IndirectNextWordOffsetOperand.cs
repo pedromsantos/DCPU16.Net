@@ -22,30 +22,35 @@
 
 namespace Model.Operands
 {
-    using System;
+    using System.Diagnostics.CodeAnalysis;
 
     public class IndirectNextWordOffsetOperand : Operand
     {
-		private ushort nextWordAddress;
-		private ushort registerValue;
+        private ushort nextWordAddress;
+
+        private ushort registerValue;
 
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
             var value = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
-            return (ushort)(cpuStateManager.ReadMemoryValueAtAddress((ushort)(nextWordAddress + value)) & ShortMask);
+            return
+                (ushort)(cpuStateManager.ReadMemoryValueAtAddress((ushort)(this.nextWordAddress + value)) & ShortMask);
         }
 
-		public override void Write (ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
         {
-			cpuStateManager.WriteMemoryValueAtAddress(((nextWordAddress + registerValue) & ShortMask), value);
+            cpuStateManager.WriteMemoryValueAtAddress(((this.nextWordAddress + this.registerValue) & ShortMask), value);
         }
 
-		public override void Process(ICentralProcessingUnitStateOperations cpuStateManager)
-		{
-			var programCounter = cpuStateManager.IncrementProgramCounter();
-            nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
-			registerValue = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
-		}
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1027:TabsMustNotBeUsed",
+            Justification = "Reviewed. Suppression is OK here.")]
+        public override void Process(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            var programCounter = cpuStateManager.IncrementProgramCounter();
+            this.nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
+            this.registerValue =
+                cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+        }
 
         protected override ushort Assemble(ushort shift)
         {

@@ -22,15 +22,13 @@
 
 namespace Model.Operands
 {
-    using System;
-
     public class NextWordOperand : Operand
     {
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
             cpuStateManager.IncrementProgramCounter();
             var value = cpuStateManager.ReadValueAtProgramCounter();
-			return value;
+            return value;
         }
 
         protected override ushort Assemble(ushort shift)

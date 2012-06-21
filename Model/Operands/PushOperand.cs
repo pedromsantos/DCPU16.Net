@@ -22,16 +22,14 @@
 
 namespace Model.Operands
 {
-    using System;
-
     public class PushOperand : Operand
     {
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-			return 0;
+            return 0;
         }
 
-		public override void Write (ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
         {
             var stackPointerValue = cpuStateManager.DecrementStackPointer();
             cpuStateManager.WriteMemoryValueAtAddress(stackPointerValue, value);

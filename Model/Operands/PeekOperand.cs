@@ -22,8 +22,6 @@
 
 namespace Model.Operands
 {
-    using System;
-
     public class PeekOperand : Operand
     {
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)

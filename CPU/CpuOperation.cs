@@ -15,11 +15,6 @@ namespace CPU
             this.cpuStateManager = cpuStateManager;
         }
 
-		public void Process()
-		{
-			this.operand.Process(this.cpuStateManager);
-		}
-
         public ushort Read
         {
             get
@@ -34,6 +29,11 @@ namespace CPU
             {
                 this.operand.Write(this.cpuStateManager, value);
             }
+        }
+
+        public void Process()
+        {
+            this.operand.Process(this.cpuStateManager);
         }
     }
 }

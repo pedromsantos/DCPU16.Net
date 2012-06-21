@@ -22,8 +22,6 @@
 
 namespace Model.Operands
 {
-    using System;
-
     public class LiteralOperand : Operand
     {
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)

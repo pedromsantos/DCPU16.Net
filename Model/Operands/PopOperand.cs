@@ -22,15 +22,13 @@
 
 namespace Model.Operands
 {
-    using System;
-
     public class PopOperand : Operand
     {
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-			var value = cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
+            var value = cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
             cpuStateManager.IncrementStackPointer();
-			return value;
+            return value;
         }
 
         protected override ushort Assemble(ushort shift)

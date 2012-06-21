@@ -141,7 +141,7 @@ namespace CPU
             return this.registers.ProgramCounter = value;
         }
 
-		public ushort SetStackPointerToValue(ushort value)
+        public ushort SetStackPointerToValue(ushort value)
         {
             return this.registers.StackPointer = value;
         }

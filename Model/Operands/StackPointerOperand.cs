@@ -22,8 +22,6 @@
 
 namespace Model.Operands
 {
-    using System;
-
     public class StackPointerOperand : Operand
     {
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
@@ -31,7 +29,7 @@ namespace Model.Operands
             return cpuStateManager.StackPointer;
         }
 
-		public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
         {
             cpuStateManager.SetStackPointerToValue(value);
         }
