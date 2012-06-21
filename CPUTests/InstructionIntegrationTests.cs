@@ -109,6 +109,8 @@ namespace CPUTests
 
         [TestCase("SET A, 0x4\nADD A, 0xFFFF", 0x0001)]
         [TestCase("SET A, 0x4\nSUB A, 0xFFFF", 0xFFFF)]
+        [TestCase("SET A, 0x4\nMUL A, 0xFFFF", (ushort)((0x4 >> 16) & 0xFFFF))]
+        [TestCase("SET A, 0x4\nDIV A, 0xFFFF", (ushort)(((0x4 << 16) / 0xFFFF) & 0xFFFF))]
         public void ExecuteWhenCalledAndOperationOverflowsSetsOverflowRegister(string code, int expectedValue)
         {
             var reader = new StringReader(code);

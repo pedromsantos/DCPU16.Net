@@ -31,9 +31,11 @@ namespace CPU.Instructions
 
         protected override int Process()
         {
-            var result = OperationA.Read / OperationB.Read;
+            var divisor = OperationB.Read;
+            var divident = OperationA.Read;
+            var result = divisor == 0 ? 0 : divisor / divident;
             this.OperationA.Write = result;
-
+            this.OperationA.SetOverflowRegister((ushort)((ushort)((divident << 16) / divisor) & 0xFFFF));
             return result;
         }
     }

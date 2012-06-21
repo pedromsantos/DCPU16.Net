@@ -31,7 +31,7 @@ namespace CPU.Instructions
 
         protected override int Process()
         {
-            var result = (int)(this.OperationA.Read) + (int)(OperationB.Read);
+            var result = this.OperationA.Read + this.OperationB.Read;
             this.OperationA.Write = result;
             return result;
         }
