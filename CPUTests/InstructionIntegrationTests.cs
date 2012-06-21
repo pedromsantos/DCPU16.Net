@@ -107,6 +107,32 @@ namespace CPUTests
             Assert.That(cpu.ReadGeneralPursoseRegisterValue(registerAddress), Is.EqualTo(expectedValue));
         }
 
+        [TestCase("SET A, 0x4\nADD A, 0xFFFF", 0x0001)]
+        [TestCase("SET A, 0x4\nSUB A, 0xFFFF", 0xFFFF)]
+        public void ExecuteWhenCalledAndOperationOverflowsSetsOverflowRegister(string code, int expectedValue)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            var instruction1 = builder.Build(program[0]);
+            var instruction2 = builder.Build(program[1]);
+            instruction1.Execute();
+            cpu.IncrementProgramCounter();
+            instruction2.Execute();
+
+            Assert.That(cpu.Overflow, Is.EqualTo(expectedValue));
+        }
+
         [Test]
         [TestCase("SET A, 0x4\nDIV A, 0x2", (ushort)RegisterIdentifier.RegA, 0x4 / 0x2)]
         [TestCase("SET B, 0x4\nDIV B, 0x2", (ushort)RegisterIdentifier.RegB, 0x4 / 0x2)]

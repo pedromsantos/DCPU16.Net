@@ -29,9 +29,10 @@ namespace CPU.Instructions
         {
         }
 
-        protected override void Process()
+        protected override int Process()
         {
             this.OperationA.Write = OperationB.Read;
+            return 0;
         }
     }
 }

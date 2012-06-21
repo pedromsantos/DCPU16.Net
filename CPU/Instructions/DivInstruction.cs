@@ -29,9 +29,12 @@ namespace CPU.Instructions
         {
         }
 
-        protected override void Process()
+        protected override int Process()
         {
-            this.OperationA.Write = (ushort)(OperationA.Read / OperationB.Read);
+            var result = OperationA.Read / OperationB.Read;
+            this.OperationA.Write = result;
+
+            return result;
         }
     }
 }

@@ -50,7 +50,7 @@
     <Compile Include="InstructionBuilder.cs" />
     <Compile Include="Instructions\AndInstruction.cs" />
     <Compile Include="Instructions\BorInstruction.cs" />
-    <Compile Include="Instructions\Copy of AddInstruction.cs" />
+    <Compile Include="Instructions\JsrInstruction.cs" />
     <Compile Include="Instructions\IfbInstruction.cs" />
     <Compile Include="Instructions\IfgInstruction.cs" />
     <Compile Include="Instructions\IfnInstruction.cs" />

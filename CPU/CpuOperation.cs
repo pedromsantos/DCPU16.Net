@@ -23,11 +23,20 @@ namespace CPU
             }
         }
 
-        public ushort Write
+        public int Write
         {
             set
             {
-                this.operand.Write(this.cpuStateManager, value);
+                if (value > ushort.MaxValue)
+                {
+                    this.cpuStateManager.Overflow = 0x0001;
+                }
+                else if (value < 0)
+                {
+                    this.cpuStateManager.Overflow = ushort.MaxValue;
+                }
+
+                this.operand.Write(this.cpuStateManager, (ushort)value);
             }
         }
 

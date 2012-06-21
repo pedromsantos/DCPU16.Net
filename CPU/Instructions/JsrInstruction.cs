@@ -29,8 +29,9 @@ namespace CPU.Instructions
         {
         }
 
-        protected override void Process()
+        protected override int Process()
         {
+            return 0;
         }
     }
 }
