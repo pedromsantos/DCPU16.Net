@@ -44,9 +44,11 @@ namespace CPU
             return (ushort)this.Process();
         }
 
+        /*
         public virtual void Undo()
         {
         }
+        */
 
         protected abstract int Process();
     }

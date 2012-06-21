@@ -235,6 +235,170 @@ namespace CPUTests
         }
 
         [Test]
+        [TestCase("SET A, 0x2\nSHL A, 0x2", (ushort)RegisterIdentifier.RegA, 0x2 << 0x2)]
+        [TestCase("SET B, 0x2\nSHL B, 0x2", (ushort)RegisterIdentifier.RegB, 0x2 << 0x2)]
+        [TestCase("SET C, 0x2\nSHL C, 0x2", (ushort)RegisterIdentifier.RegC, 0x2 << 0x2)]
+        [TestCase("SET I, 0x2\nSHL I, 0x2", (ushort)RegisterIdentifier.RegI, 0x2 << 0x2)]
+        [TestCase("SET J, 0x2\nSHL J, 0x2", (ushort)RegisterIdentifier.RegJ, 0x2 << 0x2)]
+        [TestCase("SET X, 0x2\nSHL X, 0x2", (ushort)RegisterIdentifier.RegX, 0x2 << 0x2)]
+        [TestCase("SET Y, 0x2\nSHL Y, 0x2", (ushort)RegisterIdentifier.RegY, 0x2 << 0x2)]
+        [TestCase("SET Z, 0x2\nSHL Z, 0x2", (ushort)RegisterIdentifier.RegZ, 0x2 << 0x2)]
+        public void ExecuteWhenCalledWithShlLiteralWithRegisterValueSetsCorrectRegisterValue(
+            string code, ushort registerAddress, int expectedValue)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            var instruction1 = builder.Build(program[0]);
+            var instruction2 = builder.Build(program[1]);
+            instruction1.Execute();
+            instruction2.Execute();
+
+            Assert.That(cpu.ReadGeneralPursoseRegisterValue(registerAddress), Is.EqualTo(expectedValue));
+        }
+
+        [Test]
+        [TestCase("SET A, 0x2\nSHR A, 0x2", (ushort)RegisterIdentifier.RegA, 0x2 >> 0x2)]
+        [TestCase("SET B, 0x2\nSHR B, 0x2", (ushort)RegisterIdentifier.RegB, 0x2 >> 0x2)]
+        [TestCase("SET C, 0x2\nSHR C, 0x2", (ushort)RegisterIdentifier.RegC, 0x2 >> 0x2)]
+        [TestCase("SET I, 0x2\nSHR I, 0x2", (ushort)RegisterIdentifier.RegI, 0x2 >> 0x2)]
+        [TestCase("SET J, 0x2\nSHR J, 0x2", (ushort)RegisterIdentifier.RegJ, 0x2 >> 0x2)]
+        [TestCase("SET X, 0x2\nSHR X, 0x2", (ushort)RegisterIdentifier.RegX, 0x2 >> 0x2)]
+        [TestCase("SET Y, 0x2\nSHR Y, 0x2", (ushort)RegisterIdentifier.RegY, 0x2 >> 0x2)]
+        [TestCase("SET Z, 0x2\nSHR Z, 0x2", (ushort)RegisterIdentifier.RegZ, 0x2 >> 0x2)]
+        public void ExecuteWhenCalledWithShrLiteralWithRegisterValueSetsCorrectRegisterValue(
+            string code, ushort registerAddress, int expectedValue)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            var instruction1 = builder.Build(program[0]);
+            var instruction2 = builder.Build(program[1]);
+            instruction1.Execute();
+            instruction2.Execute();
+
+            Assert.That(cpu.ReadGeneralPursoseRegisterValue(registerAddress), Is.EqualTo(expectedValue));
+        }
+
+        [Test]
+        [TestCase("SET A, 0x1\nAND A, 0x1", (ushort)RegisterIdentifier.RegA, 0x1)]
+        [TestCase("SET B, 0x1\nAND B, 0x0", (ushort)RegisterIdentifier.RegB, 0x0)]
+        [TestCase("SET C, 0x1\nAND C, 0x1", (ushort)RegisterIdentifier.RegC, 0x1)]
+        [TestCase("SET I, 0x1\nAND I, 0x0", (ushort)RegisterIdentifier.RegI, 0x0)]
+        [TestCase("SET J, 0x1\nAND J, 0x1", (ushort)RegisterIdentifier.RegJ, 0x1)]
+        [TestCase("SET X, 0x1\nAND X, 0x0", (ushort)RegisterIdentifier.RegX, 0x0)]
+        [TestCase("SET Y, 0x1\nAND Y, 0x1", (ushort)RegisterIdentifier.RegY, 0x1)]
+        [TestCase("SET Z, 0x1\nAND Z, 0x0", (ushort)RegisterIdentifier.RegZ, 0x0)]
+        public void ExecuteWhenCalledWithAndLiteralWithRegisterValueSetsCorrectRegisterValue(
+            string code, ushort registerAddress, int expectedValue)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            var instruction1 = builder.Build(program[0]);
+            var instruction2 = builder.Build(program[1]);
+            instruction1.Execute();
+            instruction2.Execute();
+
+            Assert.That(cpu.ReadGeneralPursoseRegisterValue(registerAddress), Is.EqualTo(expectedValue));
+        }
+
+        [Test]
+        [TestCase("SET A, 0x1\nBOR A, 0x1", (ushort)RegisterIdentifier.RegA, 0x1)]
+        [TestCase("SET B, 0x1\nBOR B, 0x0", (ushort)RegisterIdentifier.RegB, 0x1)]
+        [TestCase("SET C, 0x1\nBOR C, 0x1", (ushort)RegisterIdentifier.RegC, 0x1)]
+        [TestCase("SET I, 0x1\nBOR I, 0x0", (ushort)RegisterIdentifier.RegI, 0x1)]
+        [TestCase("SET J, 0x1\nBOR J, 0x1", (ushort)RegisterIdentifier.RegJ, 0x1)]
+        [TestCase("SET X, 0x1\nBOR X, 0x0", (ushort)RegisterIdentifier.RegX, 0x1)]
+        [TestCase("SET Y, 0x1\nBOR Y, 0x1", (ushort)RegisterIdentifier.RegY, 0x1)]
+        [TestCase("SET Z, 0x1\nBOR Z, 0x0", (ushort)RegisterIdentifier.RegZ, 0x1)]
+        public void ExecuteWhenCalledWithBorLiteralWithRegisterValueSetsCorrectRegisterValue(
+            string code, ushort registerAddress, int expectedValue)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            var instruction1 = builder.Build(program[0]);
+            var instruction2 = builder.Build(program[1]);
+            instruction1.Execute();
+            instruction2.Execute();
+
+            Assert.That(cpu.ReadGeneralPursoseRegisterValue(registerAddress), Is.EqualTo(expectedValue));
+        }
+
+        [Test]
+        [TestCase("SET A, 0x1\nXOR A, 0x1", (ushort)RegisterIdentifier.RegA, 0x0)]
+        [TestCase("SET B, 0x1\nXOR B, 0x0", (ushort)RegisterIdentifier.RegB, 0x1)]
+        [TestCase("SET C, 0x1\nXOR C, 0x1", (ushort)RegisterIdentifier.RegC, 0x0)]
+        [TestCase("SET I, 0x1\nXOR I, 0x0", (ushort)RegisterIdentifier.RegI, 0x1)]
+        [TestCase("SET J, 0x1\nXOR J, 0x1", (ushort)RegisterIdentifier.RegJ, 0x0)]
+        [TestCase("SET X, 0x1\nXOR X, 0x0", (ushort)RegisterIdentifier.RegX, 0x1)]
+        [TestCase("SET Y, 0x1\nXOR Y, 0x1", (ushort)RegisterIdentifier.RegY, 0x0)]
+        [TestCase("SET Z, 0x1\nXOR Z, 0x0", (ushort)RegisterIdentifier.RegZ, 0x1)]
+        public void ExecuteWhenCalledWithXorLiteralWithRegisterValueSetsCorrectRegisterValue(string code, ushort registerAddress, int expectedValue)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            var instruction1 = builder.Build(program[0]);
+            var instruction2 = builder.Build(program[1]);
+            instruction1.Execute();
+            instruction2.Execute();
+
+            Assert.That(cpu.ReadGeneralPursoseRegisterValue(registerAddress), Is.EqualTo(expectedValue));
+        }
+
+        [Test]
         public void ExecuteWhenCalledWithPopIncrementsStackPointer()
         {
             const string Code = @"SET PUSH, 0x10
@@ -259,6 +423,33 @@ namespace CPUTests
             instruction2.Execute();
 
             Assert.That(cpu.StackPointer, Is.EqualTo(0x0));
+        }
+
+        [Test]
+        public void ExecuteWhenCalledWithPrrkDoesNotChangeStackPointer()
+        {
+            const string Code = @"SET PUSH, 0x10
+								  SET I, PEEK";
+
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var cpu = new CentralProcessingUnit();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(cpu, operandFactory);
+
+            cpu.LoadProgram(program);
+            Instruction instruction1 = builder.Build(program[0]);
+            Instruction instruction2 = builder.Build(program[1]);
+            instruction1.Execute();
+            instruction2.Execute();
+
+            Assert.That(cpu.StackPointer, Is.EqualTo(ushort.MaxValue));
         }
 
         [Test]

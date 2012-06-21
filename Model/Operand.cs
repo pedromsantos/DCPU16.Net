@@ -43,16 +43,19 @@ namespace Model
 
         public int NextWord { get; set; }
 
-        public abstract ushort Read(ICentralProcessingUnitStateOperations cpuStateManager);
+        public virtual ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            return 0;
+        }
 
         public virtual void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
         {
             throw new InvalidOperationException();
         }
 
-		public virtual void Process(ICentralProcessingUnitStateOperations cpuStateManager)
-		{
-		}
+        public virtual void Process(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+        }
 
         public ushort AssembleOperand(ushort index)
         {

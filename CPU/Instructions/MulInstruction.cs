@@ -31,12 +31,12 @@ namespace CPU.Instructions
 
         protected override int Process()
         {
-            var multiplier1 = OperationA.Read;
-            var multiplier2 = OperationB.Read;
+            var leftOperand = OperationA.Read;
+            var rigthOperand = OperationB.Read;
 
-            var result = multiplier1 * multiplier2;
+            var result = leftOperand * rigthOperand;
             this.OperationA.Write = result;
-            this.OperationA.SetOverflowRegister((ushort)((multiplier1 >> 16) & 0xFFFF));
+            this.OperationA.SetOverflowRegister((ushort)((leftOperand >> 16) & 0xFFFF));
             return result;
         }
     }

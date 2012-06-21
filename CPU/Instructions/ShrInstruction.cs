@@ -31,7 +31,13 @@ namespace CPU.Instructions
 
         protected override int Process()
         {
-            return 0;
+            var leftOperand = OperationA.Read;
+            var rigthOperand = OperationB.Read;
+
+            var result = leftOperand >> rigthOperand;
+            this.OperationA.Write = result;
+            this.OperationA.SetOverflowRegister((ushort)(((leftOperand << 16) >> rigthOperand) & 0xFFFF));
+            return result;
         }
     }
 }
