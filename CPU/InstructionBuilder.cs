@@ -88,7 +88,7 @@ namespace CPU
                     this.operationA = new CpuOperation(this.operandFactory.Create(operandValue), this.cpuState);
                     this.operationB = null;
 
-                    return new JsrInstruction(0, this.operationB, this.operationB);
+                    return new JsrInstruction(0, this.operationA, this.operationA);
                 }
                     
                 return null;

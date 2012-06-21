@@ -61,6 +61,13 @@ namespace CPU
             }
         }
 
+        public void JumpSubRoutine(ushort value)
+        {
+            var stackPointerValue = this.cpuStateManager.DecrementStackPointer();
+            this.cpuStateManager.WriteMemoryValueAtAddress(stackPointerValue, this.cpuStateManager.ProgramCounter);
+            this.cpuStateManager.SetProgramCounterTovalue(value);
+        }
+
         public void SetOverflowRegister(ushort value)
         {
             this.cpuStateManager.Overflow = value;

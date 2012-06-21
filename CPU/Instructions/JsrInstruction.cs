@@ -31,6 +31,8 @@ namespace CPU.Instructions
 
         protected override int Process()
         {
+            OperationA.JumpSubRoutine(OperationA.Read);
+
             return 0;
         }
     }

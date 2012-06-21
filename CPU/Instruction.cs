@@ -39,8 +39,16 @@ namespace CPU
 
         public virtual ushort Execute()
         {
-            this.OperationA.Process();
-            this.OperationB.Process();
+            if (this.OperationA != null)
+            {
+                this.OperationA.Process();
+            }
+
+            if (this.OperationB != null)
+            {
+                this.OperationB.Process();
+            }
+
             return (ushort)this.Process();
         }
 
