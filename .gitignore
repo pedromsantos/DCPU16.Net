@@ -13,7 +13,7 @@
 
 build/
 
-
+[Tt]est-[Rr]esults
 [Tt]est[Rr]esult
 [Bb]uild[Ll]og.*
 
@@ -108,15 +108,3 @@ UpgradeLog*.XML
 packages/
 AssemblerTests/test-results/AssemblerTests.csproj-Debug-2012-06-17.xml
 DCPU16.Net.userprefs
-LexerTests/test-results/LexerTests.csproj-Debug-2012-06-17.xml
-ModelTests/test-results/ModelTests.csproj-Debug-2012-06-17.xml
-ParserTests/test-results/ParserTests.csproj-Debug-2012-06-17.xml
-test-results/{E08AAE3B-0B1A-45CA-A762-7A0366CB4FC0}-default-2012-06-17.xml
-AssemblerTests/test-results/AssemblerTests.csproj-Debug-2012-06-20.xml
-AssemblerTests/test-results/AssemblerTests.csproj.test-cache
-CPUTests/test-results/CPUTests.csproj-Debug-2012-06-20.xml
-CPUTests/test-results/CPUTests.csproj.test-cache
-LexerTests/test-results/LexerTests.csproj-Debug-2012-06-20.xml
-ModelTests/test-results/ModelTests.csproj-Debug-2012-06-20.xml
-ParserTests/test-results/ParserTests.csproj-Debug-2012-06-20.xml
-test-results/{5893EA68-CAD0-49F6-8FFC-9E802FA4A153}-default-2012-06-20.xml

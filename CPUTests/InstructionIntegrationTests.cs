@@ -43,9 +43,6 @@ namespace CPUTests
 
     using Parser;
 
-    /// <summary>
-    /// The instruction integration tests.
-    /// </summary>
     [TestFixture]
     public class InstructionIntegrationTests
     {
@@ -74,7 +71,7 @@ namespace CPUTests
 
             var builder = new InstructionBuilder(cpu, operandFactory);
 
-            Instruction instruction = builder.Build(rawInstruction);
+            var instruction = builder.Build(rawInstruction);
 
             Assert.That(instruction, Is.InstanceOf(expectedInstruction));
         }
@@ -95,9 +92,9 @@ namespace CPUTests
             var lexer = new PeekLexer(reader, this.matchers);
             var parser = new Parser(lexer);
 
-            IEnumerable<Statment> statments = parser.Parse();
+            var statments = parser.Parse();
             var assembler = new Assembler();
-            IList<ushort> program = assembler.AssembleStatments(statments);
+            var program = assembler.AssembleStatments(statments);
 
             var cpu = new CentralProcessingUnit();
             var operandFactory = new InstructionOperandFactory();
@@ -126,9 +123,9 @@ namespace CPUTests
             var lexer = new PeekLexer(reader, this.matchers);
             var parser = new Parser(lexer);
 
-            IEnumerable<Statment> statments = parser.Parse();
+            var statments = parser.Parse();
             var assembler = new Assembler();
-            IList<ushort> program = assembler.AssembleStatments(statments);
+            var program = assembler.AssembleStatments(statments);
 
             var cpu = new CentralProcessingUnit();
             var operandFactory = new InstructionOperandFactory();
@@ -159,9 +156,9 @@ namespace CPUTests
             var lexer = new PeekLexer(reader, this.matchers);
             var parser = new Parser(lexer);
 
-            IEnumerable<Statment> statments = parser.Parse();
+            var statments = parser.Parse();
             var assembler = new Assembler();
-            IList<ushort> program = assembler.AssembleStatments(statments);
+            var program = assembler.AssembleStatments(statments);
 
             var cpu = new CentralProcessingUnit();
             var operandFactory = new InstructionOperandFactory();
@@ -219,9 +216,9 @@ namespace CPUTests
             var lexer = new PeekLexer(reader, this.matchers);
             var parser = new Parser(lexer);
 
-            IEnumerable<Statment> statments = parser.Parse();
+            var statments = parser.Parse();
             var assembler = new Assembler();
-            IList<ushort> program = assembler.AssembleStatments(statments);
+            var program = assembler.AssembleStatments(statments);
 
             var cpu = new CentralProcessingUnit();
             var operandFactory = new InstructionOperandFactory();
@@ -252,9 +249,9 @@ namespace CPUTests
             var lexer = new PeekLexer(reader, this.matchers);
             var parser = new Parser(lexer);
 
-            IEnumerable<Statment> statments = parser.Parse();
+            var statments = parser.Parse();
             var assembler = new Assembler();
-            IList<ushort> program = assembler.AssembleStatments(statments);
+            var program = assembler.AssembleStatments(statments);
 
             var cpu = new CentralProcessingUnit();
             var operandFactory = new InstructionOperandFactory();
