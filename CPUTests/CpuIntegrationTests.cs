@@ -49,7 +49,7 @@ namespace CPUTests
         }
 
 		[Test]
-        public void CanStepThrougthNotchSample()
+        public void CanStepThrougthModifiedNotchSample()
         {
             const string Code =
                 @"  ;Try some basic stuff
@@ -76,7 +76,7 @@ namespace CPUTests
                                     SET PC, POP              ; 61c1
 
                                     ; Hang forever. X should now be 0x40 if everything went right.
-                                    :crash        SET PC, crash            ; 7dc1 001a [*]";
+									:crash        SET A, 0            ; 7dc1 001a [*]";
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
@@ -96,6 +96,8 @@ namespace CPUTests
 			{
 				executed = cpu.ExecuteNextInstruction();
 			}
+
+			Assert.That(cpu.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegX), Is.EqualTo(0x40));
         }
 
 	}
