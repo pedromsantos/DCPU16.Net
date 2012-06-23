@@ -57,6 +57,10 @@ namespace Model
         {
         }
 
+		public virtual void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
+		{
+		}
+
         public ushort AssembleOperand(ushort index)
         {
             var shift = (ushort)(OpcodeWidth + (ushort)(index * OperandWidth));

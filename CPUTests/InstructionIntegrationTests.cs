@@ -46,13 +46,7 @@ namespace CPUTests
     [TestFixture]
     public class InstructionIntegrationTests
     {
-        #region Constants and Fields
-
         private IList<TokenBase> matchers;
-
-        #endregion
-
-        #region Public Methods and Operators
 
         [Test]
         [TestCase((ushort)0x7c01, typeof(SetInstruction))] // SET A 
@@ -880,7 +874,7 @@ namespace CPUTests
             var builder = new InstructionBuilder(cpu, operandFactory);
 
             cpu.LoadProgram(program);
-            cpu.SetProgramCounterTovalue(0x10);
+            cpu.SetProgramCounter(0x10);
             var instruction = builder.Build(program[0]);
             instruction.Execute();
 
@@ -903,7 +897,7 @@ namespace CPUTests
             var builder = new InstructionBuilder(cpu, operandFactory);
 
             cpu.LoadProgram(program);
-            cpu.SetProgramCounterTovalue(0x10);
+            cpu.SetProgramCounter(0x10);
             var instruction = builder.Build(program[0]);
             instruction.Execute();
 
@@ -1044,7 +1038,5 @@ namespace CPUTests
                     new LabelReferenceToken()
                 };
         }
-
-        #endregion
     }
 }

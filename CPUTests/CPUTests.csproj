@@ -10,7 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CPUTests</RootNamespace>
     <AssemblyName>CPUTests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -47,6 +46,7 @@
     <Compile Include="InstructionBuilderTests.cs" />
     <Compile Include="InstructionIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CpuIntegrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

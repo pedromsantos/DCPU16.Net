@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -48,8 +48,8 @@ namespace Model
 
         ushort ReadValueAtProgramCounter();
 
-        ushort SetProgramCounterTovalue(ushort value);
+        ushort SetProgramCounter(ushort value);
 
-		ushort SetStackPointerToValue(ushort value);
+		ushort SetStackPointer(ushort value);
     }
 }

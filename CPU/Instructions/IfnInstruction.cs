@@ -31,7 +31,10 @@ namespace CPU.Instructions
 
         protected override int Process()
         {
-            if (this.OperationA.Read != this.OperationB.Read)
+			var leftCompare = this.OperationA.Read;
+			var rigthCompare = this.OperationB.Read;
+
+            if (leftCompare != rigthCompare)
             {
                 return 1;
             }

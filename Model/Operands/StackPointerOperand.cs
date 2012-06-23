@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -31,7 +31,7 @@ namespace Model.Operands
 
         public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
         {
-            cpuStateManager.SetStackPointerToValue(value);
+            cpuStateManager.SetStackPointer(value);
         }
 
         protected override ushort Assemble(ushort shift)

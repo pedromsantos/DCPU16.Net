@@ -31,6 +31,11 @@ namespace Model.Operands
             return value;
         }
 
+		public override void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
+		{
+			cpuStateManager.IncrementProgramCounter();
+		}
+
         protected override ushort Assemble(ushort shift)
         {
             if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))

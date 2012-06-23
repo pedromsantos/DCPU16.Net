@@ -65,7 +65,7 @@ namespace CPU
         {
             var stackPointerValue = this.cpuStateManager.DecrementStackPointer();
             this.cpuStateManager.WriteMemoryValueAtAddress(stackPointerValue, this.cpuStateManager.ProgramCounter);
-            this.cpuStateManager.SetProgramCounterTovalue(value);
+            this.cpuStateManager.SetProgramCounter(value);
         }
 
         public void SetOverflowRegister(ushort value)
@@ -82,5 +82,10 @@ namespace CPU
         {
             this.operand.Process(this.cpuStateManager);
         }
+
+		public void NoOp()
+		{
+			this.operand.NoOp(this.cpuStateManager);
+		}
     }
 }
