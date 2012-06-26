@@ -111,7 +111,7 @@ namespace CPU
 				}
 
                 instruction.Execute();
-				DebugShowRegisters();
+				//DebugShowRegisters();
 
 				if (InstructionDidExecute != null)
 				{
@@ -124,14 +124,7 @@ namespace CPU
 				this.IgnoreNextInstruction = false;
 			}
 
-			if(!programCounterSet)
-			{
-				this.IncrementProgramCounter();
-			}
-			else
-			{
-				programCounterSet = false;
-			}
+			this.UpdateProgramCounter();
 
             return true;
         }
@@ -193,7 +186,19 @@ namespace CPU
             this.memory.Reset();
     	}
 
-		public void DebugShowRegisters()
+		private void UpdateProgramCounter()
+		{
+			if(!programCounterSet)
+			{
+				this.IncrementProgramCounter();
+			}
+			else
+			{
+				programCounterSet = false;
+			}
+		}
+
+		private void DebugShowRegisters()
         {
             Debug.WriteLine("----------------");
             Debug.WriteLine("Register Info");
