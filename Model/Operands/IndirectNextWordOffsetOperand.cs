@@ -42,8 +42,6 @@ namespace Model.Operands
             cpuStateManager.WriteMemoryValueAtAddress(((this.nextWordAddress + this.registerValue) & ShortMask), value);
         }
 
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1027:TabsMustNotBeUsed",
-            Justification = "Reviewed. Suppression is OK here.")]
         public override void Process(ICentralProcessingUnitStateOperations cpuStateManager)
         {
             var programCounter = cpuStateManager.IncrementProgramCounter();

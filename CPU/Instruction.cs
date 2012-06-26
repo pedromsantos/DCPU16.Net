@@ -52,6 +52,12 @@ namespace CPU
             return (ushort)this.Process();
         }
 
+		public virtual void NoOp()
+		{
+			this.OperationA.NoOp();
+			this.OperationB.NoOp();
+		}
+
         /*
         public virtual void Undo()
         {

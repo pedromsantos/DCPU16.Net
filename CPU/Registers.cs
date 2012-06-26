@@ -24,22 +24,99 @@ namespace CPU
 {
     using System;
 
+	public delegate void RegisterChangeHandler(int register, ushort value);
+
     public class Registers
     {
-        public const int NumbrOfGeneralPursposeRegisters = 8;
+		private ushort stackPointer;
+		private ushort programCounter;
+		private ushort overflow;
+
+        protected const int NumbrOfGeneralPursposeRegisters = 8;
 
         public Registers()
         {
             this.GeneralPurpose = new ushort[NumbrOfGeneralPursposeRegisters];
         }
 
+		public event RegisterChangeHandler RegisterWillChange;
+		public event RegisterChangeHandler RegisterDidChange;
+		public event RegisterChangeHandler ProgramCounterWillChange;
+		public event RegisterChangeHandler ProgramCounterDidChange;
+		public event RegisterChangeHandler StackPointerWillChange;
+		public event RegisterChangeHandler StackPointerDidChange;
+		public event RegisterChangeHandler OverflowWillChange;
+		public event RegisterChangeHandler OverflowDidChange;
+
         public ushort[] GeneralPurpose { get; set; }
 
-        public ushort StackPointer { get; set; }
+        public ushort StackPointer {
+			get 
+			{
+				return stackPointer;
+			}
 
-        public ushort ProgramCounter { get; set; }
+			set 
+			{
+				if (StackPointerWillChange != null)
+				{
+					StackPointerWillChange(0, value);
+				}
 
-        public ushort Overflow { get; set; }
+				stackPointer = value;
+
+				if (StackPointerDidChange != null)
+				{
+					StackPointerDidChange(0, value);
+				}
+			}
+		}
+
+        public ushort ProgramCounter 
+		{
+			get 
+			{
+				return programCounter;
+			}
+
+			set 
+			{
+				if (ProgramCounterWillChange != null)
+				{
+					ProgramCounterWillChange(0, value);
+				}
+
+				programCounter = value;
+
+				if (ProgramCounterDidChange != null)
+				{
+					ProgramCounterDidChange(0, value);
+				}
+			}
+		}
+
+        public ushort Overflow 
+		{
+			get 
+			{
+				return overflow;
+			}
+
+			set 
+			{
+				if (OverflowWillChange != null)
+				{
+					OverflowWillChange(0, value);
+				}
+
+				overflow = value;
+
+				if (OverflowDidChange != null)
+				{
+					OverflowDidChange(0, value);
+				}
+			}
+		}
 
         public ushort ReadGeneralPursoseRegisterValue(ushort register)
         {
@@ -48,7 +125,17 @@ namespace CPU
 
         public void WriteGeneralPursoseRegisterValue(int register, ushort value)
         {
+			if (RegisterWillChange != null)
+			{
+				RegisterWillChange(register, value);
+			}
+
             this.GeneralPurpose[register] = value;
+
+			if (RegisterDidChange != null)
+			{
+				RegisterDidChange(register, value);
+			}
         }
 
         public void Reset()

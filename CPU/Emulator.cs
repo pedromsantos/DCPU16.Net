@@ -20,30 +20,12 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace CPU
 {
-    public class NextWordOperand : Operand
+    public class Emulator
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public Emulator()
         {
-            cpuStateManager.IncrementProgramCounter();
-            var value = cpuStateManager.ReadValueAtProgramCounter();
-            return value;
-        }
-
-		public override void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
-		{
-			cpuStateManager.IncrementProgramCounter();
-		}
-
-        protected override ushort Assemble(ushort shift)
-        {
-            if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
-            {
-                return (ushort)((this.NextWord + OperandLiteralOffset) << shift);
-            }
-
-            return (ushort)((ushort)OperandType.ONextWord << shift);
         }
     }
 }
