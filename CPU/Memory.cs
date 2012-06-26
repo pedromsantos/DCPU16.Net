@@ -25,7 +25,7 @@ namespace CPU
     using System;
     using System.Collections.Generic;
 
-	public delegate void MemoryChangeHandler(int address, ushort value);
+    public delegate void MemoryChangeHandler(int address, ushort value);
 
     public class Memory
     {
@@ -43,8 +43,9 @@ namespace CPU
             this.ram = new ushort[size];
         }
 
-		public event MemoryChangeHandler MemoryWillChange;
-		public event MemoryChangeHandler MemoryDidChange;
+        public event MemoryChangeHandler MemoryWillChange;
+
+        public event MemoryChangeHandler MemoryDidChange;
 
         public ushort ReadValueAtAddress(ushort address)
         {
@@ -53,17 +54,17 @@ namespace CPU
 
         public void WriteValueAtAddress(int address, ushort value)
         {
-			if (MemoryWillChange != null)
-			{
-				MemoryWillChange(address, value);
-			}
+            if (this.MemoryWillChange != null)
+            {
+                this.MemoryWillChange(address, value);
+            }
 
             this.ram[address] = value;
 
-			if (MemoryDidChange != null)
-			{
-				MemoryDidChange(address, value);
-			}
+            if (this.MemoryDidChange != null)
+            {
+                this.MemoryDidChange(address, value);
+            }
         }
 
         public void LoadProgram(IEnumerable<ushort> program)
