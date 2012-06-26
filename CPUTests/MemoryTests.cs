@@ -20,69 +20,37 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace CPU
+namespace CPUTests
 {
-    using System;
-    using System.Collections.Generic;
+    using CPU;
 
-    public delegate void MemoryChangeHandler(int address, ushort value);
+    using NUnit.Framework;
 
-    public class Memory
+    [TestFixture]
+    public class MemoryTests
     {
-        private const int MemorySize = 0x10000;
-
-        private readonly ushort[] ram;
-
-        public Memory()
-            : this(MemorySize)
+        [Test]
+        public void WriteValueAtAddressWhenCalledFiresMemoryWillChangeIfWired()
         {
+            var receivedEvents = new System.Collections.Generic.Dictionary<int, ushort>();
+
+            var memory = new Memory(10);
+            memory.MemoryWillChange += receivedEvents.Add;
+            memory.WriteValueAtAddress(0, 10);
+
+            Assert.That(receivedEvents[0], Is.EqualTo(10));
         }
 
-        public Memory(uint size)
+        [Test]
+        public void WriteValueAtAddressWhenCalledFiresMemoryDidChangeIfWired()
         {
-            this.ram = new ushort[size];
-        }
+            var receivedEvents = new System.Collections.Generic.Dictionary<int, ushort>();
 
-        public event MemoryChangeHandler MemoryWillChange;
+            var memory = new Memory(10);
+            memory.MemoryDidChange += receivedEvents.Add;
+            memory.WriteValueAtAddress(0, 10);
 
-        public event MemoryChangeHandler MemoryDidChange;
-
-        public ushort ReadValueAtAddress(ushort address)
-        {
-            return this.ram[address];
-        }
-
-        public void WriteValueAtAddress(int address, ushort value)
-        {
-            if (this.MemoryWillChange != null)
-            {
-                this.MemoryWillChange(address, value);
-            }
-
-            this.ram[address] = value;
-
-            if (this.MemoryDidChange != null)
-            {
-                this.MemoryDidChange(address, value);
-            }
-        }
-
-        public void LoadProgram(IEnumerable<ushort> program)
-        {
-            this.Reset();
-
-            var address = 0;
-
-            foreach (var instruction in program)
-            {
-                this.WriteValueAtAddress(address, instruction);
-                address++;
-            }
-        }
-
-        public void Reset()
-        {
-            Array.Clear(this.ram, 0, MemorySize);
+            Assert.That(receivedEvents[0], Is.EqualTo(10));
         }
     }
 }

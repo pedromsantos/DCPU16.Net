@@ -111,7 +111,7 @@ namespace CPU
                 }
 
                 instruction.Execute();
-                ////DebugShowRegisters();
+                this.DebugShowRegisters();
 
                 if (this.InstructionDidExecute != null)
                 {
@@ -198,6 +198,7 @@ namespace CPU
             }
         }
 
+        [Conditional("DEBUG")]
         private void DebugShowRegisters()
         {
             Debug.WriteLine("----------------");

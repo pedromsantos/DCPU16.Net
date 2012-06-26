@@ -420,7 +420,7 @@ namespace CPUTests
         }
 
         [Test]
-        public void ExecuteWhenCalledWithPrrkDoesNotChangeStackPointer()
+        public void ExecuteWhenCalledWithPeekDoesNotChangeStackPointer()
         {
             const string Code = @"SET PUSH, 0x10
 								  SET I, PEEK";
