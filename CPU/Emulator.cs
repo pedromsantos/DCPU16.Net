@@ -1,5 +1,4 @@
-
-// --------------------------------------------------------------------------------------------------------------------
+﻿    // --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -23,10 +22,54 @@
 
 namespace CPU
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
+
+    using Model;
+
     public class Emulator
     {
+        private readonly CentralProcessingUnit cpu;
+
+        private readonly InstructionOperandFactory operandFactory;
+
         public Emulator()
         {
+            this.operandFactory = new InstructionOperandFactory();
+            this.cpu = new CentralProcessingUnit(this.operandFactory);
         }
-	}
+
+        public bool LoadProgram(string fileName)
+        {
+            if (File.Exists(fileName) != true)
+            {
+                return false;
+            }
+
+            var programData = File.ReadAllBytes(fileName);
+
+            if ((programData.Length % 2) != 0)
+            {
+                return false;
+            }
+
+            this.LoadProgram(programData);
+
+            return true;
+        }
+
+        public void LoadProgram(byte[] programData)
+        {
+            IList<ushort> program;
+
+            var bf = new BinaryFormatter();
+            using (var ms = new MemoryStream(programData))
+            {
+                program = (List<ushort>)bf.Deserialize(ms);
+            }
+
+            this.cpu.LoadProgram(program);
+        }
+    }
 }

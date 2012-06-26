@@ -43,9 +43,13 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CentralProcessingUnitTests.cs" />
+    <Compile Include="EmulatorTests.cs" />
+    <Compile Include="RegisterTests.cs" />
     <Compile Include="CpuIntegrationTests.cs" />
     <Compile Include="InstructionBuilderTests.cs" />
     <Compile Include="InstructionIntegrationTests.cs" />
+    <Compile Include="MemoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +60,9 @@
       <Project>{0DC8E7A2-8C1D-4B7C-A25E-D15F92A1DAE8}</Project>
       <Name>Assembler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CPU\CPU.csproj">
+    <ProjectReference Include="..\CPU\Emulator.csproj">
       <Project>{B27ADF1B-BD1D-4620-BD12-98535541F6B6}</Project>
-      <Name>CPU</Name>
+      <Name>Emulator</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lexer\Lexer.csproj">
       <Project>{064A3514-C7AE-4D1D-9A74-2E23DE98EC6A}</Project>

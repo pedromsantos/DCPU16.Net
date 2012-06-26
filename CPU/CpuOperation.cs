@@ -83,9 +83,9 @@ namespace CPU
             this.operand.Process(this.cpuStateManager);
         }
 
-		public void NoOp()
-		{
-			this.operand.NoOp(this.cpuStateManager);
-		}
+        public void NoOp()
+        {
+            this.operand.NoOp(this.cpuStateManager);
+        }
     }
 }

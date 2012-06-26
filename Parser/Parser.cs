@@ -31,7 +31,7 @@ namespace Parser
     using Model;
     using Model.Operands;
 
-    public class Parser
+    public class Parser : IParser
     {
         private static readonly IDictionary<Type, Func<Parser, TokenBase, Operand>> OperandCreationStrategyMapper =
             new Dictionary<Type, Func<Parser, TokenBase, Operand>>
