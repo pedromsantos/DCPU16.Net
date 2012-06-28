@@ -116,5 +116,58 @@ namespace CPUTests
             Assert.That(cpu.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegX), Is.EqualTo(0x40));
         }
 
+        [Test]
+        public void CanStepThrougthHelloWorldSample()
+        {
+            const string Code =@"
+; Assembler test for DCPU
+; by Markus Persson
+
+             set a, 0xbeef                        ; Assign 0xbeef to register a
+             set [0x1000], a                      ; Assign memory at 0x1000 to value of register a
+             ifn a, [0x1000]                      ; Compare value of register a to memory at 0x1000 ..
+                 set PC, end                      ; .. and jump to end if they don't match
+
+             set i, 0                             ; Init loop counter, for clarity
+:nextchar    ife [data+i], 0                      ; If the character is 0 ..
+                 set PC, end                      ; .. jump to the end
+             set [0x8000+i], [data+i]             ; Video ram starts at 0x8000, copy char there
+             add i, 1                             ; Increase loop counter
+             set PC, nextchar                     ; Loop
+  
+:data        dat ""Hello world!"", 0              ; Zero terminated string
+
+:end         SET A, 1                             ; Freeze the CPU forever";
+
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+            parser.Parse();
+            var statments = parser.Statments;
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var operandFactory = new InstructionOperandFactory();
+            var cpu = new CentralProcessingUnit(operandFactory);
+            cpu.LoadProgram(program);
+            var receivedEvents = new Dictionary<int, ushort>();
+            cpu.MemoryDidChange += receivedEvents.Add;
+
+            var executed = true;
+
+            while (executed)
+            {
+                executed = cpu.ExecuteNextInstruction();
+            }
+
+            const string ExpectedValues = "\"Helloworld!\"";
+
+            var i = 0;
+            foreach (var expectedValue in ExpectedValues)
+            {
+                Assert.That(receivedEvents[0x8000 + i], Is.EqualTo((ushort)expectedValue));
+                i++;
+            }
+        }
     }
 }

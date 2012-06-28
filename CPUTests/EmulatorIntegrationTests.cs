@@ -63,7 +63,7 @@ namespace CPUTests
         }
 
         [Test]
-        public void LoadProgeamWhenCalledWhitValidProgramLoadsProgramInMemory()
+        public void LoadProgramWhenCalledWhitValidProgramLoadsProgramInMemory()
         {
             const string Code =
                 @"  ;Try some basic stuff

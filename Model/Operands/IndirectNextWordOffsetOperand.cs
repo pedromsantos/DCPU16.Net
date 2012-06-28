@@ -22,8 +22,6 @@
 
 namespace Model.Operands
 {
-    using System.Diagnostics.CodeAnalysis;
-
     public class IndirectNextWordOffsetOperand : Operand
     {
         private ushort nextWordAddress;

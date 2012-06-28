@@ -31,10 +31,10 @@ namespace Model.Operands
             return value;
         }
 
-		public override void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
-		{
-			cpuStateManager.IncrementProgramCounter();
-		}
+        public override void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            cpuStateManager.IncrementProgramCounter();
+        }
 
         protected override ushort Assemble(ushort shift)
         {

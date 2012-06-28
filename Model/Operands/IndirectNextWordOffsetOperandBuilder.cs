@@ -42,7 +42,14 @@ namespace Model.Operands
 
         protected override void SetNextWordValue(TokenBase token)
         {
-            this.Operand.NextWord = Convert.ToInt32(this.leftToken.Content, 16);
+            if (leftToken is HexToken)
+            {
+                this.Operand.NextWord = Convert.ToInt32(this.leftToken.Content, 16);
+            }
+            else if (this.leftToken is LabelReferenceToken)
+            {
+                this.Operand.Label = this.leftToken.Content;
+            }
         }
     }
 }

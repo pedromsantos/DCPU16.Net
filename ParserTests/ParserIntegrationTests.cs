@@ -196,6 +196,61 @@ namespace ParserTests
         }
 
         [Test]
+        public void ParseWhenCalledWithDatGenertesCorrectStatments()
+        {
+            const string Code = @"DAT 0x10, 0x20, 0x30, 0x40, 0x50
+                                 SET I, 0";
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            parser.Parse();
+
+            var statment = parser.Statments.First();
+            Assert.That(statment.Menemonic, Is.EqualTo("DAT"));
+            Assert.That(statment.Opcode, Is.EqualTo(-1));
+            Assert.That(statment.OperandA, Is.Null);
+            Assert.That(statment.OperandB, Is.Null);
+            Assert.That(statment.Label, Is.Null);
+            Assert.That(statment.Dat[0], Is.EqualTo(0x10));
+            Assert.That(statment.Dat[1], Is.EqualTo(0x20));
+            Assert.That(statment.Dat[2], Is.EqualTo(0x30));
+            Assert.That(statment.Dat[3], Is.EqualTo(0x40));
+            Assert.That(statment.Dat[4], Is.EqualTo(0x50));
+        }
+
+        [Test]
+        public void ParseWhenCalledWithDatContainingAStringGenertesCorrectStatments()
+        {
+            const string Code = @"DAT 0x10, ""Hello"", 0x20, 0x30, 0x40, 0x50
+                                 SET I, 0";
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            parser.Parse();
+
+            var statment = parser.Statments.First();
+            Assert.That(statment.Menemonic, Is.EqualTo("DAT"));
+            Assert.That(statment.Opcode, Is.EqualTo(-1));
+            Assert.That(statment.OperandA, Is.Null);
+            Assert.That(statment.OperandB, Is.Null);
+            Assert.That(statment.Label, Is.Null);
+            Assert.That(statment.Dat[0], Is.EqualTo(0x10));
+            Assert.That(statment.Dat[1], Is.EqualTo((ushort)'"'));
+            Assert.That(statment.Dat[2], Is.EqualTo((ushort)'H'));
+            Assert.That(statment.Dat[3], Is.EqualTo((ushort)'e'));
+            Assert.That(statment.Dat[4], Is.EqualTo((ushort)'l'));
+            Assert.That(statment.Dat[5], Is.EqualTo((ushort)'l'));
+            Assert.That(statment.Dat[6], Is.EqualTo((ushort)'o'));
+            Assert.That(statment.Dat[7], Is.EqualTo((ushort)'"'));
+            Assert.That(statment.Dat[8], Is.EqualTo(0x20));
+            Assert.That(statment.Dat[9], Is.EqualTo(0x30));
+            Assert.That(statment.Dat[10], Is.EqualTo(0x40));
+            Assert.That(statment.Dat[11], Is.EqualTo(0x50));
+        }
+
+        [Test]
         public void ParseWhenCalledWithNotchSampleGeneratesCorrectNumberOfStatments()
         {
             const string Code = @"  ;Try some basic stuff
@@ -235,7 +290,62 @@ namespace ParserTests
 
             var statments = parser.Statments;
 
-            Assert.That(statments.Count == 17);
+            Assert.That(statments.Count, Is.EqualTo(17));
+        }
+
+        [Test]
+        public void ParseWhenCalledWithHelloWorldSampleGeneratesCorrectStatments()
+        {
+            const string Code = @"
+; Assembler test for DCPU
+; by Markus Persson
+
+             set a, 0xbeef                        ; Assign 0xbeef to register a
+             set [0x1000], a                      ; Assign memory at 0x1000 to value of register a
+             ifn a, [0x1000]                      ; Compare value of register a to memory at 0x1000 ..
+                 set PC, end                      ; .. and jump to end if they don't match
+
+             set i, 0                             ; Init loop counter, for clarity
+:nextchar    ife [data+i], 0                      ; If the character is 0 ..
+                 set PC, end                      ; .. jump to the end
+             set [0x8000+i], [data+i]             ; Video ram starts at 0x8000, copy char there
+             add i, 1                             ; Increase loop counter
+             set PC, nextchar                     ; Loop
+  
+:data        dat ""Hello world!"", 0              ; Zero terminated string
+
+:end         SET A, 1                             ; Freeze the CPU forever";
+
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser(lexer);
+
+            parser.Parse();
+
+            var statments = parser.Statments;
+
+            Assert.That(statments.Count, Is.EqualTo(12));
+
+            var statment5 = parser.Statments[5]; // ife [data+i], 0
+
+            Assert.That(statment5.Menemonic, Is.EqualTo("IFE"));
+            Assert.That(statment5.Opcode, Is.EqualTo((int)BasicOpcode.OpIfe));
+            Assert.That(statment5.OperandA, Is.InstanceOf(typeof(IndirectNextWordOffsetOperand)));
+            Assert.That(statment5.OperandA.Label, Is.EqualTo("data"));
+            Assert.That(statment5.OperandA.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegI));
+            Assert.That(statment5.OperandB, Is.InstanceOf(typeof(NextWordOperand)));
+            Assert.That(statment5.OperandB.NextWord, Is.EqualTo(0));
+
+            var statment7 = parser.Statments[7]; // set [0x8000+i], [data+i]
+
+            Assert.That(statment7.Menemonic, Is.EqualTo("SET"));
+            Assert.That(statment7.Opcode, Is.EqualTo((int)BasicOpcode.OpSet));
+            Assert.That(statment7.OperandA, Is.InstanceOf(typeof(IndirectNextWordOffsetOperand)));
+            Assert.That(statment7.OperandA.NextWord, Is.EqualTo(0x8000));
+            Assert.That(statment7.OperandA.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegI));
+            Assert.That(statment7.OperandB, Is.InstanceOf(typeof(IndirectNextWordOffsetOperand)));
+            Assert.That(statment7.OperandB.Label, Is.EqualTo("data"));
+            Assert.That(statment7.OperandB.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegI));
         }
     }
 }
