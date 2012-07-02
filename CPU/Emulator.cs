@@ -231,5 +231,16 @@ namespace CPU
 
             this.cpu.LoadProgram(program);
         }
+
+        public void RunLoadedProgram()
+        {
+            bool executed;
+
+            do
+            {
+                executed = this.cpu.ExecuteNextInstruction();
+            }
+            while (executed);
+        }
     }
 }

@@ -22,7 +22,6 @@
 
 namespace CPU
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
@@ -212,8 +211,6 @@ namespace CPU
             }
         }
 
-        public bool IgnoreNextInstruction { get; set; }
-
         public ushort ProgramCounter
         {
             get
@@ -242,6 +239,8 @@ namespace CPU
                 this.registers.Overflow = value;
             }
         }
+
+        public bool IgnoreNextInstruction { get; set; }
 
         public void LoadProgram(IEnumerable<ushort> program)
         {
