@@ -20,30 +20,31 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Parser
 {
-    public class NextWordOperand : Operand
+    using System;
+    using System.Collections.Generic;
+
+    using Lexer.Tokens;
+
+    using Model;
+    using Model.Operands;
+
+    public class DirectOperandFactory : IOperandFactory
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
-        {
-            cpuStateManager.IncrementProgramCounter();
-            var value = cpuStateManager.ReadValueAtProgramCounter();
-            return value;
-        }
+        private static readonly IDictionary<Type, Func<TokenBase, Operand>> OperandCreationStrategyMapper =
+            new Dictionary<Type, Func<TokenBase, Operand>>
+                {
+                    { typeof(RegisterToken), (t) => { return new RegisterOperandBuilder().Build(t); } },
+                    { typeof(LabelReferenceToken), (t) => { return new LabelReferenceOperandBuilder().Build(t); } },
+                    { typeof(HexToken), (t) => { return new NextWordOperandBuilder().Build(t); } },
+                    { typeof(DecimalToken), (t) => { return new NextWordOperandBuilder().Build(t); } },
+                    //{ typeof(OpenBracketToken), (t) => { return p.ParseIndirectOperand(); } },
+                };
 
-        public override void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
+        public Operand CreateOperand(TokenBase token)
         {
-            cpuStateManager.IncrementProgramCounter();
-        }
-
-        protected override ushort Assemble(ushort shift)
-        {
-            if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
-            {
-                return (ushort)((this.NextWord + OperandLiteralOffset) << shift);
-            }
-
-            return (ushort)((ushort)OperandType.ONextWord << shift);
+            return OperandCreationStrategyMapper[token.GetType()](token); 
         }
     }
 }

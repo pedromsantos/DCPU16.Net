@@ -41,6 +41,8 @@ namespace CPU
 
         private readonly IDictionary<BasicOpcode, Func<Instruction>> instructionMapper;
 
+        private readonly IDictionary<ushort, Instruction> instructionCache;
+
         private readonly IInstructionOperandFactory operandFactory;
 
         private ushort opcode;
@@ -53,6 +55,7 @@ namespace CPU
         {
             this.cpuState = cpuState;
             this.operandFactory = operandFactory;
+            this.instructionCache = new Dictionary<ushort, Instruction>();
             this.instructionMapper = new Dictionary<BasicOpcode, Func<Instruction>>
                 {
                     { BasicOpcode.OpSet, () => { return new SetInstruction(this.opcode, this.operationA, this.operationB); } },
@@ -75,6 +78,11 @@ namespace CPU
 
         public Instruction Build(ushort instructionValue)
         {
+            if (this.instructionCache.Keys.Contains(instructionValue))
+            {
+                return this.instructionCache[instructionValue];
+            }
+
             this.opcode = (ushort)(instructionValue & OpMask);
 
             if (this.opcode == 0)
@@ -88,9 +96,12 @@ namespace CPU
                     this.operationA = new CpuOperation(this.operandFactory.Create(operandValue), this.cpuState);
                     this.operationB = null;
 
-                    return new JsrInstruction(0, this.operationA, this.operationA);
+                    var jsrInstruction = new JsrInstruction(0, this.operationA, this.operationA);
+                    this.instructionCache[instructionValue] = jsrInstruction;
+
+                    return jsrInstruction;
                 }
-                    
+
                 return null;
             }
 
@@ -100,7 +111,10 @@ namespace CPU
             this.operationA = new CpuOperation(this.operandFactory.Create(firstOperandValue), this.cpuState);
             this.operationB = new CpuOperation(this.operandFactory.Create(secondOperandValue), this.cpuState);
 
-            return this.instructionMapper[(BasicOpcode)this.opcode]();
+            var instruction = this.instructionMapper[(BasicOpcode)this.opcode]();
+            this.instructionCache[instructionValue] = instruction;
+
+            return instruction;
         }
     }
 }

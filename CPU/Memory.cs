@@ -31,6 +31,20 @@ namespace CPU
     {
         private const int MemorySize = 0x10000;
 
+        private const int KeyboardMemoryStart = 0x9000;
+
+        private const int KeyboardMemoryEnd = 0x900F;
+
+        private const int VideoMemoryStart = 0x8000;
+
+        private const int VideoMemoryEnd = 0x817F;
+
+        private const int VideoCharacterSetMemoryStart = 0x8180;
+
+        private const int VideoCharacterSetMemoryEnd = 0x827F;
+
+        private const int VideoMiscelaneousDataMemory = 0x8280;
+
         private readonly ushort[] ram;
 
         public Memory()
@@ -47,9 +61,17 @@ namespace CPU
 
         public event MemoryChangeHandler MemoryDidChange;
 
+        public event MemoryChangeHandler VideoMemoryDidChange;
+
+        public event MemoryChangeHandler KeyboardMemoryDidChange;
+
         public ushort ReadValueAtAddress(ushort address)
         {
-            return this.ram[address];
+            var value = this.ram[address];
+
+            this.ClearKeyboardBufferAfterRead(address);
+
+            return value;
         }
 
         public void WriteValueAtAddress(int address, ushort value)
@@ -60,6 +82,18 @@ namespace CPU
             }
 
             this.ram[address] = value;
+
+            if (this.VideoMemoryDidChange != null 
+                && (address >= VideoMemoryStart && address <= VideoMemoryEnd))
+            {
+                this.VideoMemoryDidChange(address, value);
+            }
+
+            if (this.KeyboardMemoryDidChange != null
+                && (address >= KeyboardMemoryStart && address <= KeyboardMemoryEnd))
+            {
+                this.KeyboardMemoryDidChange(address, value);
+            }
 
             if (this.MemoryDidChange != null)
             {
@@ -83,6 +117,14 @@ namespace CPU
         public void Reset()
         {
             Array.Clear(this.ram, 0, MemorySize);
+        }
+
+        private void ClearKeyboardBufferAfterRead(ushort address)
+        {
+            if (address >= KeyboardMemoryStart && address <= KeyboardMemoryEnd)
+            {
+                this.WriteValueAtAddress(address, 0);
+            }
         }
     }
 }

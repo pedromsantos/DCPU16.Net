@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CentralProcessingUnitTests.cs" />
-    <Compile Include="EmulatorTests.cs" />
+    <Compile Include="EmulatorIntegrationTests.cs" />
     <Compile Include="RegisterTests.cs" />
     <Compile Include="CpuIntegrationTests.cs" />
     <Compile Include="InstructionBuilderTests.cs" />

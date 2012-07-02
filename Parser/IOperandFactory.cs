@@ -20,12 +20,14 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace CPUTests
+namespace Parser
 {
-    using NUnit.Framework;
+    using Lexer.Tokens;
 
-    [TestFixture]
-    public class EmulatorTests
+    using Model;
+
+    public interface IOperandFactory
     {
+        Operand CreateOperand(TokenBase token);
     }
 }

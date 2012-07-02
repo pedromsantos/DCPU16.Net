@@ -1,4 +1,4 @@
-﻿    // --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -24,7 +24,6 @@ namespace CPU
 {
     using System.Collections.Generic;
     using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
 
     using Model;
 
@@ -38,6 +37,162 @@ namespace CPU
         {
             this.operandFactory = new InstructionOperandFactory();
             this.cpu = new CentralProcessingUnit(this.operandFactory);
+        }
+
+        public event InstructionExecutionHandler InstructionWillExecute
+        {
+            add
+            {
+                this.cpu.InstructionWillExecute += value;
+            }
+
+            remove
+            {
+                this.cpu.InstructionWillExecute -= value;
+            }
+        }
+
+        public event InstructionExecutionHandler InstructionDidExecute
+        {
+            add
+            {
+                this.cpu.InstructionDidExecute += value;
+            }
+
+            remove
+            {
+                this.cpu.InstructionDidExecute -= value;
+            }
+        }
+
+        public event MemoryChangeHandler MemoryWillChange
+        {
+            add
+            {
+                this.cpu.MemoryWillChange += value;
+            }
+
+            remove
+            {
+                this.cpu.MemoryWillChange -= value;
+            }
+        }
+
+        public event MemoryChangeHandler MemoryDidChange
+        {
+            add
+            {
+                this.cpu.MemoryDidChange += value;
+            }
+
+            remove
+            {
+                this.cpu.MemoryDidChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler RegisterWillChange
+        {
+            add
+            {
+                this.cpu.RegisterWillChange += value;
+            }
+
+            remove
+            {
+                this.cpu.RegisterWillChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler RegisterDidChange
+        {
+            add
+            {
+                this.cpu.RegisterDidChange += value;
+            }
+
+            remove
+            {
+                this.cpu.RegisterDidChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler ProgramCounterWillChange
+        {
+            add
+            {
+                this.cpu.ProgramCounterWillChange += value;
+            }
+
+            remove
+            {
+                this.cpu.ProgramCounterWillChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler ProgramCounterDidChange
+        {
+            add
+            {
+                this.cpu.ProgramCounterDidChange += value;
+            }
+
+            remove
+            {
+                this.cpu.ProgramCounterDidChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler StackPointerWillChange
+        {
+            add
+            {
+                this.cpu.StackPointerWillChange += value;
+            }
+
+            remove
+            {
+                this.cpu.StackPointerWillChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler StackPointerDidChange
+        {
+            add
+            {
+                this.cpu.StackPointerDidChange += value;
+            }
+
+            remove
+            {
+                this.cpu.StackPointerDidChange -= value;
+            }
+        }
+
+        public event MemoryChangeHandler VideoMemoryDidChange
+        {
+            add
+            {
+                this.cpu.VideoMemoryDidChange += value;
+            }
+
+            remove
+            {
+                this.cpu.VideoMemoryDidChange -= value;
+            }
+        }
+
+        public event MemoryChangeHandler KeyboardMemoryDidChange
+        {
+            add
+            {
+                this.cpu.KeyboardMemoryDidChange += value;
+            }
+
+            remove
+            {
+                this.cpu.KeyboardMemoryDidChange -= value;
+            }
         }
 
         public bool LoadProgram(string fileName)
@@ -59,14 +214,19 @@ namespace CPU
             return true;
         }
 
-        public void LoadProgram(byte[] programData)
+        public void LoadProgram(byte[] data)
         {
-            IList<ushort> program;
+            IList<ushort> program = new List<ushort>();
 
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream(programData))
+            if ((data.Length % 2) != 0)
             {
-                program = (List<ushort>)bf.Deserialize(ms);
+                throw new InvalidDataException("Program data size must be a power of 2");
+            }
+
+            for (var i = 1; i < data.Length; i += 2)
+            {
+                var word = (ushort)((data[i - 1] << 8) + (data[i] & 0xFF));
+                program.Add(word);
             }
 
             this.cpu.LoadProgram(program);

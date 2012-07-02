@@ -23,10 +23,16 @@
 namespace Model
 {
     using System;
+    using System.Collections.Generic;
 
     public class Statment
     {
         private string menemonic;
+
+        public Statment()
+        {
+            this.Dat = new List<int>();
+        }
 
         public string Label { get; set; }
 
@@ -35,6 +41,8 @@ namespace Model
         public Operand OperandA { get; set; }
 
         public Operand OperandB { get; set; }
+
+        public IList<int> Dat { get; set; }
 
         public string Menemonic
         {
@@ -67,6 +75,7 @@ namespace Model
             else if (this.menemonic == "IFN") this.Opcode = (int)BasicOpcode.OpIfn;
             else if (this.menemonic == "IFG") this.Opcode = (int)BasicOpcode.OpIfg;
             else if (this.menemonic == "IFB") this.Opcode = (int)BasicOpcode.OpIfb;
+            else if (this.menemonic == "DAT") this.Opcode = -1;
 
             // non-basic opcodes
             else if (this.menemonic == "JSR")
@@ -75,7 +84,7 @@ namespace Model
             }
             else
             {
-                throw new Exception("No operand for instruction: " + menemonic);
+                throw new Exception("No operand for instruction: " + this.menemonic);
             }
         }
     }

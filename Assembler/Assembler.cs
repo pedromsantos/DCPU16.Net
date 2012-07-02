@@ -68,6 +68,16 @@ namespace Assembler
                 this.labelAddresses[statment.Label.Substring(1)] = this.program.Count;
             }
 
+            if (statment.Dat.Count != 0)
+            {
+                foreach (var dat in statment.Dat)
+                {
+                    this.program.Add((ushort)dat);
+                }
+
+                return;
+            }
+
             if (opcode == 0)
             {
                 if (statment.OperandB != null)
@@ -75,7 +85,6 @@ namespace Assembler
                     throw new Exception("Non-basic opcode must have single operand.");
                 }
 
-                opcode = 0;
                 opcode |= (ushort)NonBasicOpcode.OpJsr << OpcodeWidth;
                 opcode |= statment.OperandA.AssembleOperand(1);
                 this.program.Add(opcode);
@@ -97,7 +106,15 @@ namespace Assembler
         {
             if (operand is IndirectNextWordOffsetOperand)
             {
-                this.program.Add((ushort)operand.NextWord);
+                if (!string.IsNullOrEmpty(operand.Label))
+                {
+                    this.labelReferences[this.program.Count] = operand.Label;
+                    this.program.Add(0);
+                }
+                else if (operand.NextWord > OperandLiteralMax)
+                {
+                    this.program.Add((ushort)operand.NextWord);
+                }
             }
 
             if (operand is NextWordOperand || operand is IndirectNextWordOperand)

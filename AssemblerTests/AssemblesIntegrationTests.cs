@@ -131,7 +131,29 @@ namespace AssemblerTests
         }
 
         [Test]
-        public void ParseWhenCalledWithNotchSampleGeneratesCorrectNumberOfStatments()
+        public void AssembleStatmentsWhenCalledWithDatGenertesCorrectProgram()
+        {
+            const string Code = @"DAT 0x10, 0x20, 0x30, 0x40, 0x50
+                                 SET I, 0";
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser.Parser(lexer);
+
+            var statments = parser.Parse();
+
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            Assert.That(program.Count, Is.EqualTo(6));
+            Assert.That(program[0], Is.EqualTo(0x10));
+            Assert.That(program[1], Is.EqualTo(0x20));
+            Assert.That(program[2], Is.EqualTo(0x30));
+            Assert.That(program[3], Is.EqualTo(0x40));
+            Assert.That(program[4], Is.EqualTo(0x50));
+        }
+
+        [Test]
+        public void AssembleStatmentsWhenCalledWithNotchSampleGeneratesCorrectProgram()
         {
             const string Code = @"  ;Try some basic stuff
                                     SET A, 0x30              ; 7c01 0030
@@ -183,6 +205,57 @@ namespace AssemblerTests
                     0x9037, 0x61c1, 0x7dc1, 0x001a
                 };
 
+            for (var i = 0; i < 28; i++)
+            {
+                Assert.That(program[i], Is.EqualTo(expectedInstruction[i]));
+            }
+        }
+
+        [Test]
+        public void AssembleStatmentsWhenCalledWithHelloWorldSampleGeneratesCorrectProgram()
+        {
+            const string Code = @"
+; Assembler test for DCPU
+; by Markus Persson
+
+             set a, 0xbeef                        ; Assign 0xbeef to register a
+             set [0x1000], a                      ; Assign memory at 0x1000 to value of register a
+             ifn a, [0x1000]                      ; Compare value of register a to memory at 0x1000 ..
+                 set PC, end                      ; .. and jump to end if they don't match
+
+             set i, 0                             ; Init loop counter, for clarity
+:nextchar    ife [data+i], 0                      ; If the character is 0 ..
+                 set PC, end                      ; .. jump to the end
+             set [0x8000+i], [data+i]             ; Video ram starts at 0x8000, copy char there
+             add i, 1                             ; Increase loop counter
+             set PC, nextchar                     ; Loop
+  
+:data        dat ""Hello world!"", 0              ; Zero terminated string
+
+:end         SET A, 1                             ; Freeze the CPU forever";
+
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var parser = new Parser.Parser(lexer);
+
+            parser.Parse();
+
+            var statments = parser.Statments;
+
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var expectedInstruction = new[]
+                {
+                    0x7c01, 0xbeef, 0x01e1, 0x1000, 0x780d, 0x1000, 0x7dc1, 0x0021, 
+                    0x8061, 0x816c, 0x0013, 0x7dc1, 0x0021, 0x5961, 0x8000, 0x0013, 
+                    0x8462, 0x7dc1, 0x0009, 0x0022, 0x0048, 0x0065, 0x006c, 0x006c, 
+                    0x006f, 0x0077, 0x006f, 0x0072, 0x006c, 0x0064, 0x0021, 0x0022, 
+                    0x0000, 0x8401
+                };
+
+            Assert.That(program.Count, Is.EqualTo(expectedInstruction.Length));
+            
             for (var i = 0; i < 28; i++)
             {
                 Assert.That(program[i], Is.EqualTo(expectedInstruction[i]));

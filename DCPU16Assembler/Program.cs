@@ -81,11 +81,16 @@ namespace DCPU16Assembler
             parser.Parse();
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(parser.Statments);
-
-            var data = program.SelectMany(BitConverter.GetBytes).ToArray();
+            
+            var data = new List<byte>();
+            foreach (var word in program)
+            {
+                data.Add((byte)(word >> 8));
+                data.Add((byte)(word & 0xFF));
+            }
 
             File.Create(args[1]);
-            File.WriteAllBytes(args[1], data);
+            File.WriteAllBytes(args[1], data.ToArray());
         }
 
         private static void Usage()

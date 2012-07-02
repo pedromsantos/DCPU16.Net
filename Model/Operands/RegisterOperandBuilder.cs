@@ -30,12 +30,13 @@ namespace Model.Operands
     {
         protected override Operand CreateOperand(TokenBase token)
         {
-            if (token.Content == "PC") return new ProgramCounterOperand();
-            if (token.Content == "SP") return new StackPointerOperand();
-            if (token.Content == "O") return new OverflowOperand();
-            if (token.Content == "POP") return new PopOperand();
-            if (token.Content == "PEEK") return new PeekOperand();
-            if (token.Content == "PUSH") return new PushOperand();
+            var registerType = token.Content.ToUpper();
+            if (registerType == "PC") return new ProgramCounterOperand();
+            if (registerType == "SP") return new StackPointerOperand();
+            if (registerType == "O") return new OverflowOperand();
+            if (registerType == "POP") return new PopOperand();
+            if (registerType == "PEEK") return new PeekOperand();
+            if (registerType == "PUSH") return new PushOperand();
 
             return new RegisterOperand();
         }
@@ -48,20 +49,22 @@ namespace Model.Operands
 
         private static int ConvertTokenContentToRegisterIdentifier(string tokenContent)
         {
-            if (tokenContent == "A") return (int)RegisterIdentifier.RegA;
-            if (tokenContent == "B") return (int)RegisterIdentifier.RegB;
-            if (tokenContent == "C") return (int)RegisterIdentifier.RegC;
-            if (tokenContent == "X") return (int)RegisterIdentifier.RegX;
-            if (tokenContent == "Y") return (int)RegisterIdentifier.RegY;
-            if (tokenContent == "Z") return (int)RegisterIdentifier.RegZ;
-            if (tokenContent == "I") return (int)RegisterIdentifier.RegI;
-            if (tokenContent == "J") return (int)RegisterIdentifier.RegJ;
-            if (tokenContent == "PC") return (int)SpecialRegisterIdentifier.SregPc;
-            if (tokenContent == "SP") return (int)SpecialRegisterIdentifier.SregSp;
-            if (tokenContent == "O") return (int)SpecialRegisterIdentifier.SregO;
-            if (tokenContent == "POP") return (int)OperandType.OPop;
-            if (tokenContent == "PEEK") return (int)OperandType.OPeek;
-            if (tokenContent == "PUSH") return (int)OperandType.OPush;
+            var registerName = tokenContent.ToUpper();
+
+            if (registerName == "A") return (int)RegisterIdentifier.RegA;
+            if (registerName == "B") return (int)RegisterIdentifier.RegB;
+            if (registerName == "C") return (int)RegisterIdentifier.RegC;
+            if (registerName == "X") return (int)RegisterIdentifier.RegX;
+            if (registerName == "Y") return (int)RegisterIdentifier.RegY;
+            if (registerName == "Z") return (int)RegisterIdentifier.RegZ;
+            if (registerName == "I") return (int)RegisterIdentifier.RegI;
+            if (registerName == "J") return (int)RegisterIdentifier.RegJ;
+            if (registerName == "PC") return (int)SpecialRegisterIdentifier.SregPc;
+            if (registerName == "SP") return (int)SpecialRegisterIdentifier.SregSp;
+            if (registerName == "O") return (int)SpecialRegisterIdentifier.SregO;
+            if (registerName == "POP") return (int)OperandType.OPop;
+            if (registerName == "PEEK") return (int)OperandType.OPeek;
+            if (registerName == "PUSH") return (int)OperandType.OPush;
 
             throw new Exception("Invalid register name");
         }

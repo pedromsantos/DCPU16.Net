@@ -43,12 +43,12 @@ namespace Parser
                     { typeof(OpenBracketToken), (p, t) => { return p.ParseIndirectOperand(); } },
                 };
 
-        private static readonly IDictionary<Type, Func<Parser, TokenBase, Operand>> IndirectOperandCreationStrategyMapper =
-            new Dictionary<Type, Func<Parser, TokenBase, Operand>>
+        private static readonly IDictionary<Type, Func<TokenBase, Operand>> IndirectOperandCreationStrategyMapper =
+            new Dictionary<Type, Func<TokenBase, Operand>>
                 {
-                    { typeof(RegisterToken), (p, t) => { return new IndirectRegisterOperandBuilder().Build(t); } },
-                    { typeof(LabelReferenceToken), (p, t) => { return new LabelReferenceOperandBuilder().Build(t); } },
-                    { typeof(HexToken), (p, t) => { return new IndirectNextWordOperandBuilder().Build(t); } },
+                    { typeof(RegisterToken), t => { return new IndirectRegisterOperandBuilder().Build(t); } },
+                    { typeof(LabelReferenceToken), t => { return new LabelReferenceOperandBuilder().Build(t); } },
+                    { typeof(HexToken), t => { return new IndirectNextWordOperandBuilder().Build(t); } },
                 };
 
         private readonly IConsumeTokenStrategy consumeStrategy = new ConsumeTokenStrategy();
@@ -86,10 +86,17 @@ namespace Parser
 
             this.ParseLabel(statment);
             this.ParseMenemonic(statment);
-            this.ParseOperands(statment);
+            
+            if (statment.Menemonic != "DAT")
+            {
+                this.ParseOperands(statment);
+            }
+            else
+            {
+                this.ParseData(statment);
+            }
 
             this.Statments.Add(statment);
-
             this.ParseComments();
 
             return true;
@@ -139,7 +146,7 @@ namespace Parser
                     token.Content));
             }
 
-            statment.Menemonic = token.Content;
+            statment.Menemonic = token.Content.ToUpper();
         }
 
         private void ParseComments()
@@ -180,22 +187,17 @@ namespace Parser
             if (this.lexer.NextToken() is PluslToken)
             {
                 this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
-                operand = this.ParseIndirectOffsetOperand(token);
+                var rigthToken = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+                operand = new IndirectNextWordOffsetOperandBuilder(token).Build(rigthToken);
             }
             else
             {
-                operand = IndirectOperandCreationStrategyMapper[token.GetType()](this, token);
+                operand = IndirectOperandCreationStrategyMapper[token.GetType()](token);
             }
 
             this.AssertIndirectOperandIsTerminatedWithACloseBracketToken();
 
             return operand;
-        }
-
-        private Operand ParseIndirectOffsetOperand(TokenBase previousToken)
-        {
-            var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
-            return new IndirectNextWordOffsetOperandBuilder(previousToken).Build(token);
         }
 
         private void AssertIndirectOperandIsTerminatedWithACloseBracketToken()
@@ -211,6 +213,41 @@ namespace Parser
                         this.lexer.Position,
                         token.Content));
             }
+        }
+        
+        private void ParseData(Statment statment)
+        {
+            do
+            {
+                if (this.lexer.NextToken() is CommaToken)
+                {
+                    this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+                }
+
+                var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+
+                if (token is HexToken)
+                {
+                    statment.Dat.Add(Convert.ToUInt16(token.Content, 16));
+                }
+                else if (token is DecimalToken)
+                {
+                    statment.Dat.Add(Convert.ToUInt16(token.Content, 10));
+                }
+                else if (token is StringToken)
+                {
+                    foreach (var t in token.Content)
+                    {
+                        if (t == ' ')
+                        {
+                            continue;
+                        }
+
+                        statment.Dat.Add(t);
+                    }
+                }
+            }
+            while (this.lexer.NextToken() is CommaToken);
         }
     }
 }

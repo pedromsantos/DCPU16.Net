@@ -43,6 +43,10 @@ namespace Model.Operands
             {
                 this.Operand.NextWord = Convert.ToInt32(token.Content, 10);
             }
+            else if (token is StringToken)
+            {
+                this.Operand.Label = token.Content;
+            }
         }
     }
 }
