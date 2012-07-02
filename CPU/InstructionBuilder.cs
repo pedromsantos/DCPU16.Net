@@ -102,7 +102,7 @@ namespace CPU
                     return jsrInstruction;
                 }
 
-                return null;
+                return null;  //new DatInstruction(instructionValue);
             }
 
             var firstOperandValue = (ushort)((instructionValue >> OperandAShift) & OperandAMask);

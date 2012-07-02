@@ -22,6 +22,7 @@
 
 namespace CPU
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
@@ -54,6 +55,136 @@ namespace CPU
         public event InstructionExecutionHandler InstructionWillExecute;
         
         public event InstructionExecutionHandler InstructionDidExecute;
+
+        public event MemoryChangeHandler MemoryWillChange
+        {
+            add
+            {
+                this.memory.MemoryWillChange += value;
+            }
+
+            remove
+            {
+                this.memory.MemoryWillChange -= value;
+            }
+        }
+
+        public event MemoryChangeHandler MemoryDidChange
+        {
+            add
+            {
+                this.memory.MemoryDidChange += value;
+            }
+
+            remove
+            {
+                this.memory.MemoryDidChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler RegisterWillChange
+        {
+            add
+            {
+                this.registers.RegisterWillChange += value;
+            }
+
+            remove
+            {
+                this.registers.RegisterWillChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler RegisterDidChange
+        {
+            add
+            {
+                this.registers.RegisterDidChange += value;
+            }
+
+            remove
+            {
+                this.registers.RegisterDidChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler ProgramCounterWillChange
+        {
+            add
+            {
+                this.registers.ProgramCounterWillChange += value;
+            }
+
+            remove
+            {
+                this.registers.ProgramCounterWillChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler ProgramCounterDidChange
+        {
+            add
+            {
+                this.registers.ProgramCounterDidChange += value;
+            }
+
+            remove
+            {
+                this.registers.ProgramCounterDidChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler StackPointerWillChange
+        {
+            add
+            {
+                this.registers.StackPointerWillChange += value;
+            }
+
+            remove
+            {
+                this.registers.StackPointerWillChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler StackPointerDidChange
+        {
+            add
+            {
+                this.registers.StackPointerDidChange += value;
+            }
+
+            remove
+            {
+                this.registers.StackPointerDidChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler OverflowWillChange
+        {
+            add
+            {
+                this.registers.OverflowWillChange += value;
+            }
+
+            remove
+            {
+                this.registers.OverflowWillChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler OverflowDidChange
+        {
+            add
+            {
+                this.registers.OverflowDidChange += value;
+            }
+
+            remove
+            {
+                this.registers.OverflowDidChange -= value;
+            }
+        }
 
         public event MemoryChangeHandler MemoryWillChange
         {
