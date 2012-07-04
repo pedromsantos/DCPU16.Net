@@ -35,10 +35,10 @@ namespace Parser
         private static readonly IDictionary<Type, Func<TokenBase, Operand>> OperandCreationStrategyMapper =
             new Dictionary<Type, Func<TokenBase, Operand>>
                 {
-                    { typeof(RegisterToken), (t) => { return new RegisterOperandBuilder().Build(t); } },
-                    { typeof(LabelReferenceToken), (t) => { return new LabelReferenceOperandBuilder().Build(t); } },
-                    { typeof(HexToken), (t) => { return new NextWordOperandBuilder().Build(t); } },
-                    { typeof(DecimalToken), (t) => { return new NextWordOperandBuilder().Build(t); } },
+                    { typeof(RegisterToken), t => { return new RegisterOperandBuilder().Build(t); } },
+                    { typeof(LabelReferenceToken), t => { return new LabelReferenceOperandBuilder().Build(t); } },
+                    { typeof(HexToken), t => { return new NextWordOperandBuilder().Build(t); } },
+                    { typeof(DecimalToken), t => { return new NextWordOperandBuilder().Build(t); } },
                 };
 
         public Operand CreateOperand(TokenBase token)

@@ -24,6 +24,7 @@ namespace Parser
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Lexer;
     using Lexer.Tokens;
@@ -45,6 +46,7 @@ namespace Parser
             this.lexer = lexer;
             this.indirectOperandFactory = indirectOperandFactory;
             this.directOperandFactory = directOperandFactory;
+
             lexer.ConsumeTokenStrategy = new PeekTokenStrategy();
             lexer.IgnoreTokenStrategy = new IgnoreWhiteSpaceTokenStrategy();
 
@@ -229,13 +231,8 @@ namespace Parser
                 }
                 else if (token is StringToken)
                 {
-                    foreach (var t in token.Content)
+                    foreach (var t in token.Content.Where(t => t != ' '))
                     {
-                        if (t == ' ')
-                        {
-                            continue;
-                        }
-
                         statment.Dat.Add(t);
                     }
                 }
