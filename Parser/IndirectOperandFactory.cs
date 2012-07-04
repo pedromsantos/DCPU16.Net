@@ -20,29 +20,29 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ParserTests
+namespace Parser
 {
-    using Lexer;
+    using System;
+    using System.Collections.Generic;
 
-    using Moq;
+    using Lexer.Tokens;
 
-    using NUnit.Framework;
+    using Model;
+    using Model.Operands;
 
-    using Parser;
-
-    [TestFixture]
-    public class ParserTests
+    public class IndirectOperandFactory : IOperandFactory
     {
-        [Test]
-        public void ParseWhenCalledForEmptySourceReturnsEmptyStatmentCollection()
+        private static readonly IDictionary<Type, Func<TokenBase, Operand>> OperandCreationStrategyMapper =
+            new Dictionary<Type, Func<TokenBase, Operand>>
+                {
+                    { typeof(RegisterToken), t => { return new IndirectRegisterOperandBuilder().Build(t); } },
+                    { typeof(LabelReferenceToken), t => { return new LabelReferenceOperandBuilder().Build(t); } },
+                    { typeof(HexToken), t => { return new IndirectNextWordOperandBuilder().Build(t); } },
+                };
+
+        public Operand CreateOperand(TokenBase token)
         {
-            var lexer = new Mock<ILexer>();
-            var directOperandFactory = new Mock<IOperandFactory>();
-            var indirectOperandFactory = new Mock<IOperandFactory>();
-
-            var parser = new Parser(lexer.Object, directOperandFactory.Object, indirectOperandFactory.Object);
-
-            Assert.That(parser.Parse(), Is.Empty);
+            return OperandCreationStrategyMapper[token.GetType()](token); 
         }
     }
 }

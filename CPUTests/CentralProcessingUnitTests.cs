@@ -51,7 +51,8 @@ namespace CPUTests
             var reader = new StringReader("SET PUSH, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -74,7 +75,8 @@ namespace CPUTests
             var reader = new StringReader("SET PUSH, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();

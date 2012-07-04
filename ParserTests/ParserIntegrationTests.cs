@@ -70,7 +70,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 
@@ -91,7 +92,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 
@@ -112,7 +114,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 
@@ -133,7 +136,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 
@@ -154,7 +158,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 
@@ -174,7 +179,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             Assert.Throws<Exception>(() => parser.Parse());
         }
@@ -186,7 +192,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             Assert.Throws<Exception>(() => parser.Parse());
         }
@@ -198,7 +205,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             Assert.Throws<Exception>(() => parser.Parse());
         }
@@ -211,7 +219,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 
@@ -236,7 +245,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 
@@ -295,7 +305,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 
@@ -330,7 +341,8 @@ namespace ParserTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 

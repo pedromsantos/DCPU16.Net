@@ -67,7 +67,8 @@ namespace AssemblerTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
             
             var statments = parser.Parse();
 
@@ -85,7 +86,8 @@ namespace AssemblerTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             var statments = parser.Parse();
 
@@ -104,9 +106,9 @@ namespace AssemblerTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
-
-
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
+            
             var statments = parser.Parse();
 
             var assembler = new Assembler();
@@ -125,9 +127,9 @@ namespace AssemblerTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
-
-
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
+            
             var statments = parser.Parse();
 
             var assembler = new Assembler();
@@ -146,7 +148,8 @@ namespace AssemblerTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
             
             var statments = parser.Parse();
 
@@ -196,7 +199,8 @@ namespace AssemblerTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 
@@ -247,7 +251,8 @@ namespace AssemblerTests
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
-            var parser = new Parser(lexer, directOperandFactory);
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
             parser.Parse();
 

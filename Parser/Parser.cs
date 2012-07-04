@@ -33,22 +33,17 @@ namespace Parser
 
     public class Parser : IParser
     {
-        private static readonly IDictionary<Type, Func<TokenBase, Operand>> IndirectOperandCreationStrategyMapper =
-            new Dictionary<Type, Func<TokenBase, Operand>>
-                {
-                    { typeof(RegisterToken), t => { return new IndirectRegisterOperandBuilder().Build(t); } },
-                    { typeof(LabelReferenceToken), t => { return new LabelReferenceOperandBuilder().Build(t); } },
-                    { typeof(HexToken), t => { return new IndirectNextWordOperandBuilder().Build(t); } },
-                };
-
         private readonly IConsumeTokenStrategy consumeStrategy = new ConsumeTokenStrategy();
 
         private readonly IOperandFactory directOperandFactory;
+        private readonly IOperandFactory indirectOperandFactory;
+
         private readonly ILexer lexer;
 
-        public Parser(ILexer lexer, IOperandFactory directOperandFactory)
+        public Parser(ILexer lexer, IOperandFactory directOperandFactory, IOperandFactory indirectOperandFactory)
         {
             this.lexer = lexer;
+            this.indirectOperandFactory = indirectOperandFactory;
             this.directOperandFactory = directOperandFactory;
             lexer.ConsumeTokenStrategy = new PeekTokenStrategy();
             lexer.IgnoreTokenStrategy = new IgnoreWhiteSpaceTokenStrategy();
@@ -190,7 +185,7 @@ namespace Parser
             }
             else
             {
-                operand = IndirectOperandCreationStrategyMapper[token.GetType()](token);
+                operand = this.indirectOperandFactory.CreateOperand(token);
             }
 
             this.AssertIndirectOperandIsTerminatedWithACloseBracketToken();

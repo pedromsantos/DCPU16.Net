@@ -38,6 +38,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IndirectOperandFactory.cs" />
     <Compile Include="DirectOperandFactory.cs" />
     <Compile Include="IOperandFactory.cs" />
     <Compile Include="IParser.cs" />
