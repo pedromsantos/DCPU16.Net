@@ -69,7 +69,7 @@ namespace Parser
         {
             this.DiscardEmptyLines();
 
-            if (this.lexer.NextToken() == null)
+            if (this.PeekNextToken() == null)
             {
                 return false;
             }
@@ -99,11 +99,11 @@ namespace Parser
             TokenBase token;
             do
             {
-                token = this.lexer.NextToken();
+                token = this.PeekNextToken();
 
                 if (token is CommentToken || token is WhiteSpaceToken)
                 {
-                    token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+                    token = this.ConsumeNextToken();
                 }
                 else
                 {
@@ -115,18 +115,18 @@ namespace Parser
 
         private void ParseLabel()
         {
-            var token = this.lexer.NextToken();
+            var token = this.PeekNextToken();
 
             if (token is LabelToken)
             {
-                this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+                this.ConsumeNextToken();
                 currentStatment.Label = token.Content;
             }
         }
 
         private void ParseMenemonic()
         {
-            var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+            var token = this.ConsumeNextToken();
 
             if (!(token is InstructionToken))
             {
@@ -143,11 +143,11 @@ namespace Parser
 
         private void ParseComments()
         {
-            var token = this.lexer.NextToken();
+            var token = this.PeekNextToken();
 
             if (token is CommentToken)
             {
-                this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+                this.ConsumeNextToken();
             }
         }
 
@@ -155,7 +155,7 @@ namespace Parser
         {
             currentStatment.OperandA = this.ParseOperand();
 
-            var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+            var token = this.ConsumeNextToken();
 
             if (token is CommaToken)
             {
@@ -165,7 +165,7 @@ namespace Parser
 
         private Operand ParseOperand()
         {
-            var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+            var token = this.ConsumeNextToken();
 
             if (token is OpenBracketToken)
             {
@@ -177,14 +177,14 @@ namespace Parser
 
         private Operand ParseIndirectOperand()
         {
-            var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+            var token = this.ConsumeNextToken();
 
             Operand operand;
 
-            if (this.lexer.NextToken() is PluslToken)
+            if (this.PeekNextToken() is PluslToken)
             {
-                this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
-                var rigthToken = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+                this.ConsumeNextToken();
+                var rigthToken = this.ConsumeNextToken();
                 operand = new IndirectNextWordOffsetOperandBuilder(token).Build(rigthToken);
             }
             else
@@ -199,7 +199,7 @@ namespace Parser
 
         private void AssertIndirectOperandIsTerminatedWithACloseBracketToken()
         {
-            var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+            var token = this.ConsumeNextToken();
 
             if (!(token is CloseBracketToken))
             {
@@ -216,16 +216,16 @@ namespace Parser
         {
             do
             {
-                if (this.lexer.NextToken() is CommaToken)
+                if (this.PeekNextToken() is CommaToken)
                 {
-                    this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+                    this.ConsumeNextToken();
                 }
 
-                var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+                var token = this.ConsumeNextToken();
 
 				AddDatToCurrentStatment(token);
             }
-            while (this.lexer.NextToken() is CommaToken);
+            while (this.PeekNextToken() is CommaToken);
         }
 
 		private void AddDatToCurrentStatment(TokenBase token)
@@ -245,6 +245,16 @@ namespace Parser
 					currentStatment.Dat.Add(t);
 				}
 			}
+		}
+
+		private TokenBase PeekNextToken()
+		{
+			return this.lexer.NextToken();
+		}
+
+		private TokenBase ConsumeNextToken()
+		{
+			return this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
 		}
     }
 }
