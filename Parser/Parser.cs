@@ -39,6 +39,8 @@ namespace Parser
         private readonly IOperandFactory directOperandFactory;
         private readonly IOperandFactory indirectOperandFactory;
 
+		private Statment currentStatment;
+
         private readonly ILexer lexer;
 
         public Parser(ILexer lexer, IOperandFactory directOperandFactory, IOperandFactory indirectOperandFactory)
@@ -72,21 +74,21 @@ namespace Parser
                 return false;
             }
 
-            var statment = new Statment();
+            currentStatment = new Statment();
 
-            this.ParseLabel(statment);
-            this.ParseMenemonic(statment);
+            this.ParseLabel();
+            this.ParseMenemonic();
             
-            if (statment.Menemonic != "DAT")
+            if (currentStatment.Menemonic != "DAT")
             {
-                this.ParseOperands(statment);
+                this.ParseOperands();
             }
             else
             {
-                this.ParseData(statment);
+                this.ParseData();
             }
 
-            this.Statments.Add(statment);
+            this.Statments.Add(currentStatment);
             this.ParseComments();
 
             return true;
@@ -111,18 +113,18 @@ namespace Parser
             while (token is CommentToken || token is WhiteSpaceToken);
         }
 
-        private void ParseLabel(Statment statment)
+        private void ParseLabel()
         {
             var token = this.lexer.NextToken();
 
             if (token is LabelToken)
             {
                 this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
-                statment.Label = token.Content;
+                currentStatment.Label = token.Content;
             }
         }
 
-        private void ParseMenemonic(Statment statment)
+        private void ParseMenemonic()
         {
             var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
 
@@ -136,7 +138,7 @@ namespace Parser
                     token.Content));
             }
 
-            statment.Menemonic = token.Content.ToUpper();
+            currentStatment.Menemonic = token.Content.ToUpper();
         }
 
         private void ParseComments()
@@ -149,15 +151,15 @@ namespace Parser
             }
         }
 
-        private void ParseOperands(Statment statment)
+        private void ParseOperands()
         {
-            statment.OperandA = this.ParseOperand();
+            currentStatment.OperandA = this.ParseOperand();
 
             var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
 
             if (token is CommaToken)
             {
-                statment.OperandB = this.ParseOperand();
+                currentStatment.OperandB = this.ParseOperand();
             }
         }
 
@@ -209,8 +211,8 @@ namespace Parser
                         token.Content));
             }
         }
-        
-        private void ParseData(Statment statment)
+
+        private void ParseData()
         {
             do
             {
@@ -221,23 +223,28 @@ namespace Parser
 
                 var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
 
-                if (token is HexToken)
-                {
-                    statment.Dat.Add(Convert.ToUInt16(token.Content, 16));
-                }
-                else if (token is DecimalToken)
-                {
-                    statment.Dat.Add(Convert.ToUInt16(token.Content, 10));
-                }
-                else if (token is StringToken)
-                {
-                    foreach (var t in token.Content.Where(t => t != ' '))
-                    {
-                        statment.Dat.Add(t);
-                    }
-                }
+				AddDatToStatment(token);
             }
             while (this.lexer.NextToken() is CommaToken);
         }
+
+		private void AddDatToStatment(TokenBase token)
+		{
+			if (token is HexToken) 
+			{
+				currentStatment.Dat.Add(Convert.ToUInt16 (token.Content, 16));
+			}
+			else if (token is DecimalToken) 
+			{
+				currentStatment.Dat.Add(Convert.ToUInt16 (token.Content, 10));
+			}
+			else if (token is StringToken) 
+			{
+				foreach(var t in token.Content.Where (t => t != ' ')) 
+				{
+					currentStatment.Dat.Add(t);
+				}
+			}
+		}
     }
 }
