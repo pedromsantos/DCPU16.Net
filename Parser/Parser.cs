@@ -223,12 +223,12 @@ namespace Parser
 
                 var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
 
-				AddDatToStatment(token);
+				AddDatToCurrentStatment(token);
             }
             while (this.lexer.NextToken() is CommaToken);
         }
 
-		private void AddDatToStatment(TokenBase token)
+		private void AddDatToCurrentStatment(TokenBase token)
 		{
 			if (token is HexToken) 
 			{
