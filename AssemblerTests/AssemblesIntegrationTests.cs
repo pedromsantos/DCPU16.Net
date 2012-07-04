@@ -32,6 +32,8 @@ namespace AssemblerTests
 
     using NUnit.Framework;
 
+    using Parser;
+
     [TestFixture]
     public class AssemblesIntegrationTests
     {
@@ -64,8 +66,9 @@ namespace AssemblerTests
             const string Code = "SET I, 10";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser.Parser(lexer);
-
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
+            
             var statments = parser.Parse();
 
             var assembler = new Assembler();
@@ -81,7 +84,8 @@ namespace AssemblerTests
             const string Code = "SET A, 0x30";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser.Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
 
@@ -99,7 +103,9 @@ namespace AssemblerTests
             const string Code = "SET [0x1000], 0x20";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser.Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
+
 
             var statments = parser.Parse();
 
@@ -118,7 +124,9 @@ namespace AssemblerTests
             const string Code = "SET [0x2000+I], [A]";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser.Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
+
 
             var statments = parser.Parse();
 
@@ -137,8 +145,9 @@ namespace AssemblerTests
                                  SET I, 0";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser.Parser(lexer);
-
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
+            
             var statments = parser.Parse();
 
             var assembler = new Assembler();
@@ -186,7 +195,8 @@ namespace AssemblerTests
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser.Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 
@@ -236,7 +246,8 @@ namespace AssemblerTests
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser.Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 

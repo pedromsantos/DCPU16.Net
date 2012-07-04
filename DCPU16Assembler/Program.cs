@@ -77,7 +77,8 @@ namespace DCPU16Assembler
 
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, Matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
             parser.Parse();
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(parser.Statments);

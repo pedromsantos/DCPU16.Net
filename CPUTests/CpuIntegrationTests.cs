@@ -96,7 +96,9 @@ namespace CPUTests
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
+
             parser.Parse();
             var statments = parser.Statments;
             var assembler = new Assembler();
@@ -141,7 +143,9 @@ namespace CPUTests
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
+
             parser.Parse();
             var statments = parser.Statments;
             var assembler = new Assembler();

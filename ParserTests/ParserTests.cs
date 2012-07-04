@@ -37,7 +37,8 @@ namespace ParserTests
         public void ParseWhenCalledForEmptySourceReturnsEmptyStatmentCollection()
         {
             var lexer = new Mock<ILexer>();
-            var parser = new Parser(lexer.Object);
+            var directOperandFactory = new Mock<IOperandFactory>();
+            var parser = new Parser(lexer.Object, directOperandFactory.Object);
 
             Assert.That(parser.Parse(), Is.Empty);
         }

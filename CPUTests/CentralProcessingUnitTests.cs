@@ -50,7 +50,8 @@ namespace CPUTests
 
             var reader = new StringReader("SET PUSH, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -72,7 +73,8 @@ namespace CPUTests
 
             var reader = new StringReader("SET PUSH, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();

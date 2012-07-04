@@ -84,7 +84,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -109,7 +110,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -143,7 +145,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -176,7 +179,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -209,7 +213,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -242,7 +247,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -275,7 +281,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -308,7 +315,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -341,7 +349,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -373,7 +382,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -400,7 +410,8 @@ namespace CPUTests
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -427,7 +438,8 @@ namespace CPUTests
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -460,7 +472,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -484,7 +497,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -508,7 +522,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -532,7 +547,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -556,7 +572,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -578,7 +595,8 @@ namespace CPUTests
         {
             var reader = new StringReader("SET O, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -600,7 +618,8 @@ namespace CPUTests
         {
             var reader = new StringReader("SET PC, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -622,7 +641,8 @@ namespace CPUTests
         {
             var reader = new StringReader("SET PUSH, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -644,7 +664,8 @@ namespace CPUTests
         {
             var reader = new StringReader("SET PUSH, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -675,7 +696,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -706,7 +728,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -737,7 +760,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -762,7 +786,8 @@ namespace CPUTests
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -786,7 +811,8 @@ namespace CPUTests
         {
             var reader = new StringReader("SET SP, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -817,7 +843,8 @@ namespace CPUTests
         {
             var reader = new StringReader(code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -841,7 +868,8 @@ namespace CPUTests
         {
             var reader = new StringReader("IFE A, 1");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -863,7 +891,8 @@ namespace CPUTests
         {
             var reader = new StringReader("JSR 0x04");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -886,7 +915,8 @@ namespace CPUTests
         {
             var reader = new StringReader("JSR 0x04");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -909,7 +939,8 @@ namespace CPUTests
         {
             var reader = new StringReader("IFN A, 0");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -931,7 +962,8 @@ namespace CPUTests
         {
             var reader = new StringReader("IFG A, 0");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -953,7 +985,8 @@ namespace CPUTests
         {
             var reader = new StringReader("IFB A, 0x0");
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             var statments = parser.Parse();
             var assembler = new Assembler();
@@ -1002,7 +1035,9 @@ namespace CPUTests
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
+
             parser.Parse();
             var statments = parser.Statments;
             var assembler = new Assembler();

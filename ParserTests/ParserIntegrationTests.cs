@@ -69,7 +69,8 @@ namespace ParserTests
             const string Code = "SET I, 10";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 
@@ -89,7 +90,8 @@ namespace ParserTests
             const string Code = "SET X, 0x4";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 
@@ -109,7 +111,8 @@ namespace ParserTests
             const string Code = "SET [0x1000], 0x20";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 
@@ -129,7 +132,8 @@ namespace ParserTests
             const string Code = "SET PC, crash";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 
@@ -144,12 +148,13 @@ namespace ParserTests
         }
 
         [Test]
-        public void ParseWhenCalledWithJSRandLabelRefGenertesCorrectStatments()
+        public void ParseWhenCalledWithJsRandLabelRefGenertesCorrectStatments()
         {
             const string Code = "JSR testsub";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 
@@ -168,7 +173,8 @@ namespace ParserTests
             const string Code = "JSM testsub";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             Assert.Throws<Exception>(() => parser.Parse());
         }
@@ -179,7 +185,8 @@ namespace ParserTests
             const string Code = "JSM \"testsub\"";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             Assert.Throws<Exception>(() => parser.Parse());
         }
@@ -190,7 +197,8 @@ namespace ParserTests
             const string Code = "SET [0x1000, 0x20";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             Assert.Throws<Exception>(() => parser.Parse());
         }
@@ -202,7 +210,8 @@ namespace ParserTests
                                  SET I, 0";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 
@@ -226,7 +235,8 @@ namespace ParserTests
                                  SET I, 0";
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 
@@ -284,7 +294,8 @@ namespace ParserTests
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 
@@ -318,7 +329,8 @@ namespace ParserTests
 
             var reader = new StringReader(Code);
             var lexer = new PeekLexer(reader, this.matchers);
-            var parser = new Parser(lexer);
+            var directOperandFactory = new DirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory);
 
             parser.Parse();
 

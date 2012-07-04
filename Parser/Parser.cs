@@ -33,16 +33,6 @@ namespace Parser
 
     public class Parser : IParser
     {
-        private static readonly IDictionary<Type, Func<Parser, TokenBase, Operand>> OperandCreationStrategyMapper =
-            new Dictionary<Type, Func<Parser, TokenBase, Operand>>
-                {
-                    { typeof(RegisterToken), (p, t) => { return new RegisterOperandBuilder().Build(t); } },
-                    { typeof(LabelReferenceToken), (p, t) => { return new LabelReferenceOperandBuilder().Build(t); } },
-                    { typeof(HexToken), (p, t) => { return new NextWordOperandBuilder().Build(t); } },
-                    { typeof(DecimalToken), (p, t) => { return new NextWordOperandBuilder().Build(t); } },
-                    { typeof(OpenBracketToken), (p, t) => { return p.ParseIndirectOperand(); } },
-                };
-
         private static readonly IDictionary<Type, Func<TokenBase, Operand>> IndirectOperandCreationStrategyMapper =
             new Dictionary<Type, Func<TokenBase, Operand>>
                 {
@@ -52,11 +42,14 @@ namespace Parser
                 };
 
         private readonly IConsumeTokenStrategy consumeStrategy = new ConsumeTokenStrategy();
+
+        private readonly IOperandFactory directOperandFactory;
         private readonly ILexer lexer;
 
-        public Parser(ILexer lexer)
+        public Parser(ILexer lexer, IOperandFactory directOperandFactory)
         {
             this.lexer = lexer;
+            this.directOperandFactory = directOperandFactory;
             lexer.ConsumeTokenStrategy = new PeekTokenStrategy();
             lexer.IgnoreTokenStrategy = new IgnoreWhiteSpaceTokenStrategy();
 
@@ -175,7 +168,12 @@ namespace Parser
         {
             var token = this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
 
-            return OperandCreationStrategyMapper[token.GetType()](this, token);
+            if (token is OpenBracketToken)
+            {
+                return this.ParseIndirectOperand();
+            }
+
+            return this.directOperandFactory.CreateOperand(token);
         }
 
         private Operand ParseIndirectOperand()

@@ -39,7 +39,6 @@ namespace Parser
                     { typeof(LabelReferenceToken), (t) => { return new LabelReferenceOperandBuilder().Build(t); } },
                     { typeof(HexToken), (t) => { return new NextWordOperandBuilder().Build(t); } },
                     { typeof(DecimalToken), (t) => { return new NextWordOperandBuilder().Build(t); } },
-                    //{ typeof(OpenBracketToken), (t) => { return p.ParseIndirectOperand(); } },
                 };
 
         public Operand CreateOperand(TokenBase token)
