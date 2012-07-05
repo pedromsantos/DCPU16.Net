@@ -34,5 +34,10 @@ namespace Model.Operands
         {
             return (ushort)((ushort)OperandType.OPush << shift);
         }
+
+        public override string ToString()
+        {
+            return "PUSH";
+        }
     }
 }

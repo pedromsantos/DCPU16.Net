@@ -34,5 +34,10 @@ namespace CPU.Instructions
             this.OperationA.Write = OperationB.Read;
             return 0;
         }
+
+        public override string ToString()
+        {
+            return "SET" + "    " + base.ToString();
+        }
     }
 }

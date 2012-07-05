@@ -51,5 +51,10 @@ namespace Model.Operands
 
             return (ushort)((ushort)OperandType.OIndirectNextWord << shift);
         }
+
+        public override string ToString()
+        {
+            return string.Format("[{0}]", nextWordAddress);
+        }
     }
 }

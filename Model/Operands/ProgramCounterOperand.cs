@@ -38,5 +38,10 @@ namespace Model.Operands
         {
             return (ushort)((ushort)OperandType.OPc << shift);
         }
+
+        public override string ToString()
+        {
+            return "PC";
+        }
     }
 }

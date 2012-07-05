@@ -38,5 +38,10 @@ namespace Model.Operands
         {
             return (ushort)(((ushort)OperandType.OReg + (ushort)this.RegisterValue) << shift);
         }
+
+        public override string ToString()
+        {
+            return this.OperandValue.ToString();
+        }
     }
 }

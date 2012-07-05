@@ -35,5 +35,10 @@ namespace Model.Operands
         {
             return (ushort)((ushort)OperandType.OPop << shift);
         }
+
+        public override string ToString()
+        {
+            return "POP";
+        }
     }
 }

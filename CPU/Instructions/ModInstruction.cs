@@ -35,5 +35,10 @@ namespace CPU.Instructions
             this.OperationA.Write = result;
             return result;
         }
+
+        public override string ToString()
+        {
+            return "MOD" + "    " + base.ToString();
+        }
     }
 }

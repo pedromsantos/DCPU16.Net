@@ -52,5 +52,10 @@ namespace Model.Operands
         {
             return (ushort)(((ushort)OperandType.OIndirectNextWordOffset + this.RegisterValue) << shift);
         }
+
+        public override string ToString()
+        {
+            return string.Format("[{0}+{1}]", nextWordAddress, registerValue);
+        }
     }
 }

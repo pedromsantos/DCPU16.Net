@@ -27,7 +27,7 @@ namespace CPU
 
     using Model;
 
-    public delegate void InstructionExecutionHandler(ushort instruction);
+    public delegate void InstructionExecutionHandler(ushort rawInstruction, Instruction instruction);
 
     public class CentralProcessingUnit : ICentralProcessingUnitStateOperations
     {
@@ -276,14 +276,14 @@ namespace CPU
             {
                 if (this.InstructionWillExecute != null)
                 {
-                    this.InstructionWillExecute(rawInstruction);
+                    this.InstructionWillExecute(rawInstruction, instruction);
                 }
 
                 instruction.Execute();
 
                 if (this.InstructionDidExecute != null)
                 {
-                    this.InstructionDidExecute(rawInstruction);
+                    this.InstructionDidExecute(rawInstruction, instruction);
                 }
             }
             else

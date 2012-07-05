@@ -35,5 +35,10 @@ namespace CPU.Instructions
 
             return 0;
         }
+
+        public override string ToString()
+        {
+            return "JSR" + "    " + base.ToString();
+        }
     }
 }

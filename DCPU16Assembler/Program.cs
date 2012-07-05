@@ -57,6 +57,7 @@ namespace DCPU16Assembler
                 };
 
         private static readonly IDictionary<int, ushort> LoadedInstructions = new Dictionary<int, ushort>();
+        private static readonly IList<KeyValuePair<ushort, Instruction>> ExecutedInstructions = new List<KeyValuePair<ushort, Instruction>>();
 
         public static void Main(string[] args)
         {
@@ -85,6 +86,8 @@ namespace DCPU16Assembler
                 DisplayRegisters();
                 DisplayInstructions(0);
                 DisplayStack();
+                DisplayExecutedInstructions();
+                DisplayExecutedTextInstructions();
 
                 RunProgram(args[1]);
             }
@@ -109,6 +112,8 @@ namespace DCPU16Assembler
             emulator.StackPointerDidChange += StackPointerDidChange;
             emulator.OverflowDidChange += OverflowDidChange;
             emulator.InstructionWillExecute += InstructionWillExecute;
+            emulator.InstructionWillExecute += (rawInstruction, Instruction) => ExecutedInstructions.Add(new KeyValuePair<ushort, Instruction>(rawInstruction, Instruction));
+            emulator.InstructionDidExecute += InstructionDidExecute;
             emulator.RunLoadedProgram();
         }
 
@@ -167,13 +172,13 @@ namespace DCPU16Assembler
             ConsoleEx.WriteAt(3, 9, string.Format("I: 0x{0:X4}", 0));
             ConsoleEx.WriteAt(3, 10, string.Format("J: 0x{0:X4}", 0));
             ConsoleEx.WriteAt(3, 11, string.Format("O: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 12, string.Format("PC: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 13, string.Format("SP: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(2, 12, string.Format("PC: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(2, 13, string.Format("SP: 0x{0:X4}", 0));
         }
 
         private static void RegisterDidChange(int register, ushort value)
         {
-            ConsoleEx.WriteAt(5, 3 + register, string.Format("0x{0:X4}", value));
+            ConsoleEx.WriteAt(6, 3 + register, string.Format("0x{0:X4}", value));
         }
 
         private static void ProgramCounterDidChange(int register, ushort value)
@@ -188,10 +193,25 @@ namespace DCPU16Assembler
 
         private static void OverflowDidChange(int register, ushort value)
         {
-            ConsoleEx.WriteAt(5, 11, string.Format("0x{0:X4}", value));
+            ConsoleEx.WriteAt(6, 11, string.Format("0x{0:X4}", value));
         }
 
-        private static void InstructionWillExecute(ushort instruction)
+        private static void InstructionDidExecute(ushort rawInstruction, Instruction instruction)
+        {
+            if (ExecutedInstructions.Count > 20)
+            {
+                ExecutedInstructions.Clear();
+            }
+
+            int line = ExecutedInstructions.Count + 3;
+
+            ConsoleEx.WriteAt(18, line, string.Format("0x{0:X4}", rawInstruction));
+
+            ConsoleEx.WriteAt(29, line, "                         ");
+            ConsoleEx.WriteAt(29, line, instruction.ToString());
+        }
+
+        private static void InstructionWillExecute(ushort rawInstruction, Instruction instruction)
         {
             //DisplayInstructions(instruction);
         }
@@ -217,6 +237,24 @@ namespace DCPU16Assembler
                     line++;
                 }
             }
+        }
+
+        private static void DisplayExecutedInstructions()
+        {
+            ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
+            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 15, 0, 11, 24, true);
+            ConsoleEx.CursorVisible = false;
+
+            ConsoleEx.WriteAt(17, 1, "EXECUTED");
+        }
+
+        private static void DisplayExecutedTextInstructions()
+        {
+            ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
+            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 27, 0, 27, 24, true);
+            ConsoleEx.CursorVisible = false;
+
+            ConsoleEx.WriteAt(36, 1, "DIASSEMBLE");
         }
 
         private static void DisplayStack()

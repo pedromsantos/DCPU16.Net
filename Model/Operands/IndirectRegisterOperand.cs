@@ -40,5 +40,10 @@ namespace Model.Operands
         {
             return (ushort)(((ushort)OperandType.OIndirectReg + this.RegisterValue) << shift);
         }
+
+        public override string ToString()
+        {
+            return string.Format("[]");
+        }
     }
 }

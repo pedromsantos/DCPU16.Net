@@ -42,5 +42,10 @@ namespace CPU.Instructions
             OperationA.SetIgnoreNextInstruction();
             return 0;
         }
+
+        public override string ToString()
+        {
+            return "IFN" + "    " + base.ToString();
+        }
     }
 }

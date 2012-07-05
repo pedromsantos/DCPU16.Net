@@ -39,5 +39,10 @@ namespace CPU.Instructions
             this.OperationA.SetOverflowRegister((ushort)((leftOperand >> 16) & 0xFFFF));
             return result;
         }
+
+        public override string ToString()
+        {
+            return "MUL" + "    " + base.ToString();
+        }
     }
 }

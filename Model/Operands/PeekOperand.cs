@@ -33,5 +33,10 @@ namespace Model.Operands
         {
             return (ushort)((ushort)OperandType.OPeek << shift);
         }
+
+        public override string ToString()
+        {
+            return "PEEK";
+        }
     }
 }

@@ -87,5 +87,10 @@ namespace CPU
         {
             this.operand.NoOp(this.cpuStateManager);
         }
+
+        public override string ToString()
+        {
+            return operand.ToString();
+        }
     }
 }

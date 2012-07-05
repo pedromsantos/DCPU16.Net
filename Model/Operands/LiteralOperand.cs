@@ -33,5 +33,10 @@ namespace Model.Operands
         {
             return 1;
         }
+
+        public override string ToString()
+        {
+            return ((this.OperandValue - 0x20) % NumberOfLiterals).ToString();
+        }
     }
 }

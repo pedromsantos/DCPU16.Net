@@ -49,5 +49,10 @@ namespace CPU.Instructions
 
             return result;
         }
+
+        public override string ToString()
+        {
+            return "DIV" + "    " + base.ToString();
+        }
     }
 }

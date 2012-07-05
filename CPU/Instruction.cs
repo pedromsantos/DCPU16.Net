@@ -65,5 +65,10 @@ namespace CPU
         */
 
         protected abstract int Process();
+
+        public override string ToString()
+        {
+            return this.OperationA.ToString() + "    " + OperationB.ToString();
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace CPUTests
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     using Assembler;
 
@@ -46,7 +47,7 @@ namespace CPUTests
         [Test]
         public void ExecuteNextInstructionWhenCalledFiresInstructionWillExecuteIfWired()
         {
-            var receivedEvents = new List<ushort>();
+            var receivedEvents = new Dictionary<ushort, Instruction>();
 
             var reader = new StringReader("SET PUSH, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
@@ -64,13 +65,13 @@ namespace CPUTests
             cpu.LoadProgram(program);
             cpu.ExecuteNextInstruction();
 
-            Assert.That(receivedEvents[0] == program[0]);
+            Assert.That(receivedEvents.Keys.First() == program[0]);
         }
 
         [Test]
         public void ExecuteNextInstructionWhenCalledFiresInstructionDidExecuteIfWired()
         {
-            var receivedEvents = new List<ushort>();
+            var receivedEvents = new Dictionary<ushort, Instruction>();
 
             var reader = new StringReader("SET PUSH, 0x10");
             var lexer = new PeekLexer(reader, this.matchers);
@@ -88,7 +89,7 @@ namespace CPUTests
             cpu.LoadProgram(program);
             cpu.ExecuteNextInstruction();
 
-            Assert.That(receivedEvents[0] == program[0]);
+            Assert.That(receivedEvents.Keys.First() == program[0]);
         }
 
         [SetUp]

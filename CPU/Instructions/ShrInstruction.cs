@@ -39,5 +39,10 @@ namespace CPU.Instructions
             this.OperationA.SetOverflowRegister((ushort)(((leftOperand << 16) >> rigthOperand) & 0xFFFF));
             return result;
         }
+
+        public override string ToString()
+        {
+            return "SHR" + "    " + base.ToString();
+        }
     }
 }
