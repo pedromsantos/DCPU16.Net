@@ -39,9 +39,9 @@ namespace Parser
         private readonly IOperandFactory directOperandFactory;
         private readonly IOperandFactory indirectOperandFactory;
 
-		private Statment currentStatment;
-
         private readonly ILexer lexer;
+
+        private Statment currentStatment;
 
         public Parser(ILexer lexer, IOperandFactory directOperandFactory, IOperandFactory indirectOperandFactory)
         {
@@ -74,12 +74,12 @@ namespace Parser
                 return false;
             }
 
-            currentStatment = new Statment();
+            this.currentStatment = new Statment();
 
             this.ParseLabel();
             this.ParseMenemonic();
             
-            if (currentStatment.Menemonic != "DAT")
+            if (this.currentStatment.Menemonic != "DAT")
             {
                 this.ParseOperands();
             }
@@ -88,7 +88,7 @@ namespace Parser
                 this.ParseData();
             }
 
-            this.Statments.Add(currentStatment);
+            this.Statments.Add(this.currentStatment);
             this.ParseComments();
 
             return true;
@@ -120,7 +120,7 @@ namespace Parser
             if (token is LabelToken)
             {
                 this.ConsumeNextToken();
-                currentStatment.Label = token.Content;
+                this.currentStatment.Label = token.Content;
             }
         }
 
@@ -138,7 +138,7 @@ namespace Parser
                     token.Content));
             }
 
-            currentStatment.Menemonic = token.Content.ToUpper();
+            this.currentStatment.Menemonic = token.Content.ToUpper();
         }
 
         private void ParseComments()
@@ -153,13 +153,13 @@ namespace Parser
 
         private void ParseOperands()
         {
-            currentStatment.OperandA = this.ParseOperand();
+            this.currentStatment.OperandA = this.ParseOperand();
 
             var token = this.ConsumeNextToken();
 
             if (token is CommaToken)
             {
-                currentStatment.OperandB = this.ParseOperand();
+                this.currentStatment.OperandB = this.ParseOperand();
             }
         }
 
@@ -223,38 +223,38 @@ namespace Parser
 
                 var token = this.ConsumeNextToken();
 
-				AddDatToCurrentStatment(token);
+                this.AddDatToCurrentStatment(token);
             }
             while (this.PeekNextToken() is CommaToken);
         }
 
-		private void AddDatToCurrentStatment(TokenBase token)
-		{
-			if (token is HexToken) 
-			{
-				currentStatment.Dat.Add(Convert.ToUInt16 (token.Content, 16));
-			}
-			else if (token is DecimalToken) 
-			{
-				currentStatment.Dat.Add(Convert.ToUInt16 (token.Content, 10));
-			}
-			else if (token is StringToken) 
-			{
-				foreach(var t in token.Content.Where (t => t != ' ')) 
-				{
-					currentStatment.Dat.Add(t);
-				}
-			}
-		}
+        private void AddDatToCurrentStatment(TokenBase token)
+        {
+            if (token is HexToken)
+            {
+                this.currentStatment.Dat.Add(Convert.ToUInt16(token.Content, 16));
+            }
+            else if (token is DecimalToken)
+            {
+                this.currentStatment.Dat.Add(Convert.ToUInt16(token.Content, 10));
+            }
+            else if (token is StringToken)
+            {
+                foreach (var t in token.Content.Where(t => t != ' '))
+                {
+                    this.currentStatment.Dat.Add(t);
+                }
+            }
+        }
 
-		private TokenBase PeekNextToken()
-		{
-			return this.lexer.NextToken();
-		}
+        private TokenBase PeekNextToken()
+        {
+            return this.lexer.NextToken();
+        }
 
-		private TokenBase ConsumeNextToken()
-		{
-			return this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
-		}
+        private TokenBase ConsumeNextToken()
+        {
+            return this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+        }
     }
 }
