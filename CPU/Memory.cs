@@ -61,6 +61,8 @@ namespace CPU
 
         public event MemoryChangeHandler MemoryDidChange;
 
+        public event MemoryChangeHandler InstructionDidLoad;
+
         public event MemoryChangeHandler VideoMemoryDidChange;
 
         public event MemoryChangeHandler KeyboardMemoryDidChange;
@@ -110,6 +112,12 @@ namespace CPU
             foreach (var instruction in program)
             {
                 this.WriteValueAtAddress(address, instruction);
+                
+                if (this.InstructionDidLoad != null)
+                {
+                    this.InstructionDidLoad(address, instruction);
+                }
+
                 address++;
             }
         }

@@ -55,6 +55,19 @@ namespace CPU
         
         public event InstructionExecutionHandler InstructionDidExecute;
 
+        public event MemoryChangeHandler InstructionDidLoad
+        {
+            add
+            {
+                this.memory.InstructionDidLoad += value;
+            }
+
+            remove
+            {
+                this.memory.InstructionDidLoad -= value;
+            }
+        }
+
         public event MemoryChangeHandler MemoryWillChange
         {
             add
@@ -267,7 +280,6 @@ namespace CPU
                 }
 
                 instruction.Execute();
-                this.DebugShowRegisters();
 
                 if (this.InstructionDidExecute != null)
                 {
@@ -352,39 +364,6 @@ namespace CPU
             {
                 this.programCounterSet = false;
             }
-        }
-
-        [Conditional("DEBUG")]
-        private void DebugShowRegisters()
-        {
-            Debug.WriteLine("----------------");
-            Debug.WriteLine("Register Info");
-            Debug.WriteLine(
-                string.Format(
-                    "\tA = {0:X4},\tB = {1:X4},\tC = {2:X4}",
-                    this.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegA),
-                    this.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegB),
-                this.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegC)));
-
-            Debug.WriteLine(
-                string.Format(
-                    "\tX = {0:X4},\tY = {1:X4},\tZ = {2:X4}",
-                    this.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegX),
-                    this.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegY),
-                this.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegZ)));
-
-            Debug.WriteLine(
-                string.Format(
-                    "\tI = {0:X4},\tJ = {1:X4}",
-                    this.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegI),
-                    this.ReadGeneralPursoseRegisterValue((ushort)RegisterIdentifier.RegJ)));
-
-            Debug.WriteLine(
-                string.Format(
-                    "\tPC = {0:X4},\tSP = {1:X4},\tO = {2:X4}",
-                    this.ProgramCounter,
-                    this.StackPointer,
-                this.Overflow));
         }
     }
 }

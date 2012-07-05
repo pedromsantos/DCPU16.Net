@@ -65,6 +65,19 @@ namespace CPU
             }
         }
 
+        public event MemoryChangeHandler InstructionDidLoad
+        {
+            add
+            {
+                this.cpu.InstructionDidLoad += value;
+            }
+
+            remove
+            {
+                this.cpu.InstructionDidLoad -= value;
+            }
+        }
+
         public event MemoryChangeHandler MemoryWillChange
         {
             add
@@ -166,6 +179,32 @@ namespace CPU
             remove
             {
                 this.cpu.StackPointerDidChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler OverflowWillChange
+        {
+            add
+            {
+                this.cpu.OverflowWillChange += value;
+            }
+
+            remove
+            {
+                this.cpu.OverflowWillChange -= value;
+            }
+        }
+
+        public event RegisterChangeHandler OverflowDidChange
+        {
+            add
+            {
+                this.cpu.OverflowDidChange += value;
+            }
+
+            remove
+            {
+                this.cpu.OverflowDidChange -= value;
             }
         }
 
