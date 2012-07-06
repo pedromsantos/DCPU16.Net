@@ -29,16 +29,19 @@ namespace CPU.Instructions
         {
         }
 
+        public override string Token
+        {
+            get
+            {
+                return "SUB";
+            }
+        }
+
         protected override int Process()
         {
             var result = OperationA.Read - OperationB.Read;
             this.OperationA.Write = result;
             return result;
-        }
-
-        public override string ToString()
-        {
-            return "SUB" + "    " + base.ToString();
         }
     }
 }

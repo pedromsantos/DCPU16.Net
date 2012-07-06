@@ -24,6 +24,7 @@ namespace CPU
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Threading;
 
     using Model;
 
@@ -278,6 +279,18 @@ namespace CPU
             do
             {
                 executed = this.cpu.ExecuteNextInstruction();
+            }
+            while (executed);
+        }
+
+        public void RunLoadedProgramWithDelay(int intervalBetweenInstructions)
+        {
+            bool executed;
+
+            do
+            {
+                executed = this.cpu.ExecuteNextInstruction();
+                Thread.Sleep(intervalBetweenInstructions);
             }
             while (executed);
         }

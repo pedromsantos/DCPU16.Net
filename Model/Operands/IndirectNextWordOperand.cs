@@ -42,6 +42,11 @@ namespace Model.Operands
             this.nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
         }
 
+        public override string ToString()
+        {
+            return string.Format("[0x{0:X4}]", this.nextWordAddress);
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
@@ -50,11 +55,6 @@ namespace Model.Operands
             }
 
             return (ushort)((ushort)OperandType.OIndirectNextWord << shift);
-        }
-
-        public override string ToString()
-        {
-            return string.Format("[{0}]", nextWordAddress);
         }
     }
 }

@@ -43,6 +43,14 @@ namespace Model
 
         public int NextWord { get; set; }
 
+        public string Token
+        {
+            get
+            {
+                return "";
+            }
+        }
+
         public virtual ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
             return 0;
@@ -57,9 +65,9 @@ namespace Model
         {
         }
 
-		public virtual void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
-		{
-		}
+        public virtual void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+        }
 
         public ushort AssembleOperand(ushort index)
         {

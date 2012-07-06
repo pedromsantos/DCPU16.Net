@@ -36,8 +36,8 @@ namespace Model
 
     public enum SpecialRegisterIdentifier
     {
-        SregPc,
-        SregSp,
-        SregO,
+        SregPc = 8,
+        SregSp = 9,
+        SregO = 10,
     };
 }

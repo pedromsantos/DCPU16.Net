@@ -24,11 +24,21 @@ namespace CPU
 {
     public abstract class Instruction
     {
+        protected const string FormatSpaces = "  ";
+
         protected Instruction(ushort rawInstruction, CpuOperation operationA, CpuOperation operationB)
         {
             this.RawInstruction = rawInstruction;
             this.OperationA = operationA;
             this.OperationB = operationB;
+        }
+
+        public virtual string Token
+        {
+            get
+            {
+                return string.Empty;
+            }
         }
 
         protected CpuOperation OperationA { get; private set; }
@@ -58,6 +68,11 @@ namespace CPU
             this.OperationB.NoOp();
         }
 
+        public override string ToString()
+        {
+            return this.Token + "  " + this.OperationA + "  " + this.OperationB;
+        }
+
         /*
         public virtual void Undo()
         {
@@ -65,10 +80,5 @@ namespace CPU
         */
 
         protected abstract int Process();
-
-        public override string ToString()
-        {
-            return this.OperationA.ToString() + "    " + OperationB.ToString();
-        }
     }
 }

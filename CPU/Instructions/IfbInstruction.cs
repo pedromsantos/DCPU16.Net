@@ -29,6 +29,14 @@ namespace CPU.Instructions
         {
         }
 
+        public override string Token
+        {
+            get
+            {
+                return "IFB";
+            }
+        }
+
         protected override int Process()
         {
             if ((this.OperationA.Read & this.OperationB.Read) == 1)
@@ -38,11 +46,6 @@ namespace CPU.Instructions
 
             OperationA.SetIgnoreNextInstruction();
             return 0;
-        }
-
-        public override string ToString()
-        {
-            return "IFB" + "    " + base.ToString();
         }
     }
 }

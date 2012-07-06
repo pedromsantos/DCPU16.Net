@@ -29,10 +29,18 @@ namespace CPU.Instructions
         {
         }
 
+        public override string Token
+        {
+            get
+            {
+                return "IFN";
+            }
+        }
+
         protected override int Process()
         {
-			var leftCompare = this.OperationA.Read;
-			var rigthCompare = this.OperationB.Read;
+            var leftCompare = this.OperationA.Read;
+            var rigthCompare = this.OperationB.Read;
 
             if (leftCompare != rigthCompare)
             {
@@ -41,11 +49,6 @@ namespace CPU.Instructions
 
             OperationA.SetIgnoreNextInstruction();
             return 0;
-        }
-
-        public override string ToString()
-        {
-            return "IFN" + "    " + base.ToString();
         }
     }
 }

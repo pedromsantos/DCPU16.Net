@@ -36,6 +36,11 @@ namespace Model.Operands
             cpuStateManager.IncrementProgramCounter();
         }
 
+        public override string ToString()
+        {
+            return "NW";
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
@@ -44,11 +49,6 @@ namespace Model.Operands
             }
 
             return (ushort)((ushort)OperandType.ONextWord << shift);
-        }
-
-        public override string ToString()
-        {
-            return "NW";
         }
     }
 }

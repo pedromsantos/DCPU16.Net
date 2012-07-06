@@ -90,7 +90,7 @@ namespace CPU
 
         public override string ToString()
         {
-            return operand.ToString();
+            return this.operand.ToString();
         }
     }
 }

@@ -29,16 +29,19 @@ namespace CPU.Instructions
         {
         }
 
+        public override string Token
+        {
+            get
+            {
+                return "JSR";
+            }
+        }
+
         protected override int Process()
         {
             OperationA.JumpSubRoutine(OperationA.Read);
 
             return 0;
-        }
-
-        public override string ToString()
-        {
-            return "JSR" + "    " + base.ToString();
         }
     }
 }

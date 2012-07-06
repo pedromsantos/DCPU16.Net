@@ -29,6 +29,14 @@ namespace CPU.Instructions
         {
         }
 
+        public override string Token
+        {
+            get
+            {
+                return "DIV";
+            }
+        }
+
         protected override int Process()
         {
             var divisor = OperationB.Read;
@@ -48,11 +56,6 @@ namespace CPU.Instructions
             this.OperationA.Write = result;
 
             return result;
-        }
-
-        public override string ToString()
-        {
-            return "DIV" + "    " + base.ToString();
         }
     }
 }

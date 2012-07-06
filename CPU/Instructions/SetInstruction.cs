@@ -29,15 +29,18 @@ namespace CPU.Instructions
         {
         }
 
+        public override string Token
+        {
+            get
+            {
+                return "SET";
+            }
+        }
+
         protected override int Process()
         {
             this.OperationA.Write = OperationB.Read;
             return 0;
-        }
-
-        public override string ToString()
-        {
-            return "SET" + "    " + base.ToString();
         }
     }
 }

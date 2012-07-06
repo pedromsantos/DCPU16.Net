@@ -36,14 +36,14 @@ namespace Model.Operands
             cpuStateManager.WriteMemoryValueAtAddress(memoryAddress, value);
         }
 
+        public override string ToString()
+        {
+            return string.Format("[{0}]", RegisterOperand.ConvertRegisterIdentifierToTokenString(this.RegisterValue));
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)(((ushort)OperandType.OIndirectReg + this.RegisterValue) << shift);
-        }
-
-        public override string ToString()
-        {
-            return string.Format("[]");
         }
     }
 }

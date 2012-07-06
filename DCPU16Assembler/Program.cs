@@ -57,11 +57,12 @@ namespace DCPU16Assembler
                 };
 
         private static readonly IDictionary<int, ushort> LoadedInstructions = new Dictionary<int, ushort>();
+        private static readonly IDictionary<int, ushort> MemoryChanged = new Dictionary<int, ushort>();
         private static readonly IList<KeyValuePair<ushort, Instruction>> ExecutedInstructions = new List<KeyValuePair<ushort, Instruction>>();
 
         public static void Main(string[] args)
         {
-            if (args.Length != 2)
+            if (args.Length < 2)
             {
                 Usage();
                 return;
@@ -84,10 +85,9 @@ namespace DCPU16Assembler
                 ConsoleEx.DrawRectangle(BorderStyle.None, 0, 0, 80, 25, true);
 
                 DisplayRegisters();
-                DisplayInstructions(0);
                 DisplayStack();
                 DisplayExecutedInstructions();
-                DisplayExecutedTextInstructions();
+                DisplayMemory();
 
                 RunProgram(args[1]);
             }
@@ -105,16 +105,16 @@ namespace DCPU16Assembler
             var emulator = new Emulator();
             emulator.InstructionDidLoad += LoadedInstructions.Add;
             emulator.LoadProgram(programData);
-            DisplayInstructions(0);
 
             emulator.RegisterDidChange += RegisterDidChange;
             emulator.ProgramCounterDidChange += ProgramCounterDidChange;
             emulator.StackPointerDidChange += StackPointerDidChange;
             emulator.OverflowDidChange += OverflowDidChange;
-            emulator.InstructionWillExecute += InstructionWillExecute;
-            emulator.InstructionWillExecute += (rawInstruction, Instruction) => ExecutedInstructions.Add(new KeyValuePair<ushort, Instruction>(rawInstruction, Instruction));
+            emulator.InstructionWillExecute += (rawInstruction, instruction) => ExecutedInstructions.Add(new KeyValuePair<ushort, Instruction>(rawInstruction, instruction));
             emulator.InstructionDidExecute += InstructionDidExecute;
-            emulator.RunLoadedProgram();
+            emulator.MemoryWillChange += MemoryChanged.Add;
+            emulator.MemoryDidChange += MemoryDidChange;
+            emulator.RunLoadedProgramWithDelay(100);
         }
 
         private static void AssembleFile(string inputFileName, string outputFileName)
@@ -142,7 +142,6 @@ namespace DCPU16Assembler
                 data.Add((byte)(word & 0xFF));
             }
 
-            File.Create(outputFileName);
             File.WriteAllBytes(outputFileName, data.ToArray());
         }
 
@@ -155,25 +154,29 @@ namespace DCPU16Assembler
             Console.WriteLine("optional --verbose");
         }
 
-        private static void DisplayRegisters()
+        private static void MemoryDidChange(int address, ushort value)
         {
-            ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
-            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 0, 0, 14, 15, true);
-            ConsoleEx.CursorVisible = false;
+            if (MemoryChanged.Count > 32)
+            {
+                MemoryChanged.Clear();
+                MemoryChanged.Add(address, value);
+                DisplayMemory();
+            }
 
-            ConsoleEx.WriteAt(3, 1, "REGISTERS");
+            var column = 0;
+            var line = 0;
+            foreach (var t in MemoryChanged)
+            {
+                ConsoleEx.WriteAt(16 + (column * 16), 17 + line, string.Format("[0x{0:X4}]=0x{1:X4}", t.Key, t.Value));
+                column++;
 
-            ConsoleEx.WriteAt(3, 3, string.Format("A: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 4, string.Format("B: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 5, string.Format("C: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 6, string.Format("X: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 7, string.Format("Y: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 8, string.Format("Z: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 9, string.Format("I: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 10, string.Format("J: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 11, string.Format("O: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(2, 12, string.Format("PC: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(2, 13, string.Format("SP: 0x{0:X4}", 0));
+                if (column <= 3)
+                {
+                    continue;
+                }
+                column = 0;
+                line++;
+            }
         }
 
         private static void RegisterDidChange(int register, ushort value)
@@ -198,78 +201,80 @@ namespace DCPU16Assembler
 
         private static void InstructionDidExecute(ushort rawInstruction, Instruction instruction)
         {
-            if (ExecutedInstructions.Count > 20)
+            if (ExecutedInstructions.Count > 11)
             {
                 ExecutedInstructions.Clear();
+                ExecutedInstructions.Add(new KeyValuePair<ushort, Instruction>(rawInstruction, instruction));
+                DisplayExecutedInstructions();
             }
 
-            int line = ExecutedInstructions.Count + 3;
+            int line = ExecutedInstructions.Count + 1;
 
-            ConsoleEx.WriteAt(18, line, string.Format("0x{0:X4}", rawInstruction));
-
-            ConsoleEx.WriteAt(29, line, "                         ");
-            ConsoleEx.WriteAt(29, line, instruction.ToString());
+            ConsoleEx.WriteAt(17, line, string.Format("0x{0:X4}", rawInstruction));
+            ConsoleEx.WriteAt(24, line, instruction.ToString());
         }
 
-        private static void InstructionWillExecute(ushort rawInstruction, Instruction instruction)
-        {
-            //DisplayInstructions(instruction);
-        }
-
-        private static void DisplayInstructions(ushort instruction)
+        private static void DisplayRegisters()
         {
             ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
-            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 55, 0, 23, 24, true);
+            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 0, 0, 14, 14, true);
             ConsoleEx.CursorVisible = false;
 
-            ConsoleEx.WriteAt(64, 1, "PROGRAM");
+            ConsoleEx.WriteAt(2, 0, " REGISTERS ");
 
-            var line = 3;
-            var column = 57;
-            for (var i = 0; i < LoadedInstructions.Count; i++)
-            {
-                ConsoleEx.WriteAt(column, line, string.Format("0x{0:X4}", LoadedInstructions[i]));
-                column += 7;
-
-                if (column + 7 >= 79)
-                {
-                    column = 57;
-                    line++;
-                }
-            }
+            ConsoleEx.WriteAt(3, 2, string.Format("A: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(3, 3, string.Format("B: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(3, 4, string.Format("C: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(3, 5, string.Format("X: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(3, 6, string.Format("Y: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(3, 7, string.Format("Z: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(3, 8, string.Format("I: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(3, 9, string.Format("J: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(3, 10, string.Format("O: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(2, 11, string.Format("PC: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(2, 12, string.Format("SP: 0x{0:X4}", 0));
         }
 
         private static void DisplayExecutedInstructions()
         {
             ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
-            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 15, 0, 11, 24, true);
+            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 15, 0, 64, 14, true);
             ConsoleEx.CursorVisible = false;
 
-            ConsoleEx.WriteAt(17, 1, "EXECUTED");
+            ConsoleEx.WriteAt(44, 0, " EXECUTED ");
+
+            for (var i = 2; i < 14; i++)
+            {
+                ConsoleEx.WriteAt(17, i, string.Format("{0,62}", ' '));
+            }
         }
 
-        private static void DisplayExecutedTextInstructions()
+        private static void DisplayMemory()
         {
             ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
-            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 27, 0, 27, 24, true);
+            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 15, 15, 64, 9, true);
             ConsoleEx.CursorVisible = false;
 
-            ConsoleEx.WriteAt(36, 1, "DIASSEMBLE");
+            ConsoleEx.WriteAt(46, 15, " MEMORY ");
+
+            for (var i = 17; i < 20; i++)
+            {
+                ConsoleEx.WriteAt(16, i, string.Format("{0,63}", ' '));
+            }
         }
 
         private static void DisplayStack()
         {
             ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
-            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 0, 16, 14, 8, true);
+            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 0, 15, 14, 9, true);
             ConsoleEx.CursorVisible = false;
 
-            ConsoleEx.WriteAt(5, 17, "STACK");
+            ConsoleEx.WriteAt(4, 15, " STACK ");
 
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < 6; i++)
             {
-                ConsoleEx.WriteAt(4, i + 19, string.Format("0x{0:X4}", 0));
+                ConsoleEx.WriteAt(4, i + 17, string.Format("0x{0:X4}", 0));
             }
         }
-
     }
 }

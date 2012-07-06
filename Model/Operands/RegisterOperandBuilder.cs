@@ -22,8 +22,6 @@
 
 namespace Model.Operands
 {
-    using System;
-
     using Lexer.Tokens;
 
     public class RegisterOperandBuilder : OperandBuilder
@@ -44,29 +42,7 @@ namespace Model.Operands
         protected override void SetRegisterValue(TokenBase token)
         {
             this.Operand.RegisterValue = 
-                ConvertTokenContentToRegisterIdentifier(token.Content);
-        }
-
-        private static int ConvertTokenContentToRegisterIdentifier(string tokenContent)
-        {
-            var registerName = tokenContent.ToUpper();
-
-            if (registerName == "A") return (int)RegisterIdentifier.RegA;
-            if (registerName == "B") return (int)RegisterIdentifier.RegB;
-            if (registerName == "C") return (int)RegisterIdentifier.RegC;
-            if (registerName == "X") return (int)RegisterIdentifier.RegX;
-            if (registerName == "Y") return (int)RegisterIdentifier.RegY;
-            if (registerName == "Z") return (int)RegisterIdentifier.RegZ;
-            if (registerName == "I") return (int)RegisterIdentifier.RegI;
-            if (registerName == "J") return (int)RegisterIdentifier.RegJ;
-            if (registerName == "PC") return (int)SpecialRegisterIdentifier.SregPc;
-            if (registerName == "SP") return (int)SpecialRegisterIdentifier.SregSp;
-            if (registerName == "O") return (int)SpecialRegisterIdentifier.SregO;
-            if (registerName == "POP") return (int)OperandType.OPop;
-            if (registerName == "PEEK") return (int)OperandType.OPeek;
-            if (registerName == "PUSH") return (int)OperandType.OPush;
-
-            throw new Exception("Invalid register name");
+                RegisterOperand.ConvertTokenContentToRegisterIdentifier(token.Content);
         }
     }
 }

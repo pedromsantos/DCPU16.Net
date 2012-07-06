@@ -48,14 +48,18 @@ namespace Model.Operands
                 cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
         }
 
+        public override string ToString()
+        {
+            return string.Format(
+                "[{0}+{1}={2}]",
+                string.Format("0x{0:X4}", this.nextWordAddress),
+                RegisterOperand.ConvertRegisterIdentifierToTokenString(this.OperandValue % NumberOfRegisters),
+                string.Format("0x{0:X4}", this.registerValue));
+        }
+
         protected override ushort Assemble(ushort shift)
         {
             return (ushort)(((ushort)OperandType.OIndirectNextWordOffset + this.RegisterValue) << shift);
-        }
-
-        public override string ToString()
-        {
-            return string.Format("[{0}+{1}]", nextWordAddress, registerValue);
         }
     }
 }

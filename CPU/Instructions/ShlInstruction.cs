@@ -29,6 +29,14 @@ namespace CPU.Instructions
         {
         }
 
+        public override string Token
+        {
+            get
+            {
+                return "SHL";
+            }
+        }
+
         protected override int Process()
         {
             var leftOperand = OperationA.Read;
@@ -38,11 +46,6 @@ namespace CPU.Instructions
             this.OperationA.Write = result;
             this.OperationA.SetOverflowRegister((ushort)(((leftOperand << rigthOperand) >> 16) & 0xFFFF));
             return result;
-        }
-
-        public override string ToString()
-        {
-            return "SHL" + "    " + base.ToString();
         }
     }
 }
