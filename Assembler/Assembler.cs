@@ -104,20 +104,7 @@ namespace Assembler
         
         private void AssembleNextWordOperand(Operand operand)
         {
-            if (operand is IndirectNextWordOffsetOperand)
-            {
-                if (!string.IsNullOrEmpty(operand.Label))
-                {
-                    this.labelReferences[this.program.Count] = operand.Label;
-                    this.program.Add(0);
-                }
-                else if (operand.NextWord > OperandLiteralMax)
-                {
-                    this.program.Add((ushort)operand.NextWord);
-                }
-            }
-
-            if (operand is NextWordOperand || operand is IndirectNextWordOperand)
+            if (operand is NextWordOperand || operand is IndirectNextWordOperand || operand is IndirectNextWordOffsetOperand)
             {
                 if (!string.IsNullOrEmpty(operand.Label))
                 {
