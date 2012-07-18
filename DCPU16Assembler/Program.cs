@@ -39,6 +39,19 @@ namespace DCPU16Assembler
 
     public class Program
     {
+        private const int OverflowLine = 10;
+        private const int StackPointerLine = 12;
+        private const int ProgramCounterLine = 11;
+        private const int GeneralRegisterStarterLine = 2;
+        private const int RegisterValueColumn = 6;
+        private const int GeneralRegisterTitleColumn = 3;
+        private const int OverflowTitleColumn = 3;
+        private const int StackPointerTitleColumn = 2;
+        private const int ProgramCounterTitleColumn = 2;
+
+        private const string RegisterFormatString = "{0}: 0x{1:X4}";
+        private const string HexFormatString = "0x{0:X4}";
+
         private static readonly IList<TokenBase> Matchers = new List<TokenBase>
                 {
                     new WhiteSpaceToken(),
@@ -83,6 +96,7 @@ namespace DCPU16Assembler
             {
                 ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
                 ConsoleEx.DrawRectangle(BorderStyle.None, 0, 0, 80, 25, true);
+                ConsoleEx.CursorVisible = false;
 
                 DisplayRegisters();
                 DisplayStack();
@@ -156,7 +170,8 @@ namespace DCPU16Assembler
 
         private static void MemoryDidChange(int address, ushort value)
         {
-            if (MemoryChanged.Count > 32)
+            const int MaxMemoryAddressesToDisplay = 32;
+            if (MemoryChanged.Count > MaxMemoryAddressesToDisplay)
             {
                 MemoryChanged.Clear();
                 MemoryChanged.Add(address, value);
@@ -174,6 +189,7 @@ namespace DCPU16Assembler
                 {
                     continue;
                 }
+                
                 column = 0;
                 line++;
             }
@@ -181,27 +197,28 @@ namespace DCPU16Assembler
 
         private static void RegisterDidChange(int register, ushort value)
         {
-            ConsoleEx.WriteAt(6, 3 + register, string.Format("0x{0:X4}", value));
+            ConsoleEx.WriteAt(RegisterValueColumn, GeneralRegisterStarterLine + register, string.Format("0x{0:X4}", value));
         }
 
         private static void ProgramCounterDidChange(int register, ushort value)
         {
-            ConsoleEx.WriteAt(6, 12, string.Format("0x{0:X4}", value));
+            ConsoleEx.WriteAt(RegisterValueColumn, ProgramCounterLine, string.Format(HexFormatString, value));
         }
 
         private static void StackPointerDidChange(int register, ushort value)
         {
-            ConsoleEx.WriteAt(6, 13, string.Format("0x{0:X4}", value));
+            ConsoleEx.WriteAt(RegisterValueColumn, StackPointerLine, string.Format(HexFormatString, value));
         }
 
         private static void OverflowDidChange(int register, ushort value)
         {
-            ConsoleEx.WriteAt(6, 11, string.Format("0x{0:X4}", value));
+            ConsoleEx.WriteAt(RegisterValueColumn, OverflowLine, string.Format(HexFormatString, value));
         }
 
         private static void InstructionDidExecute(ushort rawInstruction, Instruction instruction)
         {
-            if (ExecutedInstructions.Count > 11)
+            const int MaxInstructionsToDisplay = 11;
+            if (ExecutedInstructions.Count > MaxInstructionsToDisplay)
             {
                 ExecutedInstructions.Clear();
                 ExecutedInstructions.Add(new KeyValuePair<ushort, Instruction>(rawInstruction, instruction));
@@ -210,37 +227,32 @@ namespace DCPU16Assembler
 
             int line = ExecutedInstructions.Count + 1;
 
-            ConsoleEx.WriteAt(17, line, string.Format("0x{0:X4}", rawInstruction));
+            ConsoleEx.WriteAt(17, line, string.Format(HexFormatString, rawInstruction));
             ConsoleEx.WriteAt(24, line, instruction.ToString());
         }
 
         private static void DisplayRegisters()
         {
-            ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
             ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 0, 0, 14, 14, true);
-            ConsoleEx.CursorVisible = false;
-
             ConsoleEx.WriteAt(2, 0, " REGISTERS ");
 
-            ConsoleEx.WriteAt(3, 2, string.Format("A: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 3, string.Format("B: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 4, string.Format("C: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 5, string.Format("X: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 6, string.Format("Y: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 7, string.Format("Z: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 8, string.Format("I: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 9, string.Format("J: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(3, 10, string.Format("O: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(2, 11, string.Format("PC: 0x{0:X4}", 0));
-            ConsoleEx.WriteAt(2, 12, string.Format("SP: 0x{0:X4}", 0));
+            ConsoleEx.WriteAt(
+                GeneralRegisterTitleColumn, GeneralRegisterStarterLine, string.Format(RegisterFormatString, "A", 0));
+            ConsoleEx.WriteAt(GeneralRegisterTitleColumn, GeneralRegisterStarterLine + 1, string.Format(RegisterFormatString, "B", 0));
+            ConsoleEx.WriteAt(GeneralRegisterTitleColumn, GeneralRegisterStarterLine + 2, string.Format(RegisterFormatString, "C", 0));
+            ConsoleEx.WriteAt(GeneralRegisterTitleColumn, GeneralRegisterStarterLine + 3, string.Format(RegisterFormatString, "X", 0));
+            ConsoleEx.WriteAt(GeneralRegisterTitleColumn, GeneralRegisterStarterLine + 4, string.Format(RegisterFormatString, "Y", 0));
+            ConsoleEx.WriteAt(GeneralRegisterTitleColumn, GeneralRegisterStarterLine + 5, string.Format(RegisterFormatString, "Z", 0));
+            ConsoleEx.WriteAt(GeneralRegisterTitleColumn, GeneralRegisterStarterLine + 6, string.Format(RegisterFormatString, "I", 0));
+            ConsoleEx.WriteAt(GeneralRegisterTitleColumn, GeneralRegisterStarterLine + 7, string.Format(RegisterFormatString, "J", 0));
+            ConsoleEx.WriteAt(OverflowTitleColumn, OverflowLine, string.Format(RegisterFormatString, "O", 0));
+            ConsoleEx.WriteAt(ProgramCounterTitleColumn, ProgramCounterLine, string.Format(RegisterFormatString, "PC", 0));
+            ConsoleEx.WriteAt(StackPointerTitleColumn, StackPointerLine, string.Format(RegisterFormatString, "SP", 0));
         }
 
         private static void DisplayExecutedInstructions()
         {
-            ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
             ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 15, 0, 64, 14, true);
-            ConsoleEx.CursorVisible = false;
-
             ConsoleEx.WriteAt(44, 0, " EXECUTED ");
 
             for (var i = 2; i < 14; i++)
@@ -251,10 +263,7 @@ namespace DCPU16Assembler
 
         private static void DisplayMemory()
         {
-            ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
             ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 15, 15, 64, 9, true);
-            ConsoleEx.CursorVisible = false;
-
             ConsoleEx.WriteAt(46, 15, " MEMORY ");
 
             for (var i = 17; i < 20; i++)
@@ -265,15 +274,12 @@ namespace DCPU16Assembler
 
         private static void DisplayStack()
         {
-            ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
             ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 0, 15, 14, 9, true);
-            ConsoleEx.CursorVisible = false;
-
             ConsoleEx.WriteAt(4, 15, " STACK ");
 
             for (var i = 0; i < 6; i++)
             {
-                ConsoleEx.WriteAt(4, i + 17, string.Format("0x{0:X4}", 0));
+                ConsoleEx.WriteAt(4, i + 17, string.Format(HexFormatString, 0));
             }
         }
     }
