@@ -25,6 +25,7 @@ namespace DCPU16Assembler
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     using Assembler;
 
@@ -81,18 +82,18 @@ namespace DCPU16Assembler
                 return;
             }
 
-            if (!File.Exists(args[1]))
+            if (!File.Exists(args.Last()))
             {
                 Console.WriteLine("{0} does not exist.", args[1]);
                 Usage();
                 return;
             }
 
-            if (args[0] == "-c")
+            if (args.First() == "-c")
             {
-                AssembleFile(args[1], args[2]);
+                AssembleFile(args[1], args.Last());
             }
-            else if (args[0] == "-r")
+            else if (args.First() == "-r")
             {
                 ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
                 ConsoleEx.DrawRectangle(BorderStyle.None, 0, 0, 80, 25, true);
@@ -100,14 +101,23 @@ namespace DCPU16Assembler
 
                 DisplayRegisters();
                 DisplayStack();
-                DisplayExecutedInstructions();
                 DisplayMemory();
 
-                RunProgram(args[1]);
+                switch (args[1])
+                {
+                    case "-i":
+                        DisplayExecutedInstructions();
+                        RunProgram(args.Last(), args[1]);
+                        break;
+                    default:
+                        DisplayOutput();
+                        RunProgram(args.Last());
+                        return;
+                }
             }
         }
 
-        private static void RunProgram(string inputFileName)
+        private static void RunProgram(string inputFileName, string displayOption = "")
         {
             var programData = File.ReadAllBytes(inputFileName);
 
@@ -125,10 +135,20 @@ namespace DCPU16Assembler
             emulator.StackPointerDidChange += StackPointerDidChange;
             emulator.OverflowDidChange += OverflowDidChange;
             emulator.InstructionWillExecute += (rawInstruction, instruction) => ExecutedInstructions.Add(new KeyValuePair<ushort, Instruction>(rawInstruction, instruction));
-            emulator.InstructionDidExecute += InstructionDidExecute;
+
+            switch (displayOption)
+            {
+                case "-i":
+                    emulator.InstructionDidExecute += InstructionDidExecute;
+                    break;
+                default:
+                    emulator.VideoMemoryDidChange += VideoMemoryDidChange;
+                    break;
+            }
+
             emulator.MemoryWillChange += MemoryChanged.Add;
             emulator.MemoryDidChange += MemoryDidChange;
-            emulator.RunLoadedProgramWithDelay(100);
+            emulator.RunLoadedProgramWithDelay(25);
         }
 
         private static void AssembleFile(string inputFileName, string outputFileName)
@@ -163,9 +183,38 @@ namespace DCPU16Assembler
         {
             Console.WriteLine("DCPU16 Assembler usage:");
             Console.WriteLine("DCPU16Assembler -c sourceFile outputFile");
-            Console.WriteLine("DCPU16Assembler -r programFile");
+            Console.WriteLine("DCPU16Assembler -r [-i] 'display instructions instead of program output' programFile");
             Console.WriteLine();
             Console.WriteLine("optional --verbose");
+        }
+
+        private static void VideoMemoryDidChange(int address, ushort value)
+        {
+            const int Vidwidth = 32;
+            const int Vidmem = 0x8000;
+
+            var prevBackColor = Console.BackgroundColor;
+            var prevForeColor = Console.ForegroundColor;
+
+            /*
+            var color = (value >> 8) & 0x0f;
+            Console.BackgroundColor = Enum.IsDefined(typeof(ConsoleColor), color)
+                                          ? (ConsoleColor)color
+                                          : ConsoleColor.Blue;
+            color = value >> 12;
+            Console.ForegroundColor = Enum.IsDefined(typeof(ConsoleColor), color)
+                                          ? (ConsoleColor)color
+                                          : ConsoleColor.White;
+            */
+
+            var celladdress = address - Vidmem;
+            var column = (celladdress % Vidwidth) + 21;
+            var line = (celladdress / Vidwidth) + 1;
+            var character = ((char)(value & 0x7f)).ToString();
+            ConsoleEx.WriteAt(column, line, character);
+
+            Console.BackgroundColor = prevBackColor;
+            Console.ForegroundColor = prevForeColor;
         }
 
         private static void MemoryDidChange(int address, ushort value)
@@ -281,6 +330,12 @@ namespace DCPU16Assembler
             {
                 ConsoleEx.WriteAt(4, i + 17, string.Format(HexFormatString, 0));
             }
+        }
+
+        private static void DisplayOutput()
+        {
+            ConsoleEx.DrawRectangle(BorderStyle.LineSingle, 20, 0, 20 + 33, 0 + 13, true);
+            ConsoleEx.WriteAt(44, 0, " OUTPUT ");
         }
     }
 }
