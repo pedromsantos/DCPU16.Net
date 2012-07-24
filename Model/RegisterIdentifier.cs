@@ -39,5 +39,5 @@ namespace Model
         SregPc = 8,
         SregSp = 9,
         SregO = 10,
-    };
+    }
 }

@@ -30,14 +30,14 @@ namespace Model.Parser.Operands
             cpuStateManager.WriteMemoryValueAtAddress(stackPointerValue, value);
         }
 
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OPush << shift);
-        }
-
         public override string ToString()
         {
             return "PUSH";
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return (ushort)((ushort)OperandType.OPush << shift);
         }
     }
 }

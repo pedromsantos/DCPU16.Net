@@ -34,14 +34,14 @@ namespace Model.Parser.Operands
             cpuStateManager.SetStackPointer(value);
         }
 
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OSp << shift);
-        }
-
         public override string ToString()
         {
             return "SP";
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return (ushort)((ushort)OperandType.OSp << shift);
         }
     }
 }

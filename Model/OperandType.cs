@@ -36,6 +36,6 @@ namespace Model
         OIndirectNextWord = 0x1E,
         ONextWord = 0x1F,
         OLiteral = 0x20,
-        ONull = 0xDEAD,
-    };
+        ONull = 0xDEAD
+    }
 }

@@ -34,14 +34,14 @@ namespace Model.Parser.Operands
             cpuStateManager.Overflow = value;
         }
 
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OO << shift);
-        }
-
         public override string ToString()
         {
             return "Ov";
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return (ushort)((ushort)OperandType.OO << shift);
         }
     }
 }

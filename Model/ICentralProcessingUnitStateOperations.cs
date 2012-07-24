@@ -49,7 +49,7 @@ namespace Model
         ushort ReadValueAtProgramCounter();
 
         ushort SetProgramCounter(ushort value);
-
-		ushort SetStackPointer(ushort value);
+        
+        ushort SetStackPointer(ushort value);
     }
 }

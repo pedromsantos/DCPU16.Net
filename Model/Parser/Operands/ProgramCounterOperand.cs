@@ -34,14 +34,14 @@ namespace Model.Parser.Operands
             cpuStateManager.SetProgramCounter(value);
         }
 
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OPc << shift);
-        }
-
         public override string ToString()
         {
             return "PC";
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return (ushort)((ushort)OperandType.OPc << shift);
         }
     }
 }

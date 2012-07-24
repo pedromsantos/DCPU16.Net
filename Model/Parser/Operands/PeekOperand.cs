@@ -29,14 +29,14 @@ namespace Model.Parser.Operands
             return cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
         }
 
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OPeek << shift);
-        }
-
         public override string ToString()
         {
             return "PEEK";
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return (ushort)((ushort)OperandType.OPeek << shift);
         }
     }
 }

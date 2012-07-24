@@ -38,6 +38,6 @@ namespace Model
         OpIfe = 0xC,
         OpIfn = 0xD,
         OpIfg = 0xE,
-        OpIfb = 0xF,
-    };
+        OpIfb = 0xF
+    }
 }

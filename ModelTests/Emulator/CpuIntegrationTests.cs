@@ -118,7 +118,7 @@ namespace ModelTests.Emulator
         [Test]
         public void CanStepThrougthHelloWorldSample()
         {
-            const string Code =@"
+            const string Code = @"
 ; Assembler test for DCPU
 ; by Markus Persson
 

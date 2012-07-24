@@ -42,7 +42,7 @@ namespace Model.Parser.Operands
 
         protected override void SetNextWordValue(TokenBase token)
         {
-            if (leftToken is HexToken)
+            if (this.leftToken is HexToken)
             {
                 this.Operand.NextWord = Convert.ToInt32(this.leftToken.Content, 16);
             }

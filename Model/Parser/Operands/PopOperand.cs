@@ -31,14 +31,14 @@ namespace Model.Parser.Operands
             return value;
         }
 
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OPop << shift);
-        }
-
         public override string ToString()
         {
             return "POP";
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return (ushort)((ushort)OperandType.OPop << shift);
         }
     }
 }

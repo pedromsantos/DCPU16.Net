@@ -29,14 +29,14 @@ namespace Model.Parser.Operands
             return (ushort)((this.OperandValue - 0x20) % NumberOfLiterals);
         }
 
-        protected override ushort Assemble(ushort shift)
-        {
-            return 1;
-        }
-
         public override string ToString()
         {
             return ((this.OperandValue - 0x20) % NumberOfLiterals).ToString();
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return 1;
         }
     }
 }

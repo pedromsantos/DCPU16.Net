@@ -47,7 +47,7 @@ namespace Model
         {
             get
             {
-                return "";
+                return string.Empty;
             }
         }
 

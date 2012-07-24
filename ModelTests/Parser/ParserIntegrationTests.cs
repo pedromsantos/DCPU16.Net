@@ -27,9 +27,9 @@ namespace ModelTests.Parser
     using System.IO;
     using System.Linq;
 
+    using Model;
     using Model.Lexer;
     using Model.Lexer.Tokens;
-    using Model;
     using Model.Parser;
     using Model.Parser.Operands;
 

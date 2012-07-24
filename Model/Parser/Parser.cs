@@ -60,7 +60,8 @@ namespace Model.Parser
         public IEnumerable<Statment> Parse()
         {
             while (this.ParseStatment())
-                ;
+            {
+            }
 
             return this.Statments;
         }
