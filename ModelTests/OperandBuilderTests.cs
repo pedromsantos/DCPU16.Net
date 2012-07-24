@@ -24,9 +24,8 @@ namespace ModelTests
 {
     using System;
 
-    using Lexer.Tokens;
-
     using Model;
+    using Model.Lexer.Tokens;
     using Model.Operands;
 
     using NUnit.Framework;

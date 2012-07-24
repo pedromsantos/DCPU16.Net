@@ -39,13 +39,62 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicOpcode.cs" />
+    <Compile Include="Emulator\CentralProcessingUnit.cs" />
+    <Compile Include="Emulator\CpuOperation.cs" />
+    <Compile Include="Emulator\Emulator.cs" />
+    <Compile Include="Emulator\IInstructionBuilder.cs" />
+    <Compile Include="Emulator\Instruction.cs" />
+    <Compile Include="Emulator\InstructionBuilder.cs" />
+    <Compile Include="Emulator\Instructions\AddInstruction.cs" />
+    <Compile Include="Emulator\Instructions\AndInstruction.cs" />
+    <Compile Include="Emulator\Instructions\BorInstruction.cs" />
+    <Compile Include="Emulator\Instructions\DivInstruction.cs" />
+    <Compile Include="Emulator\Instructions\IfbInstruction.cs" />
+    <Compile Include="Emulator\Instructions\IfeInstruction.cs" />
+    <Compile Include="Emulator\Instructions\IfgInstruction.cs" />
+    <Compile Include="Emulator\Instructions\IfnInstruction.cs" />
+    <Compile Include="Emulator\Instructions\JsrInstruction.cs" />
+    <Compile Include="Emulator\Instructions\ModInstruction.cs" />
+    <Compile Include="Emulator\Instructions\MulInstruction.cs" />
+    <Compile Include="Emulator\Instructions\SetInstruction.cs" />
+    <Compile Include="Emulator\Instructions\ShlInstruction.cs" />
+    <Compile Include="Emulator\Instructions\ShrInstruction.cs" />
+    <Compile Include="Emulator\Instructions\SubInstruction.cs" />
+    <Compile Include="Emulator\Instructions\XorInstruction.cs" />
+    <Compile Include="Emulator\Memory.cs" />
+    <Compile Include="Emulator\Registers.cs" />
     <Compile Include="ICentralProcessingUnitStateOperations.cs" />
     <Compile Include="IInstructionOperandFactory.cs" />
     <Compile Include="InstructionOperandFactory.cs" />
+    <Compile Include="Lexer\ConsumeTokenStrategy.cs" />
+    <Compile Include="Lexer\IConsumeTokenStrategy.cs" />
+    <Compile Include="Lexer\IgnoreNoneTokenStrategy.cs" />
+    <Compile Include="Lexer\IgnoreWhiteSpaceTokenStrategy.cs" />
+    <Compile Include="Lexer\IIgnoreTokenStrategy.cs" />
+    <Compile Include="Lexer\ILexer.cs" />
+    <Compile Include="Lexer\IMatcher.cs" />
+    <Compile Include="Lexer\PeekLexer.cs" />
+    <Compile Include="Lexer\PeekTokenStrategy.cs" />
+    <Compile Include="Lexer\RegExMatcher.cs" />
+    <Compile Include="Lexer\Tokens\CloseBracketToken.cs" />
+    <Compile Include="Lexer\Tokens\CommaToken.cs" />
+    <Compile Include="Lexer\Tokens\CommentToken.cs" />
+    <Compile Include="Lexer\Tokens\DecimalToken.cs" />
+    <Compile Include="Lexer\Tokens\HexToken.cs" />
+    <Compile Include="Lexer\Tokens\InstructionToken.cs" />
+    <Compile Include="Lexer\Tokens\LabelReferenceToken.cs" />
+    <Compile Include="Lexer\Tokens\LabelToken.cs" />
+    <Compile Include="Lexer\Tokens\OpenBracketToken.cs" />
+    <Compile Include="Lexer\Tokens\PluslToken.cs" />
+    <Compile Include="Lexer\Tokens\RegisterToken.cs" />
+    <Compile Include="Lexer\Tokens\StringToken.cs" />
+    <Compile Include="Lexer\Tokens\TokenBase.cs" />
+    <Compile Include="Lexer\Tokens\WhiteSpaceToken.cs" />
     <Compile Include="NonBasicOpcode.cs" />
     <Compile Include="Opcode.cs" />
     <Compile Include="Operand.cs" />
     <Compile Include="OperandBuilder.cs" />
+    <Compile Include="Assembler\Assembler.cs" />
     <Compile Include="Operands\IndirectNextWordOffsetOperand.cs" />
     <Compile Include="Operands\IndirectNextWordOffsetOperandBuilder.cs" />
     <Compile Include="Operands\IndirectNextWordOperand.cs" />
@@ -66,15 +115,14 @@
     <Compile Include="Operands\RegisterOperandBuilder.cs" />
     <Compile Include="Operands\StackPointerOperand.cs" />
     <Compile Include="OperandType.cs" />
+    <Compile Include="Parser\DirectOperandFactory.cs" />
+    <Compile Include="Parser\IndirectOperandFactory.cs" />
+    <Compile Include="Parser\IOperandFactory.cs" />
+    <Compile Include="Parser\IParser.cs" />
+    <Compile Include="Parser\Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterIdentifier.cs" />
     <Compile Include="Statment.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lexer\Lexer.csproj">
-      <Project>{064A3514-C7AE-4D1D-9A74-2E23DE98EC6A}</Project>
-      <Name>Lexer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
