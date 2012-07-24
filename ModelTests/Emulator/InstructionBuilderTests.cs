@@ -27,7 +27,7 @@ namespace ModelTests.Emulator
     using Model;
     using Model.Emulator;
     using Model.Emulator.Instructions;
-    using Model.Operands;
+    using Model.Parser.Operands;
 
     using Moq;
 

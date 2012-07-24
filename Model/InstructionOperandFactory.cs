@@ -26,7 +26,7 @@ namespace Model
     using System.Collections.Generic;
     using System.Linq;
 
-    using Model.Operands;
+    using Model.Parser.Operands;
 
     public class InstructionOperandFactory : IInstructionOperandFactory
     {

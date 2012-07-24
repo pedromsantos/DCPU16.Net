@@ -20,35 +20,23 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model.Parser.Operands
 {
-    public class NextWordOperand : Operand
+    public class LiteralOperand : Operand
     {
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            cpuStateManager.IncrementProgramCounter();
-            var value = cpuStateManager.ReadValueAtProgramCounter();
-            return value;
-        }
-
-        public override void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
-        {
-            cpuStateManager.IncrementProgramCounter();
-        }
-
-        public override string ToString()
-        {
-            return "NW";
+            return (ushort)((this.OperandValue - 0x20) % NumberOfLiterals);
         }
 
         protected override ushort Assemble(ushort shift)
         {
-            if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
-            {
-                return (ushort)((this.NextWord + OperandLiteralOffset) << shift);
-            }
+            return 1;
+        }
 
-            return (ushort)((ushort)OperandType.ONextWord << shift);
+        public override string ToString()
+        {
+            return ((this.OperandValue - 0x20) % NumberOfLiterals).ToString();
         }
     }
 }

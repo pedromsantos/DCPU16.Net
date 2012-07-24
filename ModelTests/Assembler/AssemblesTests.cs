@@ -26,6 +26,7 @@ namespace ModelTests.Assembler
 
     using Model;
     using Model.Assembler;
+    using Model.Parser;
 
     using NUnit.Framework;
 

@@ -20,46 +20,30 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model.Parser.Operands
 {
-    public class IndirectNextWordOffsetOperand : Operand
+    public class IndirectRegisterOperand : Operand
     {
-        private ushort nextWordAddress;
-
-        private ushort registerValue;
-
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            var value = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
-            return
-                (ushort)(cpuStateManager.ReadMemoryValueAtAddress((ushort)(this.nextWordAddress + value)) & ShortMask);
+            var address = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+            return cpuStateManager.ReadMemoryValueAtAddress(address);
         }
 
         public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
         {
-            cpuStateManager.WriteMemoryValueAtAddress(((this.nextWordAddress + this.registerValue) & ShortMask), value);
-        }
-
-        public override void Process(ICentralProcessingUnitStateOperations cpuStateManager)
-        {
-            var programCounter = cpuStateManager.IncrementProgramCounter();
-            this.nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
-            this.registerValue =
-                cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+            var memoryAddress = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+            cpuStateManager.WriteMemoryValueAtAddress(memoryAddress, value);
         }
 
         public override string ToString()
         {
-            return string.Format(
-                "[{0}+{1}={2}]",
-                string.Format("0x{0:X4}", this.nextWordAddress),
-                RegisterOperand.ConvertRegisterIdentifierToTokenString(this.OperandValue % NumberOfRegisters),
-                string.Format("0x{0:X4}", this.registerValue));
+            return string.Format("[{0}]", RegisterOperand.ConvertRegisterIdentifierToTokenString(this.RegisterValue));
         }
 
         protected override ushort Assemble(ushort shift)
         {
-            return (ushort)(((ushort)OperandType.OIndirectNextWordOffset + this.RegisterValue) << shift);
+            return (ushort)(((ushort)OperandType.OIndirectReg + this.RegisterValue) << shift);
         }
     }
 }

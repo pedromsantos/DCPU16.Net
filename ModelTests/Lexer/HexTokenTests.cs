@@ -20,9 +20,9 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.LexerTests
+namespace ModelTests.Lexer
 {
-    using Lexer.Tokens;
+    using Model.Lexer.Tokens;
 
     using NUnit.Framework;
 

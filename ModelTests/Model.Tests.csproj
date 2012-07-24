@@ -73,7 +73,7 @@
     <Compile Include="Parser\ParserIntegrationTests.cs" />
     <Compile Include="Parser\ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StatmentTests.cs" />
+    <Compile Include="Parser\StatmentTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

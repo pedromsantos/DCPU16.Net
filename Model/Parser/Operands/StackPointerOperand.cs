@@ -20,7 +20,7 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model.Parser.Operands
 {
     public class StackPointerOperand : Operand
     {

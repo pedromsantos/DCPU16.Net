@@ -20,29 +20,36 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model.Parser.Operands
 {
+    using System;
+
     using Lexer.Tokens;
 
-    public class RegisterOperandBuilder : OperandBuilder
+    public class IndirectNextWordOffsetOperandBuilder : RegisterOperandBuilder
     {
-        protected override Operand CreateOperand(TokenBase token)
-        {
-            var registerType = token.Content.ToUpper();
-            if (registerType == "PC") return new ProgramCounterOperand();
-            if (registerType == "SP") return new StackPointerOperand();
-            if (registerType == "O") return new OverflowOperand();
-            if (registerType == "POP") return new PopOperand();
-            if (registerType == "PEEK") return new PeekOperand();
-            if (registerType == "PUSH") return new PushOperand();
+        private readonly TokenBase leftToken;
 
-            return new RegisterOperand();
+        public IndirectNextWordOffsetOperandBuilder(TokenBase leftToken)
+        {
+            this.leftToken = leftToken;
         }
 
-        protected override void SetRegisterValue(TokenBase token)
+        protected override Operand CreateOperand(TokenBase token)
         {
-            this.Operand.RegisterValue = 
-                RegisterOperand.ConvertTokenContentToRegisterIdentifier(token.Content);
+            return new IndirectNextWordOffsetOperand();
+        }
+
+        protected override void SetNextWordValue(TokenBase token)
+        {
+            if (leftToken is HexToken)
+            {
+                this.Operand.NextWord = Convert.ToInt32(this.leftToken.Content, 16);
+            }
+            else if (this.leftToken is LabelReferenceToken)
+            {
+                this.Operand.Label = this.leftToken.Content;
+            }
         }
     }
 }

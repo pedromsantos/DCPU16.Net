@@ -20,25 +20,23 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model.Parser.Operands
 {
-    public class PopOperand : Operand
+    public class PeekOperand : Operand
     {
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            var value = cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
-            cpuStateManager.IncrementStackPointer();
-            return value;
+            return cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
         }
 
         protected override ushort Assemble(ushort shift)
         {
-            return (ushort)((ushort)OperandType.OPop << shift);
+            return (ushort)((ushort)OperandType.OPeek << shift);
         }
 
         public override string ToString()
         {
-            return "POP";
+            return "PEEK";
         }
     }
 }

@@ -20,7 +20,7 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model
+namespace Model.Parser
 {
     using System;
     using System.Collections.Generic;

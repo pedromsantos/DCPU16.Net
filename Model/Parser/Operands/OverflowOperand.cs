@@ -20,44 +20,28 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ModelTests
+namespace Model.Parser.Operands
 {
-    using System;
-
-    using Model;
-
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class StatmentTests
+    public class OverflowOperand : Operand
     {
-        [Test]
-        [TestCase("SET", BasicOpcode.OpSet)]
-        [TestCase("ADD", BasicOpcode.OpAdd)]
-        [TestCase("SUB", BasicOpcode.OpSub)]
-        [TestCase("MUL", BasicOpcode.OpMul)]
-        [TestCase("DIV", BasicOpcode.OpDiv)]
-        [TestCase("MOD", BasicOpcode.OpMod)]
-        [TestCase("SHL", BasicOpcode.OpShl)]
-        [TestCase("SHR", BasicOpcode.OpShr)]
-        [TestCase("AND", BasicOpcode.OpAnd)]
-        [TestCase("BOR", BasicOpcode.OpBor)]
-        [TestCase("XOR", BasicOpcode.OpXor)]
-        [TestCase("IFE", BasicOpcode.OpIfe)]
-        [TestCase("IFN", BasicOpcode.OpIfn)]
-        [TestCase("IFG", BasicOpcode.OpIfg)]
-        [TestCase("IFB", BasicOpcode.OpIfb)]
-        public void SetMenemonicWhenCalledWithMenemonicSetsOpcodeToCorrectValue(string menemonic, BasicOpcode expectedOpcodeValue)
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            var statment = new Statment { Menemonic = menemonic };
-
-            Assert.That(statment.Opcode, Is.EqualTo((int)expectedOpcodeValue));
+            return cpuStateManager.Overflow;
         }
 
-        [Test]
-        public void SetMenemonicWhenCalledWithInvalidMenemonicThrows()
+        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
         {
-            Assert.Throws<Exception>(() => new Statment { Menemonic = "JSM" });
+            cpuStateManager.Overflow = value;
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return (ushort)((ushort)OperandType.OO << shift);
+        }
+
+        public override string ToString()
+        {
+            return "Ov";
         }
     }
 }

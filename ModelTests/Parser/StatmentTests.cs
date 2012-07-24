@@ -20,29 +20,45 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace ModelTests.Parser
 {
     using System;
 
-    using Lexer.Tokens;
+    using Model;
+    using Model.Parser;
 
-    public class IndirectNextWordOperandBuilder : OperandBuilder
+    using NUnit.Framework;
+
+    [TestFixture]
+    public class StatmentTests
     {
-        protected override Operand CreateOperand(TokenBase token)
+        [Test]
+        [TestCase("SET", BasicOpcode.OpSet)]
+        [TestCase("ADD", BasicOpcode.OpAdd)]
+        [TestCase("SUB", BasicOpcode.OpSub)]
+        [TestCase("MUL", BasicOpcode.OpMul)]
+        [TestCase("DIV", BasicOpcode.OpDiv)]
+        [TestCase("MOD", BasicOpcode.OpMod)]
+        [TestCase("SHL", BasicOpcode.OpShl)]
+        [TestCase("SHR", BasicOpcode.OpShr)]
+        [TestCase("AND", BasicOpcode.OpAnd)]
+        [TestCase("BOR", BasicOpcode.OpBor)]
+        [TestCase("XOR", BasicOpcode.OpXor)]
+        [TestCase("IFE", BasicOpcode.OpIfe)]
+        [TestCase("IFN", BasicOpcode.OpIfn)]
+        [TestCase("IFG", BasicOpcode.OpIfg)]
+        [TestCase("IFB", BasicOpcode.OpIfb)]
+        public void SetMenemonicWhenCalledWithMenemonicSetsOpcodeToCorrectValue(string menemonic, BasicOpcode expectedOpcodeValue)
         {
-            return new IndirectNextWordOperand();
+            var statment = new Statment { Menemonic = menemonic };
+
+            Assert.That(statment.Opcode, Is.EqualTo((int)expectedOpcodeValue));
         }
 
-        protected override void SetNextWordValue(TokenBase token)
+        [Test]
+        public void SetMenemonicWhenCalledWithInvalidMenemonicThrows()
         {
-            if (token is HexToken)
-            {
-                this.Operand.NextWord = Convert.ToInt32(token.Content, 16);
-            }
-            else if (token is DecimalToken)
-            {
-                this.Operand.NextWord = Convert.ToInt32(token.Content, 10);
-            }
+            Assert.Throws<Exception>(() => new Statment { Menemonic = "JSM" });
         }
     }
 }

@@ -20,33 +20,35 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model.Parser.Operands
 {
-    using System;
-
-    using Lexer.Tokens;
-
-    public class NextWordOperandBuilder : OperandBuilder
+    public class NextWordOperand : Operand
     {
-        protected override Operand CreateOperand(TokenBase token)
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            return new NextWordOperand();
+            cpuStateManager.IncrementProgramCounter();
+            var value = cpuStateManager.ReadValueAtProgramCounter();
+            return value;
         }
 
-        protected override void SetNextWordValue(TokenBase token)
+        public override void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            if (token is HexToken)
+            cpuStateManager.IncrementProgramCounter();
+        }
+
+        public override string ToString()
+        {
+            return "NW";
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
             {
-                this.Operand.NextWord = Convert.ToInt32(token.Content, 16);
+                return (ushort)((this.NextWord + OperandLiteralOffset) << shift);
             }
-            else if (token is DecimalToken)
-            {
-                this.Operand.NextWord = Convert.ToInt32(token.Content, 10);
-            }
-            else if (token is StringToken)
-            {
-                this.Operand.Label = token.Content;
-            }
+
+            return (ushort)((ushort)OperandType.ONextWord << shift);
         }
     }
 }

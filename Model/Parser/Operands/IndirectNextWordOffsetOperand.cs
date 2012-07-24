@@ -20,20 +20,46 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model.Parser.Operands
 {
-    using System;
-
-    public class NullOperand : Operand
+    public class IndirectNextWordOffsetOperand : Operand
     {
+        private ushort nextWordAddress;
+
+        private ushort registerValue;
+
         public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            throw new InvalidOperationException();
+            var value = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+            return
+                (ushort)(cpuStateManager.ReadMemoryValueAtAddress((ushort)(this.nextWordAddress + value)) & ShortMask);
+        }
+
+        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        {
+            cpuStateManager.WriteMemoryValueAtAddress(((this.nextWordAddress + this.registerValue) & ShortMask), value);
+        }
+
+        public override void Process(ICentralProcessingUnitStateOperations cpuStateManager)
+        {
+            var programCounter = cpuStateManager.IncrementProgramCounter();
+            this.nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
+            this.registerValue =
+                cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "[{0}+{1}={2}]",
+                string.Format("0x{0:X4}", this.nextWordAddress),
+                RegisterOperand.ConvertRegisterIdentifierToTokenString(this.OperandValue % NumberOfRegisters),
+                string.Format("0x{0:X4}", this.registerValue));
         }
 
         protected override ushort Assemble(ushort shift)
         {
-            return 0;
+            return (ushort)(((ushort)OperandType.OIndirectNextWordOffset + this.RegisterValue) << shift);
         }
     }
 }

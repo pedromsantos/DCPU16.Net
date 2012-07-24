@@ -1,4 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -20,28 +20,17 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model.Parser.Operands
 {
-    public class ProgramCounterOperand : Operand
+    using Lexer.Tokens;
+
+    using Model;
+
+    public class IndirectRegisterOperandBuilder : RegisterOperandBuilder
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        protected override Operand CreateOperand(TokenBase token)
         {
-            return cpuStateManager.ProgramCounter;
-        }
-
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
-        {
-            cpuStateManager.SetProgramCounter(value);
-        }
-
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OPc << shift);
-        }
-
-        public override string ToString()
-        {
-            return "PC";
+            return new IndirectRegisterOperand();
         }
     }
 }

@@ -20,41 +20,33 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model.Parser.Operands
 {
-    public class IndirectNextWordOperand : Operand
+    using System;
+
+    using Lexer.Tokens;
+
+    public class NextWordOperandBuilder : OperandBuilder
     {
-        private ushort nextWordAddress;
-
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        protected override Operand CreateOperand(TokenBase token)
         {
-            return cpuStateManager.ReadMemoryValueAtAddress(this.nextWordAddress);
+            return new NextWordOperand();
         }
 
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        protected override void SetNextWordValue(TokenBase token)
         {
-            cpuStateManager.WriteMemoryValueAtAddress(this.nextWordAddress, value);
-        }
-
-        public override void Process(ICentralProcessingUnitStateOperations cpuStateManager)
-        {
-            var programCounter = cpuStateManager.IncrementProgramCounter();
-            this.nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
-        }
-
-        public override string ToString()
-        {
-            return string.Format("[0x{0:X4}]", this.nextWordAddress);
-        }
-
-        protected override ushort Assemble(ushort shift)
-        {
-            if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
+            if (token is HexToken)
             {
-                return (ushort)((this.NextWord + OperandLiteralOffset) << shift);
+                this.Operand.NextWord = Convert.ToInt32(token.Content, 16);
             }
-
-            return (ushort)((ushort)OperandType.OIndirectNextWord << shift);
+            else if (token is DecimalToken)
+            {
+                this.Operand.NextWord = Convert.ToInt32(token.Content, 10);
+            }
+            else if (token is StringToken)
+            {
+                this.Operand.Label = token.Content;
+            }
         }
     }
 }

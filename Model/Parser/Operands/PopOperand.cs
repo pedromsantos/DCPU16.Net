@@ -20,17 +20,25 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Operands
+namespace Model.Parser.Operands
 {
-    using Lexer.Tokens;
-
-    using Model;
-
-    public class IndirectRegisterOperandBuilder : RegisterOperandBuilder
+    public class PopOperand : Operand
     {
-        protected override Operand CreateOperand(TokenBase token)
+        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
         {
-            return new IndirectRegisterOperand();
+            var value = cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
+            cpuStateManager.IncrementStackPointer();
+            return value;
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return (ushort)((ushort)OperandType.OPop << shift);
+        }
+
+        public override string ToString()
+        {
+            return "POP";
         }
     }
 }

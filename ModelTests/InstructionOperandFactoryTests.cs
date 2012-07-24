@@ -25,7 +25,7 @@ namespace ModelTests
     using System;
 
     using Model;
-    using Model.Operands;
+    using Model.Parser.Operands;
 
     using NUnit.Framework;
 

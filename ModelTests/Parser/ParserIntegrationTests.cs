@@ -20,19 +20,18 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.ParserTests
+namespace ModelTests.Parser
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
-    using Lexer;
-    using Lexer.Tokens;
-
+    using Model.Lexer;
+    using Model.Lexer.Tokens;
     using Model;
-    using Model.Operands;
     using Model.Parser;
+    using Model.Parser.Operands;
 
     using NUnit.Framework;
 
