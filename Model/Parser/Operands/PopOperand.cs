@@ -24,7 +24,7 @@ namespace Model.Parser.Operands
 {
     public class PopOperand : Operand
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
             var value = cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
             cpuStateManager.IncrementStackPointer();

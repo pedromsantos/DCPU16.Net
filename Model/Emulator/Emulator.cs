@@ -30,14 +30,14 @@ namespace Model.Emulator
 
     public class Emulator
     {
-        private readonly CentralProcessingUnit cpu;
+        private readonly Cpu cpu;
 
         private readonly InstructionOperandFactory operandFactory;
 
         public Emulator()
         {
             this.operandFactory = new InstructionOperandFactory();
-            this.cpu = new CentralProcessingUnit(this.operandFactory);
+            this.cpu = new Cpu(this.operandFactory);
         }
 
         public event InstructionExecutionHandler InstructionWillExecute

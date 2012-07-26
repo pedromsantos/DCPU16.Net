@@ -24,7 +24,7 @@ namespace Model.Parser.Operands
 {
     public class PushOperand : Operand
     {
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
             var stackPointerValue = cpuStateManager.DecrementStackPointer();
             cpuStateManager.WriteMemoryValueAtAddress(stackPointerValue, value);

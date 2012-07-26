@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicOpcode.cs" />
-    <Compile Include="Emulator\CentralProcessingUnit.cs" />
+    <Compile Include="Emulator\Cpu.cs" />
     <Compile Include="Emulator\CpuOperation.cs" />
     <Compile Include="Emulator\Emulator.cs" />
     <Compile Include="Emulator\IInstructionBuilder.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="Emulator\Instructions\XorInstruction.cs" />
     <Compile Include="Emulator\Memory.cs" />
     <Compile Include="Emulator\Registers.cs" />
-    <Compile Include="ICentralProcessingUnitStateOperations.cs" />
+    <Compile Include="ICPUStateOperations.cs" />
     <Compile Include="IInstructionOperandFactory.cs" />
     <Compile Include="InstructionOperandFactory.cs" />
     <Compile Include="Lexer\ConsumeTokenStrategy.cs" />

@@ -80,13 +80,13 @@ namespace Model.Parser
             this.ParseLabel();
             this.ParseMenemonic();
             
-            if (this.currentStatment.Menemonic != "DAT")
+            if (this.currentStatment.Menemonic == "DAT")
             {
-                this.ParseOperands();
+                this.ParseData();
             }
             else
             {
-                this.ParseData();
+                this.ParseOperands();
             }
 
             this.Statments.Add(this.currentStatment);

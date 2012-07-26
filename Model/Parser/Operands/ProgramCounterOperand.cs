@@ -24,12 +24,12 @@ namespace Model.Parser.Operands
 {
     public class ProgramCounterOperand : Operand
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
             return cpuStateManager.ProgramCounter;
         }
 
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
             cpuStateManager.SetProgramCounter(value);
         }

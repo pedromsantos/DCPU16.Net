@@ -24,7 +24,7 @@ namespace Model.Parser.Operands
 {
     public class LiteralOperand : Operand
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
             return (ushort)((this.OperandValue - 0x20) % NumberOfLiterals);
         }

@@ -28,7 +28,7 @@ namespace Model.Emulator
 
     public delegate void InstructionExecutionHandler(ushort rawInstruction, Instruction instruction);
 
-    public class CentralProcessingUnit : ICentralProcessingUnitStateOperations
+    public class Cpu : ICpuStateOperations
     {
         private readonly IInstructionBuilder instructionBuilder;
         
@@ -38,13 +38,13 @@ namespace Model.Emulator
 
         private bool programCounterSet;
 
-        public CentralProcessingUnit(InstructionOperandFactory operandFactory)
+        public Cpu(InstructionOperandFactory operandFactory)
             : this()
         {
             this.instructionBuilder = new InstructionBuilder(this, operandFactory);
         }
 
-        public CentralProcessingUnit()
+        public Cpu()
         {
             this.memory = new Memory();
             this.registers = new Registers();

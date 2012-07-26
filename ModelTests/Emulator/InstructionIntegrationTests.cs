@@ -56,7 +56,7 @@ namespace ModelTests.Emulator
         public void BuildWhenCalledForRawInstructionBuildsExpectedInstructionInstance(
             ushort rawInstruction, Type expectedInstruction)
         {
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
 
             var builder = new InstructionBuilder(cpu, operandFactory);
@@ -88,7 +88,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -115,7 +115,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -151,7 +151,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -186,7 +186,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -221,7 +221,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -256,7 +256,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -291,7 +291,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -326,7 +326,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -361,7 +361,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -395,7 +395,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -424,7 +424,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -453,7 +453,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -488,7 +488,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -514,7 +514,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -540,7 +540,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -566,7 +566,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -592,7 +592,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -616,7 +616,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -640,7 +640,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -664,7 +664,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -688,7 +688,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -721,7 +721,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -754,7 +754,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -787,7 +787,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -814,7 +814,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -840,7 +840,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -873,7 +873,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -899,7 +899,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -923,7 +923,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -948,7 +948,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -973,7 +973,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -997,7 +997,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -1021,7 +1021,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new CentralProcessingUnit();
+            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(cpu, operandFactory);
 
@@ -1073,7 +1073,7 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Mock<ICentralProcessingUnitStateOperations>();
+            var cpu = new Mock<ICpuStateOperations>();
             var operandFactory = new Mock<IInstructionOperandFactory>();
             var builder = new InstructionBuilder(cpu.Object, operandFactory.Object);
 

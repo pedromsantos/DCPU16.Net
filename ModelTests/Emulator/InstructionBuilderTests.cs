@@ -47,7 +47,7 @@ namespace ModelTests.Emulator
         [TestCase((ushort)0x9037, typeof(ShlInstruction))] // SHL X, 4
         public void BuildWhenCalledForRawInstructionBuildsExpectedInstructionInstance(ushort rawInstruction, Type expectedInstruction)
         {
-            var cpu = new Mock<ICentralProcessingUnitStateOperations>();
+            var cpu = new Mock<ICpuStateOperations>();
             var operandFactory = new Mock<IInstructionOperandFactory>();
 
             operandFactory.Setup(m => m.Create(It.IsAny<ushort>())).Returns(new NullOperand());

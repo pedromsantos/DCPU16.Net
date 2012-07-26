@@ -22,7 +22,7 @@
 
 namespace Model
 {
-    public interface ICentralProcessingUnitStateOperations
+    public interface ICpuStateOperations
     {
         ushort ProgramCounter { get; }
 

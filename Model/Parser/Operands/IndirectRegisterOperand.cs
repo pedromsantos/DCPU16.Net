@@ -24,13 +24,13 @@ namespace Model.Parser.Operands
 {
     public class IndirectRegisterOperand : Operand
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
             var address = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
             return cpuStateManager.ReadMemoryValueAtAddress(address);
         }
 
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
             var memoryAddress = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
             cpuStateManager.WriteMemoryValueAtAddress(memoryAddress, value);

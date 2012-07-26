@@ -26,17 +26,17 @@ namespace Model.Parser.Operands
     {
         private ushort nextWordAddress;
 
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
             return cpuStateManager.ReadMemoryValueAtAddress(this.nextWordAddress);
         }
 
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
             cpuStateManager.WriteMemoryValueAtAddress(this.nextWordAddress, value);
         }
 
-        public override void Process(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override void Process(ICpuStateOperations cpuStateManager)
         {
             var programCounter = cpuStateManager.IncrementProgramCounter();
             this.nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);

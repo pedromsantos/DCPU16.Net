@@ -36,7 +36,7 @@ namespace Model.Emulator
         private const ushort OperandBMask = 0x3F;
         private const ushort OperandBShift = 10;
 
-        private readonly ICentralProcessingUnitStateOperations cpuState;
+        private readonly ICpuStateOperations cpuState;
 
         private readonly IDictionary<BasicOpcode, Func<Instruction>> instructionMapper;
 
@@ -50,7 +50,7 @@ namespace Model.Emulator
 
         private CpuOperation operationB;
 
-        public InstructionBuilder(ICentralProcessingUnitStateOperations cpuState, IInstructionOperandFactory operandFactory)
+        public InstructionBuilder(ICpuStateOperations cpuState, IInstructionOperandFactory operandFactory)
         {
             this.cpuState = cpuState;
             this.operandFactory = operandFactory;

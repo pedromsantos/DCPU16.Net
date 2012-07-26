@@ -26,7 +26,7 @@ namespace Model.Parser.Operands
 
     public class NullOperand : Operand
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
             throw new InvalidOperationException();
         }

@@ -24,7 +24,7 @@ namespace Model.Parser.Operands
 {
     public class PeekOperand : Operand
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
             return cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
         }

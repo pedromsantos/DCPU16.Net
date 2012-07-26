@@ -28,19 +28,19 @@ namespace Model.Parser.Operands
 
         private ushort registerValue;
 
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
             var value = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
             return
                 (ushort)(cpuStateManager.ReadMemoryValueAtAddress((ushort)(this.nextWordAddress + value)) & ShortMask);
         }
 
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
             cpuStateManager.WriteMemoryValueAtAddress(((this.nextWordAddress + this.registerValue) & ShortMask), value);
         }
 
-        public override void Process(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override void Process(ICpuStateOperations cpuStateManager)
         {
             var programCounter = cpuStateManager.IncrementProgramCounter();
             this.nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);

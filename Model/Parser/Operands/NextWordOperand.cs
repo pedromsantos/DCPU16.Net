@@ -24,14 +24,14 @@ namespace Model.Parser.Operands
 {
     public class NextWordOperand : Operand
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
             cpuStateManager.IncrementProgramCounter();
             var value = cpuStateManager.ReadValueAtProgramCounter();
             return value;
         }
 
-        public override void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override void NoOp(ICpuStateOperations cpuStateManager)
         {
             cpuStateManager.IncrementProgramCounter();
         }

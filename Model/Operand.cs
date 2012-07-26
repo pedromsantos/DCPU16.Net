@@ -51,21 +51,21 @@ namespace Model
             }
         }
 
-        public virtual ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public virtual ushort Read(ICpuStateOperations cpuStateManager)
         {
             return 0;
         }
 
-        public virtual void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public virtual void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
             throw new InvalidOperationException();
         }
 
-        public virtual void Process(ICentralProcessingUnitStateOperations cpuStateManager)
+        public virtual void Process(ICpuStateOperations cpuStateManager)
         {
         }
 
-        public virtual void NoOp(ICentralProcessingUnitStateOperations cpuStateManager)
+        public virtual void NoOp(ICpuStateOperations cpuStateManager)
         {
         }
 

@@ -102,7 +102,7 @@ namespace ModelTests.Emulator
             var program = assembler.AssembleStatments(statments);
 
             var operandFactory = new InstructionOperandFactory();
-            var cpu = new CentralProcessingUnit(operandFactory);
+            var cpu = new Cpu(operandFactory);
             cpu.LoadProgram(program);
 
             var executed = true;
@@ -150,7 +150,7 @@ namespace ModelTests.Emulator
             var program = assembler.AssembleStatments(statments);
 
             var operandFactory = new InstructionOperandFactory();
-            var cpu = new CentralProcessingUnit(operandFactory);
+            var cpu = new Cpu(operandFactory);
             cpu.LoadProgram(program);
             var receivedEvents = new Dictionary<int, ushort>();
             cpu.VideoMemoryDidChange += receivedEvents.Add;

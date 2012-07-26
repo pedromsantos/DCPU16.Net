@@ -28,9 +28,9 @@ namespace Model.Emulator
     {
         private readonly Operand operand;
 
-        private readonly ICentralProcessingUnitStateOperations cpuStateManager;
+        private readonly ICpuStateOperations cpuStateManager;
 
-        public CpuOperation(Operand operand, ICentralProcessingUnitStateOperations cpuStateManager)
+        public CpuOperation(Operand operand, ICpuStateOperations cpuStateManager)
         {
             this.operand = operand;
             this.cpuStateManager = cpuStateManager;

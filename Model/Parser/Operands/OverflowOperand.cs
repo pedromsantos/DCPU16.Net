@@ -24,12 +24,12 @@ namespace Model.Parser.Operands
 {
     public class OverflowOperand : Operand
     {
-        public override ushort Read(ICentralProcessingUnitStateOperations cpuStateManager)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
             return cpuStateManager.Overflow;
         }
 
-        public override void Write(ICentralProcessingUnitStateOperations cpuStateManager, ushort value)
+        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
             cpuStateManager.Overflow = value;
         }
