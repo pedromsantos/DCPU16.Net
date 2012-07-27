@@ -56,7 +56,8 @@ namespace ModelTests.Emulator
             var program = assembler.AssembleStatments(statments);
 
             var operandFactory = new InstructionOperandFactory();
-            var cpu = new Cpu(operandFactory);
+            var instructionBuilder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(instructionBuilder);
             cpu.InstructionWillExecute += receivedEvents.Add;
             cpu.LoadProgram(program);
             cpu.ExecuteNextInstruction();
@@ -80,7 +81,8 @@ namespace ModelTests.Emulator
             var program = assembler.AssembleStatments(statments);
 
             var operandFactory = new InstructionOperandFactory();
-            var cpu = new Cpu(operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
             cpu.InstructionDidExecute += receivedEvents.Add;
             cpu.LoadProgram(program);
             cpu.ExecuteNextInstruction();

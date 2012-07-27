@@ -26,18 +26,13 @@ namespace Model.Emulator
     using System.IO;
     using System.Threading;
 
-    using Model;
-
-    public class Emulator
+    public class Emulator : IEmulator
     {
-        private readonly Cpu cpu;
+        private readonly ICpu cpu;
 
-        private readonly InstructionOperandFactory operandFactory;
-
-        public Emulator()
+        public Emulator(ICpu cpu)
         {
-            this.operandFactory = new InstructionOperandFactory();
-            this.cpu = new Cpu(this.operandFactory);
+            this.cpu = cpu;
         }
 
         public event InstructionExecutionHandler InstructionWillExecute

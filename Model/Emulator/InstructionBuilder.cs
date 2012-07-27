@@ -35,9 +35,7 @@ namespace Model.Emulator
         private const ushort OperandAShift = 4;
         private const ushort OperandBMask = 0x3F;
         private const ushort OperandBShift = 10;
-
-        private readonly ICpuStateOperations cpuState;
-
+        
         private readonly IDictionary<BasicOpcode, Func<Instruction>> instructionMapper;
 
         private readonly IDictionary<ushort, Instruction> instructionCache;
@@ -50,9 +48,8 @@ namespace Model.Emulator
 
         private CpuOperation operationB;
 
-        public InstructionBuilder(ICpuStateOperations cpuState, IInstructionOperandFactory operandFactory)
+        public InstructionBuilder(IInstructionOperandFactory operandFactory)
         {
-            this.cpuState = cpuState;
             this.operandFactory = operandFactory;
             this.instructionCache = new Dictionary<ushort, Instruction>();
             this.instructionMapper = new Dictionary<BasicOpcode, Func<Instruction>>
@@ -75,7 +72,7 @@ namespace Model.Emulator
                 };
         }
 
-        public Instruction Build(ushort instructionValue)
+        public Instruction Build(ushort instructionValue, ICpuStateOperations cpuState)
         {
             if (this.instructionCache.Keys.Contains(instructionValue))
             {
@@ -92,7 +89,7 @@ namespace Model.Emulator
                 {
                     var operandValue = (ushort)((instructionValue >> OperandBShift) & OperandBMask);
 
-                    this.operationA = new CpuOperation(this.operandFactory.Create(operandValue), this.cpuState);
+                    this.operationA = new CpuOperation(this.operandFactory.Create(operandValue), cpuState);
                     this.operationB = null;
 
                     var jsrInstruction = new JsrInstruction(0, this.operationA, this.operationA);
@@ -107,8 +104,8 @@ namespace Model.Emulator
             var firstOperandValue = (ushort)((instructionValue >> OperandAShift) & OperandAMask);
             var secondOperandValue = (ushort)((instructionValue >> OperandBShift) & OperandBMask);
 
-            this.operationA = new CpuOperation(this.operandFactory.Create(firstOperandValue), this.cpuState);
-            this.operationB = new CpuOperation(this.operandFactory.Create(secondOperandValue), this.cpuState);
+            this.operationA = new CpuOperation(this.operandFactory.Create(firstOperandValue), cpuState);
+            this.operationB = new CpuOperation(this.operandFactory.Create(secondOperandValue), cpuState);
 
             var instruction = this.instructionMapper[(BasicOpcode)this.opcode]();
             this.instructionCache[instructionValue] = instruction;

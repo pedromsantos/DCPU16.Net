@@ -25,6 +25,7 @@ namespace ModelTests.Emulator
     using System.Collections.Generic;
     using System.IO;
 
+    using Model;
     using Model.Assembler;
     using Model.Emulator;
     using Model.Lexer;
@@ -107,7 +108,10 @@ namespace ModelTests.Emulator
                 data.Add((byte)(word & 0xFF));
             }
 
-            var emulator = new Emulator();
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
+            var emulator = new Emulator(cpu);
             var receivedEvents = new Dictionary<int, ushort>();
             emulator.MemoryDidChange += receivedEvents.Add; 
             emulator.LoadProgram(data.ToArray());

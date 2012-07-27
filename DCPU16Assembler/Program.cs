@@ -27,8 +27,12 @@ namespace DCPU16Assembler
     using System.IO;
     using System.Linq;
 
+    using Castle.MicroKernel.Registration;
+    using Castle.Windsor;
+
     using Microsoft.GotDotNet;
 
+    using Model;
     using Model.Assembler;
     using Model.Emulator;
     using Model.Lexer;
@@ -116,14 +120,22 @@ namespace DCPU16Assembler
 
         private static void RunProgram(string inputFileName, string displayOption = "")
         {
+            var container = new WindsorContainer();
+
+            container.Register(
+                Component.For<IInstructionOperandFactory>().ImplementedBy<InstructionOperandFactory>(),
+                Component.For<IInstructionBuilder>().ImplementedBy<InstructionBuilder>(),
+                Component.For<ICpu>().ImplementedBy<Cpu>(),
+                Component.For<IEmulator>().ImplementedBy<Emulator>());
+
             var programData = File.ReadAllBytes(inputFileName);
 
             if ((programData.Length % 2) != 0)
             {
                 return;
             }
-
-            var emulator = new Emulator();
+            
+            var emulator = container.Resolve<IEmulator>();
             emulator.InstructionDidLoad += LoadedInstructions.Add;
             emulator.LoadProgram(programData);
 

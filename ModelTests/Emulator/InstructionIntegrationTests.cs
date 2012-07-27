@@ -56,12 +56,10 @@ namespace ModelTests.Emulator
         public void BuildWhenCalledForRawInstructionBuildsExpectedInstructionInstance(
             ushort rawInstruction, Type expectedInstruction)
         {
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-
-            var builder = new InstructionBuilder(cpu, operandFactory);
-
-            var instruction = builder.Build(rawInstruction);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
+            var instruction = builder.Build(rawInstruction, cpu);
 
             Assert.That(instruction, Is.InstanceOf(expectedInstruction));
         }
@@ -88,12 +86,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadGeneralPursoseRegisterValue(registerAddress), Is.EqualTo(expectedValue));
@@ -115,13 +113,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction1 = builder.Build(program[0]);
-            var instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             cpu.IncrementProgramCounter();
             instruction2.Execute();
@@ -151,13 +149,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction1 = builder.Build(program[0]);
-            var instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -186,13 +184,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            Instruction instruction1 = builder.Build(program[0]);
-            Instruction instruction2 = builder.Build(program[1]);
+            Instruction instruction1 = builder.Build(program[0], cpu);
+            Instruction instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -221,13 +219,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction1 = builder.Build(program[0]);
-            var instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -256,13 +254,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction1 = builder.Build(program[0]);
-            var instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -291,13 +289,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction1 = builder.Build(program[0]);
-            var instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -326,13 +324,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction1 = builder.Build(program[0]);
-            var instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -361,13 +359,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction1 = builder.Build(program[0]);
-            var instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -395,13 +393,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction1 = builder.Build(program[0]);
-            var instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -424,13 +422,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            Instruction instruction1 = builder.Build(program[0]);
-            Instruction instruction2 = builder.Build(program[1]);
+            Instruction instruction1 = builder.Build(program[0], cpu);
+            Instruction instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -453,13 +451,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            Instruction instruction1 = builder.Build(program[0]);
-            Instruction instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -488,12 +486,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            Instruction instruction = builder.Build(program[0]);
+            Instruction instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
@@ -514,12 +512,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            Instruction instruction = builder.Build(program[0]);
+            Instruction instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
@@ -540,12 +538,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
@@ -566,12 +564,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
@@ -592,12 +590,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
@@ -616,12 +614,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.Overflow, Is.EqualTo(0x10));
@@ -640,12 +638,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ProgramCounter, Is.EqualTo(0x10));
@@ -664,12 +662,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.StackPointer, Is.EqualTo(ushort.MaxValue));
@@ -688,12 +686,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadMemoryValueAtAddress(cpu.StackPointer), Is.EqualTo(0x10));
@@ -721,12 +719,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadGeneralPursoseRegisterValue(registerAddress), Is.EqualTo(expectedValue));
@@ -754,12 +752,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadGeneralPursoseRegisterValue(registerAddress), Is.EqualTo(expectedValue));
@@ -787,12 +785,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadGeneralPursoseRegisterValue(registerAddress), Is.EqualTo(expectedValue));
@@ -814,13 +812,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction1 = builder.Build(program[0]);
-            var instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -840,12 +838,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.StackPointer, Is.EqualTo(0x10));
@@ -873,13 +871,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction1 = builder.Build(program[0]);
-            var instruction2 = builder.Build(program[1]);
+            var instruction1 = builder.Build(program[0], cpu);
+            var instruction2 = builder.Build(program[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -899,12 +897,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.IgnoreNextInstruction, Is.EqualTo(true));
@@ -923,13 +921,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
             cpu.SetProgramCounter(0x10);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadMemoryValueAtAddress(cpu.StackPointer), Is.EqualTo(0x10));
@@ -948,13 +946,13 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
             cpu.SetProgramCounter(0x10);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ProgramCounter, Is.EqualTo(0x04));
@@ -973,12 +971,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.IgnoreNextInstruction, Is.EqualTo(true));
@@ -997,12 +995,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.IgnoreNextInstruction, Is.EqualTo(true));
@@ -1021,12 +1019,12 @@ namespace ModelTests.Emulator
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
-            var cpu = new Cpu();
             var operandFactory = new InstructionOperandFactory();
-            var builder = new InstructionBuilder(cpu, operandFactory);
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
 
             cpu.LoadProgram(program);
-            var instruction = builder.Build(program[0]);
+            var instruction = builder.Build(program[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.IgnoreNextInstruction, Is.EqualTo(true));
@@ -1075,12 +1073,11 @@ namespace ModelTests.Emulator
 
             var cpu = new Mock<ICpuStateOperations>();
             var operandFactory = new Mock<IInstructionOperandFactory>();
-            var builder = new InstructionBuilder(cpu.Object, operandFactory.Object);
+            var builder = new InstructionBuilder(operandFactory.Object);
 
-            var instructions =
-                program.Select(builder.Build).Where(instruction => instruction != null).ToList();
+            var instructions = program.Select(@ushort => builder.Build(@ushort, cpu.Object)).ToList();
 
-            Assert.That(instructions.Count, Is.EqualTo(22));
+            Assert.That(instructions.Count, Is.EqualTo(28));
         }
 
         [SetUp]

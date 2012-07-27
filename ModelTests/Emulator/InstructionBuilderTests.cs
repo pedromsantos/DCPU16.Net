@@ -52,9 +52,9 @@ namespace ModelTests.Emulator
 
             operandFactory.Setup(m => m.Create(It.IsAny<ushort>())).Returns(new NullOperand());
 
-            var builder = new InstructionBuilder(cpu.Object, operandFactory.Object);
+            var builder = new InstructionBuilder(operandFactory.Object);
 
-            var instruction = builder.Build(rawInstruction);
+            var instruction = builder.Build(rawInstruction, cpu.Object);
 
             Assert.That(instruction, Is.InstanceOf(expectedInstruction));
         }

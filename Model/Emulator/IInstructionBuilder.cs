@@ -24,6 +24,6 @@ namespace Model.Emulator
 {
     public interface IInstructionBuilder
     {
-        Instruction Build(ushort instructionValue);
+        Instruction Build(ushort instructionValue, ICpuStateOperations cpuState);
     }
 }

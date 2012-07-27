@@ -42,6 +42,9 @@
     <Compile Include="Emulator\Cpu.cs" />
     <Compile Include="Emulator\CpuOperation.cs" />
     <Compile Include="Emulator\Emulator.cs" />
+    <Compile Include="Emulator\ICpu.cs" />
+    <Compile Include="Emulator\ICpuNotifications.cs" />
+    <Compile Include="Emulator\IEmulator.cs" />
     <Compile Include="Emulator\IInstructionBuilder.cs" />
     <Compile Include="Emulator\Instruction.cs" />
     <Compile Include="Emulator\InstructionBuilder.cs" />

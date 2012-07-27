@@ -24,11 +24,9 @@ namespace Model.Emulator
 {
     using System.Collections.Generic;
 
-    using Model;
-
     public delegate void InstructionExecutionHandler(ushort rawInstruction, Instruction instruction);
 
-    public class Cpu : ICpuStateOperations
+    public class Cpu : ICpu
     {
         private readonly IInstructionBuilder instructionBuilder;
         
@@ -38,13 +36,13 @@ namespace Model.Emulator
 
         private bool programCounterSet;
 
-        public Cpu(InstructionOperandFactory operandFactory)
+        public Cpu(IInstructionBuilder instructionBuilder)
             : this()
         {
-            this.instructionBuilder = new InstructionBuilder(this, operandFactory);
+            this.instructionBuilder = instructionBuilder;
         }
 
-        public Cpu()
+        protected Cpu()
         {
             this.memory = new Memory();
             this.registers = new Registers();
@@ -269,7 +267,7 @@ namespace Model.Emulator
 
             var rawInstruction = this.memory.ReadValueAtAddress(this.registers.ProgramCounter);
 
-            var instruction = this.instructionBuilder.Build(rawInstruction);
+            var instruction = this.instructionBuilder.Build(rawInstruction, this);
 
             if (!this.IgnoreNextInstruction)
             {
