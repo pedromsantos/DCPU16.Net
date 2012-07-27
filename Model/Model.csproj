@@ -63,7 +63,7 @@
     <Compile Include="Emulator\Instructions\XorInstruction.cs" />
     <Compile Include="Emulator\Memory.cs" />
     <Compile Include="Emulator\Registers.cs" />
-    <Compile Include="ICPUStateOperations.cs" />
+    <Compile Include="ICpuStateOperations.cs" />
     <Compile Include="IInstructionOperandFactory.cs" />
     <Compile Include="InstructionOperandFactory.cs" />
     <Compile Include="Lexer\ConsumeTokenStrategy.cs" />
