@@ -22,7 +22,6 @@
 
 namespace Model.Parser
 {
-    using Model;
     using Model.Lexer.Tokens;
 
     public interface IOperandFactory
