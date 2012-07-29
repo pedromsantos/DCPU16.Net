@@ -22,8 +22,6 @@
 
 namespace Model.Parser
 {
-    using Lexer.Tokens;
-
     using Model;
     using Model.Lexer.Tokens;
 
