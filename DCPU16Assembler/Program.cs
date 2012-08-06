@@ -75,6 +75,7 @@ namespace DCPU16Assembler
         private static readonly IDictionary<int, ushort> MemoryChanged = new Dictionary<int, ushort>();
         private static readonly IList<KeyValuePair<ushort, Instruction>> ExecutedInstructions = new List<KeyValuePair<ushort, Instruction>>();
 
+        /*
         public static void Main(string[] args)
         {
             if (args.Length < 2)
@@ -116,6 +117,20 @@ namespace DCPU16Assembler
                         return;
                 }
             }
+        }
+        */
+
+        public static void Main(string[] args)
+        {
+            ConsoleEx.TextColor(ConsoleForeground.White, ConsoleBackground.Blue);
+            ConsoleEx.DrawRectangle(BorderStyle.None, 0, 0, 80, 25, true);
+            ConsoleEx.CursorVisible = false;
+
+            DisplayRegisters();
+            DisplayStack();
+            DisplayMemory();
+            DisplayOutput();
+            RunProgram("text_write_test.bin");
         }
 
         private static void RunProgram(string inputFileName, string displayOption = "")

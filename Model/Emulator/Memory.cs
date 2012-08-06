@@ -25,8 +25,6 @@ namespace Model.Emulator
     using System;
     using System.Collections.Generic;
 
-    public delegate void MemoryChangeHandler(int address, ushort value);
-
     public class Memory
     {
         private const int MemorySize = 0x10000;
@@ -57,15 +55,15 @@ namespace Model.Emulator
             this.ram = new ushort[size];
         }
 
-        public event MemoryChangeHandler MemoryWillChange;
+        public event Action<int, ushort> MemoryWillChange;
 
-        public event MemoryChangeHandler MemoryDidChange;
+        public event Action<int, ushort> MemoryDidChange;
 
-        public event MemoryChangeHandler InstructionDidLoad;
+        public event Action<int, ushort> InstructionDidLoad;
 
-        public event MemoryChangeHandler VideoMemoryDidChange;
+        public event Action<int, ushort> VideoMemoryDidChange;
 
-        public event MemoryChangeHandler KeyboardMemoryDidChange;
+        public event Action<int, ushort> KeyboardMemoryDidChange;
 
         public ushort ReadValueAtAddress(ushort address)
         {

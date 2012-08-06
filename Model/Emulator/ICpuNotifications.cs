@@ -1,35 +1,37 @@
 ﻿namespace Model.Emulator
 {
+    using System;
+
     public interface ICpuNotifications
     {
-        event InstructionExecutionHandler InstructionWillExecute;
+        event Action<ushort, Instruction> InstructionWillExecute;
 
-        event InstructionExecutionHandler InstructionDidExecute;
+        event Action<ushort, Instruction> InstructionDidExecute;
 
-        event MemoryChangeHandler InstructionDidLoad;
+        event Action<int, ushort> InstructionDidLoad;
 
-        event MemoryChangeHandler MemoryWillChange;
+        event Action<int, ushort> MemoryWillChange;
 
-        event MemoryChangeHandler MemoryDidChange;
+        event Action<int, ushort> MemoryDidChange;
 
-        event RegisterChangeHandler RegisterWillChange;
+        event Action<int, ushort> RegisterWillChange;
 
-        event RegisterChangeHandler RegisterDidChange;
+        event Action<int, ushort> RegisterDidChange;
 
-        event RegisterChangeHandler ProgramCounterWillChange;
+        event Action<int, ushort> ProgramCounterWillChange;
 
-        event RegisterChangeHandler ProgramCounterDidChange;
+        event Action<int, ushort> ProgramCounterDidChange;
 
-        event RegisterChangeHandler StackPointerWillChange;
+        event Action<int, ushort> StackPointerWillChange;
 
-        event RegisterChangeHandler StackPointerDidChange;
+        event Action<int, ushort> StackPointerDidChange;
 
-        event RegisterChangeHandler OverflowWillChange;
+        event Action<int, ushort> OverflowWillChange;
 
-        event RegisterChangeHandler OverflowDidChange;
+        event Action<int, ushort> OverflowDidChange;
 
-        event MemoryChangeHandler VideoMemoryDidChange;
+        event Action<int, ushort> VideoMemoryDidChange;
 
-        event MemoryChangeHandler KeyboardMemoryDidChange;
+        event Action<int, ushort> KeyboardMemoryDidChange;
     }
 }

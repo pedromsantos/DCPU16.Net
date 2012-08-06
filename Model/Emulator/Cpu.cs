@@ -22,9 +22,8 @@
 
 namespace Model.Emulator
 {
+    using System;
     using System.Collections.Generic;
-
-    public delegate void InstructionExecutionHandler(ushort rawInstruction, Instruction instruction);
 
     public class Cpu : ICpu
     {
@@ -48,11 +47,11 @@ namespace Model.Emulator
             this.registers = new Registers();
         }
 
-        public event InstructionExecutionHandler InstructionWillExecute;
-        
-        public event InstructionExecutionHandler InstructionDidExecute;
+        public event Action<ushort, Instruction> InstructionWillExecute;
 
-        public event MemoryChangeHandler InstructionDidLoad
+        public event Action<ushort, Instruction> InstructionDidExecute;
+
+        public event Action<int, ushort> InstructionDidLoad
         {
             add
             {
@@ -65,7 +64,7 @@ namespace Model.Emulator
             }
         }
 
-        public event MemoryChangeHandler MemoryWillChange
+        public event Action<int, ushort> MemoryWillChange
         {
             add
             {
@@ -78,7 +77,7 @@ namespace Model.Emulator
             }
         }
 
-        public event MemoryChangeHandler MemoryDidChange
+        public event Action<int, ushort> MemoryDidChange
         {
             add
             {
@@ -91,7 +90,7 @@ namespace Model.Emulator
             }
         }
 
-        public event RegisterChangeHandler RegisterWillChange
+        public event Action<int, ushort> RegisterWillChange
         {
             add
             {
@@ -104,7 +103,7 @@ namespace Model.Emulator
             }
         }
 
-        public event RegisterChangeHandler RegisterDidChange
+        public event Action<int, ushort> RegisterDidChange
         {
             add
             {
@@ -117,7 +116,7 @@ namespace Model.Emulator
             }
         }
 
-        public event RegisterChangeHandler ProgramCounterWillChange
+        public event Action<int, ushort> ProgramCounterWillChange
         {
             add
             {
@@ -130,7 +129,7 @@ namespace Model.Emulator
             }
         }
 
-        public event RegisterChangeHandler ProgramCounterDidChange
+        public event Action<int, ushort> ProgramCounterDidChange
         {
             add
             {
@@ -143,7 +142,7 @@ namespace Model.Emulator
             }
         }
 
-        public event RegisterChangeHandler StackPointerWillChange
+        public event Action<int, ushort> StackPointerWillChange
         {
             add
             {
@@ -156,7 +155,7 @@ namespace Model.Emulator
             }
         }
 
-        public event RegisterChangeHandler StackPointerDidChange
+        public event Action<int, ushort> StackPointerDidChange
         {
             add
             {
@@ -169,7 +168,7 @@ namespace Model.Emulator
             }
         }
 
-        public event RegisterChangeHandler OverflowWillChange
+        public event Action<int, ushort> OverflowWillChange
         {
             add
             {
@@ -182,7 +181,7 @@ namespace Model.Emulator
             }
         }
 
-        public event RegisterChangeHandler OverflowDidChange
+        public event Action<int, ushort> OverflowDidChange
         {
             add
             {
@@ -195,7 +194,7 @@ namespace Model.Emulator
             }
         }
 
-        public event MemoryChangeHandler VideoMemoryDidChange
+        public event Action<int, ushort> VideoMemoryDidChange
         {
             add
             {
@@ -208,7 +207,7 @@ namespace Model.Emulator
             }
         }
 
-        public event MemoryChangeHandler KeyboardMemoryDidChange
+        public event Action<int, ushort> KeyboardMemoryDidChange
         {
             add
             {

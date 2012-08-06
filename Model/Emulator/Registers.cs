@@ -24,8 +24,6 @@ namespace Model.Emulator
 {
     using System;
 
-    public delegate void RegisterChangeHandler(int register, ushort value);
-
     public class Registers
     {
         protected const int NumbrOfGeneralPursposeRegisters = 8;
@@ -39,21 +37,21 @@ namespace Model.Emulator
             this.GeneralPurpose = new ushort[NumbrOfGeneralPursposeRegisters];
         }
 
-        public event RegisterChangeHandler RegisterWillChange;
+        public event Action<int, ushort> RegisterWillChange;
 
-        public event RegisterChangeHandler RegisterDidChange;
+        public event Action<int, ushort> RegisterDidChange;
 
-        public event RegisterChangeHandler ProgramCounterWillChange;
+        public event Action<int, ushort> ProgramCounterWillChange;
 
-        public event RegisterChangeHandler ProgramCounterDidChange;
+        public event Action<int, ushort> ProgramCounterDidChange;
 
-        public event RegisterChangeHandler StackPointerWillChange;
+        public event Action<int, ushort> StackPointerWillChange;
 
-        public event RegisterChangeHandler StackPointerDidChange;
+        public event Action<int, ushort> StackPointerDidChange;
 
-        public event RegisterChangeHandler OverflowWillChange;
+        public event Action<int, ushort> OverflowWillChange;
 
-        public event RegisterChangeHandler OverflowDidChange;
+        public event Action<int, ushort> OverflowDidChange;
 
         public ushort[] GeneralPurpose { get; set; }
 
