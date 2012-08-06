@@ -24,9 +24,7 @@ namespace Model.Parser
 {
     using System.Collections.Generic;
 
-    using Model;
-
-    public interface IParser
+    internal interface IParser
     {
         IList<Statment> Statments { get; }
 

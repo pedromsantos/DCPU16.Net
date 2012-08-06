@@ -28,7 +28,7 @@ namespace Model.Lexer
 
     using Model.Lexer.Tokens;
 
-    public class PeekLexer : ILexer
+    public class PeekLexer : ILexer, IDisposable
     {
         public PeekLexer(
             TextReader reader,
@@ -121,6 +121,11 @@ namespace Model.Lexer
                     this.LineNumber,
                     this.Position,
                     this.LineRemaining));
+        }
+
+        public void Dispose()
+        {
+            this.Reader.Dispose();
         }
 
         private void NextLine()

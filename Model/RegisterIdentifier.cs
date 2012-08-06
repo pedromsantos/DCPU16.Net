@@ -33,11 +33,4 @@ namespace Model
         RegI,
         RegJ,
     }
-
-    public enum SpecialRegisterIdentifier
-    {
-        SregPc = 8,
-        SregSp = 9,
-        SregO = 10,
-    }
 }

@@ -27,6 +27,25 @@ namespace Model.Parser
 
     public class Statment
     {
+        private static IDictionary<string, BasicOpcode> menemonicToOpCodeMapper = new Dictionary<string, BasicOpcode>
+            {
+                { "SET", BasicOpcode.OpSet },
+                { "ADD", BasicOpcode.OpAdd },
+                { "SUB", BasicOpcode.OpSub },
+                { "MUL", BasicOpcode.OpMul },
+                { "DIV", BasicOpcode.OpDiv },
+                { "MOD", BasicOpcode.OpMod },
+                { "SHL", BasicOpcode.OpShl },
+                { "SHR", BasicOpcode.OpShr },
+                { "AND", BasicOpcode.OpAnd },
+                { "BOR", BasicOpcode.OpBor },
+                { "XOR", BasicOpcode.OpXor },
+                { "IFE", BasicOpcode.OpIfe },
+                { "IFN", BasicOpcode.OpIfn },
+                { "IFG", BasicOpcode.OpIfg },
+                { "IFB", BasicOpcode.OpIfb },
+            };
+
         private string menemonic;
 
         public Statment()
@@ -60,27 +79,17 @@ namespace Model.Parser
 
         public void SetOpCodeForMenemonic()
         {
-            if (this.menemonic == "SET") this.Opcode = (int)BasicOpcode.OpSet;
-            else if (this.menemonic == "ADD") this.Opcode = (int)BasicOpcode.OpAdd;
-            else if (this.menemonic == "SUB") this.Opcode = (int)BasicOpcode.OpSub;
-            else if (this.menemonic == "MUL") this.Opcode = (int)BasicOpcode.OpMul;
-            else if (this.menemonic == "DIV") this.Opcode = (int)BasicOpcode.OpDiv;
-            else if (this.menemonic == "MOD") this.Opcode = (int)BasicOpcode.OpMod;
-            else if (this.menemonic == "SHL") this.Opcode = (int)BasicOpcode.OpShl;
-            else if (this.menemonic == "SHR") this.Opcode = (int)BasicOpcode.OpShr;
-            else if (this.menemonic == "AND") this.Opcode = (int)BasicOpcode.OpAnd;
-            else if (this.menemonic == "BOR") this.Opcode = (int)BasicOpcode.OpBor;
-            else if (this.menemonic == "XOR") this.Opcode = (int)BasicOpcode.OpXor;
-            else if (this.menemonic == "IFE") this.Opcode = (int)BasicOpcode.OpIfe;
-            else if (this.menemonic == "IFN") this.Opcode = (int)BasicOpcode.OpIfn;
-            else if (this.menemonic == "IFG") this.Opcode = (int)BasicOpcode.OpIfg;
-            else if (this.menemonic == "IFB") this.Opcode = (int)BasicOpcode.OpIfb;
-            else if (this.menemonic == "DAT") this.Opcode = -1;
-
-            // non-basic opcodes
+            if (this.menemonic == "DAT")
+            {
+                this.Opcode = -1;
+            }
             else if (this.menemonic == "JSR")
             {
                 this.Opcode = 0x0;
+            }
+            else if (menemonicToOpCodeMapper.ContainsKey(this.menemonic))
+            {
+                this.Opcode = (int)menemonicToOpCodeMapper[this.menemonic];
             }
             else
             {
