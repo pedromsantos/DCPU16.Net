@@ -27,7 +27,7 @@ namespace Model.Assembler
 
     using Model;
     using Model.Parser;
-    using Model.Parser.Operands;
+    using Model.Operands;
 
     public class Assembler
     {

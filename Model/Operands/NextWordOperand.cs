@@ -20,23 +20,35 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    public class PeekOperand : Operand
+    public class NextWordOperand : Operand
     {
         public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            return cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
+            cpuStateManager.IncrementProgramCounter();
+            var value = cpuStateManager.ReadValueAtProgramCounter();
+            return value;
+        }
+
+        public override void NoOp(ICpuStateOperations cpuStateManager)
+        {
+            cpuStateManager.IncrementProgramCounter();
         }
 
         public override string ToString()
         {
-            return "PEEK";
+            return "NW";
         }
 
         protected override ushort Assemble(ushort shift)
         {
-            return (ushort)((ushort)OperandType.OPeek << shift);
+            if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
+            {
+                return (ushort)((this.NextWord + OperandLiteralOffset) << shift);
+            }
+
+            return (ushort)((ushort)OperandType.ONextWord << shift);
         }
     }
 }

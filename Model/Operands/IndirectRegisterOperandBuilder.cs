@@ -20,41 +20,17 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    public class IndirectNextWordOperand : Operand
+    using Lexer.Tokens;
+
+    using Model;
+
+    public class IndirectRegisterOperandBuilder : RegisterOperandBuilder
     {
-        private ushort nextWordAddress;
-
-        public override ushort Read(ICpuStateOperations cpuStateManager)
+        protected override Operand CreateOperand(TokenBase token)
         {
-            return cpuStateManager.ReadMemoryValueAtAddress(this.nextWordAddress);
-        }
-
-        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
-        {
-            cpuStateManager.WriteMemoryValueAtAddress(this.nextWordAddress, value);
-        }
-
-        public override void Process(ICpuStateOperations cpuStateManager)
-        {
-            var programCounter = cpuStateManager.IncrementProgramCounter();
-            this.nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
-        }
-
-        public override string ToString()
-        {
-            return string.Format("[0x{0:X4}]", this.nextWordAddress);
-        }
-
-        protected override ushort Assemble(ushort shift)
-        {
-            if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
-            {
-                return (ushort)((this.NextWord + OperandLiteralOffset) << shift);
-            }
-
-            return (ushort)((ushort)OperandType.OIndirectNextWord << shift);
+            return new IndirectRegisterOperand();
         }
     }
 }

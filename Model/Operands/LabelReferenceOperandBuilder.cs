@@ -1,4 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -20,28 +20,25 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    public class StackPointerOperand : Operand
+    using Lexer.Tokens;
+
+    public class LabelReferenceOperandBuilder : OperandBuilder
     {
-        public override ushort Read(ICpuStateOperations cpuStateManager)
+        protected override Operand CreateOperand(TokenBase token)
         {
-            return cpuStateManager.StackPointer;
+            return new NextWordOperand();
+        }
+        
+        protected override void SetLabelValue(TokenBase token)
+        {
+            this.Operand.Label = token.Content;
         }
 
-        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
+        protected override void SetNextWordValue(TokenBase token)
         {
-            cpuStateManager.SetStackPointer(value);
-        }
-
-        public override string ToString()
-        {
-            return "SP";
-        }
-
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)((ushort)OperandType.OSp << shift);
+            this.Operand.NextWord = 0;
         }
     }
 }

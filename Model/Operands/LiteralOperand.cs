@@ -20,33 +20,23 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    using System;
-
-    using Lexer.Tokens;
-
-    public class NextWordOperandBuilder : OperandBuilder
+    public class LiteralOperand : Operand
     {
-        protected override Operand CreateOperand(TokenBase token)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            return new NextWordOperand();
+            return (ushort)((this.OperandValue - 0x20) % NumberOfLiterals);
         }
 
-        protected override void SetNextWordValue(TokenBase token)
+        public override string ToString()
         {
-            if (token is HexToken)
-            {
-                this.Operand.NextWord = Convert.ToInt32(token.Content, 16);
-            }
-            else if (token is DecimalToken)
-            {
-                this.Operand.NextWord = Convert.ToInt32(token.Content, 10);
-            }
-            else if (token is StringToken)
-            {
-                this.Operand.Label = token.Content;
-            }
+            return ((this.OperandValue - 0x20) % NumberOfLiterals).ToString();
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return 1;
         }
     }
 }

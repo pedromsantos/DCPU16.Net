@@ -20,25 +20,20 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    public class PopOperand : Operand
+    using System;
+
+    public class NullOperand : Operand
     {
         public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            var value = cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
-            cpuStateManager.IncrementStackPointer();
-            return value;
-        }
-
-        public override string ToString()
-        {
-            return "POP";
+            throw new InvalidOperationException();
         }
 
         protected override ushort Assemble(ushort shift)
         {
-            return (ushort)((ushort)OperandType.OPop << shift);
+            return 0;
         }
     }
 }

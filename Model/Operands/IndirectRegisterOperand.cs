@@ -20,29 +20,30 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    using System;
-
-    using Lexer.Tokens;
-
-    public class IndirectNextWordOperandBuilder : OperandBuilder
+    public class IndirectRegisterOperand : Operand
     {
-        protected override Operand CreateOperand(TokenBase token)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            return new IndirectNextWordOperand();
+            var address = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+            return cpuStateManager.ReadMemoryValueAtAddress(address);
         }
 
-        protected override void SetNextWordValue(TokenBase token)
+        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
-            if (token is HexToken)
-            {
-                this.Operand.NextWord = Convert.ToInt32(token.Content, 16);
-            }
-            else if (token is DecimalToken)
-            {
-                this.Operand.NextWord = Convert.ToInt32(token.Content, 10);
-            }
+            var memoryAddress = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
+            cpuStateManager.WriteMemoryValueAtAddress(memoryAddress, value);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[{0}]", RegisterOperand.ConvertRegisterIdentifierToTokenString(this.RegisterValue));
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return (ushort)(((ushort)OperandType.OIndirectReg + this.RegisterValue) << shift);
         }
     }
 }

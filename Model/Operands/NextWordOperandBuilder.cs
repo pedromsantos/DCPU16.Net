@@ -20,35 +20,32 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
     using System;
 
     using Lexer.Tokens;
 
-    public class IndirectNextWordOffsetOperandBuilder : RegisterOperandBuilder
+    public class NextWordOperandBuilder : OperandBuilder
     {
-        private readonly TokenBase leftToken;
-
-        public IndirectNextWordOffsetOperandBuilder(TokenBase leftToken)
-        {
-            this.leftToken = leftToken;
-        }
-
         protected override Operand CreateOperand(TokenBase token)
         {
-            return new IndirectNextWordOffsetOperand();
+            return new NextWordOperand();
         }
 
         protected override void SetNextWordValue(TokenBase token)
         {
-            if (this.leftToken is HexToken)
+            if (token is HexToken)
             {
-                this.Operand.NextWord = Convert.ToInt32(this.leftToken.Content, 16);
+                this.Operand.NextWord = Convert.ToInt32(token.Content, 16);
             }
-            else if (this.leftToken is LabelReferenceToken)
+            else if (token is DecimalToken)
             {
-                this.Operand.Label = this.leftToken.Content;
+                this.Operand.NextWord = Convert.ToInt32(token.Content, 10);
+            }
+            else if (token is StringToken)
+            {
+                this.Operand.Label = token.Content;
             }
         }
     }

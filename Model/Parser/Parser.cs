@@ -30,7 +30,7 @@ namespace Model.Parser
 
     using Model;
     using Model.Lexer;
-    using Model.Parser.Operands;
+    using Model.Operands;
 
     public class Parser : IParser
     {

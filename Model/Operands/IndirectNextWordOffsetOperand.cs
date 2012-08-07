@@ -20,7 +20,7 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
     public class IndirectNextWordOffsetOperand : Operand
     {

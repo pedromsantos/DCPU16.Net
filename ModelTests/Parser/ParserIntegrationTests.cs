@@ -31,7 +31,7 @@ namespace ModelTests.Parser
     using Model.Lexer;
     using Model.Lexer.Tokens;
     using Model.Parser;
-    using Model.Parser.Operands;
+    using Model.Operands;
 
     using NUnit.Framework;
 

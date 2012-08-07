@@ -28,7 +28,7 @@ namespace Model.Parser
     using Lexer.Tokens;
 
     using Model;
-    using Model.Parser.Operands;
+    using Model.Operands;
 
     public class IndirectOperandFactory : IOperandFactory
     {

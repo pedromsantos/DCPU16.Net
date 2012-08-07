@@ -20,25 +20,41 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    using Lexer.Tokens;
-
-    public class LabelReferenceOperandBuilder : OperandBuilder
+    public class IndirectNextWordOperand : Operand
     {
-        protected override Operand CreateOperand(TokenBase token)
+        private ushort nextWordAddress;
+
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            return new NextWordOperand();
-        }
-        
-        protected override void SetLabelValue(TokenBase token)
-        {
-            this.Operand.Label = token.Content;
+            return cpuStateManager.ReadMemoryValueAtAddress(this.nextWordAddress);
         }
 
-        protected override void SetNextWordValue(TokenBase token)
+        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
-            this.Operand.NextWord = 0;
+            cpuStateManager.WriteMemoryValueAtAddress(this.nextWordAddress, value);
+        }
+
+        public override void Process(ICpuStateOperations cpuStateManager)
+        {
+            var programCounter = cpuStateManager.IncrementProgramCounter();
+            this.nextWordAddress = cpuStateManager.ReadMemoryValueAtAddress(programCounter);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[0x{0:X4}]", this.nextWordAddress);
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
+            {
+                return (ushort)((this.NextWord + OperandLiteralOffset) << shift);
+            }
+
+            return (ushort)((ushort)OperandType.OIndirectNextWord << shift);
         }
     }
 }

@@ -20,30 +20,29 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    public class IndirectRegisterOperand : Operand
+    using Lexer.Tokens;
+
+    public class RegisterOperandBuilder : OperandBuilder
     {
-        public override ushort Read(ICpuStateOperations cpuStateManager)
+        protected override Operand CreateOperand(TokenBase token)
         {
-            var address = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
-            return cpuStateManager.ReadMemoryValueAtAddress(address);
+            var registerType = token.Content.ToUpper();
+            if (registerType == "PC") return new ProgramCounterOperand();
+            if (registerType == "SP") return new StackPointerOperand();
+            if (registerType == "O") return new OverflowOperand();
+            if (registerType == "POP") return new PopOperand();
+            if (registerType == "PEEK") return new PeekOperand();
+            if (registerType == "PUSH") return new PushOperand();
+
+            return new RegisterOperand();
         }
 
-        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
+        protected override void SetRegisterValue(TokenBase token)
         {
-            var memoryAddress = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
-            cpuStateManager.WriteMemoryValueAtAddress(memoryAddress, value);
-        }
-
-        public override string ToString()
-        {
-            return string.Format("[{0}]", RegisterOperand.ConvertRegisterIdentifierToTokenString(this.RegisterValue));
-        }
-
-        protected override ushort Assemble(ushort shift)
-        {
-            return (ushort)(((ushort)OperandType.OIndirectReg + this.RegisterValue) << shift);
+            this.Operand.RegisterValue = 
+                RegisterOperand.ConvertTokenContentToRegisterIdentifier(token.Content);
         }
     }
 }

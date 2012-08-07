@@ -20,20 +20,23 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    using System;
-
-    public class NullOperand : Operand
+    public class PeekOperand : Operand
     {
         public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            throw new InvalidOperationException();
+            return cpuStateManager.ReadMemoryValueAtAddress(cpuStateManager.StackPointer);
+        }
+
+        public override string ToString()
+        {
+            return "PEEK";
         }
 
         protected override ushort Assemble(ushort shift)
         {
-            return 0;
+            return (ushort)((ushort)OperandType.OPeek << shift);
         }
     }
 }

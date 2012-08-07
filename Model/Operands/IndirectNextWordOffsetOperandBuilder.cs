@@ -20,24 +20,36 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    public class PushOperand : Operand
+    using System;
+
+    using Lexer.Tokens;
+
+    public class IndirectNextWordOffsetOperandBuilder : RegisterOperandBuilder
     {
-        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
+        private readonly TokenBase leftToken;
+
+        public IndirectNextWordOffsetOperandBuilder(TokenBase leftToken)
         {
-            var stackPointerValue = cpuStateManager.DecrementStackPointer();
-            cpuStateManager.WriteMemoryValueAtAddress(stackPointerValue, value);
+            this.leftToken = leftToken;
         }
 
-        public override string ToString()
+        protected override Operand CreateOperand(TokenBase token)
         {
-            return "PUSH";
+            return new IndirectNextWordOffsetOperand();
         }
 
-        protected override ushort Assemble(ushort shift)
+        protected override void SetNextWordValue(TokenBase token)
         {
-            return (ushort)((ushort)OperandType.OPush << shift);
+            if (this.leftToken is HexToken)
+            {
+                this.Operand.NextWord = Convert.ToInt32(this.leftToken.Content, 16);
+            }
+            else if (this.leftToken is LabelReferenceToken)
+            {
+                this.Operand.Label = this.leftToken.Content;
+            }
         }
     }
 }

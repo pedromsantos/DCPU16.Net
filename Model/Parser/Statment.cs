@@ -27,7 +27,7 @@ namespace Model.Parser
 
     public class Statment
     {
-        private static IDictionary<string, BasicOpcode> menemonicToOpCodeMapper = new Dictionary<string, BasicOpcode>
+        private static readonly IDictionary<string, BasicOpcode> MenemonicToOpCodeMapper = new Dictionary<string, BasicOpcode>
             {
                 { "SET", BasicOpcode.OpSet },
                 { "ADD", BasicOpcode.OpAdd },
@@ -87,9 +87,9 @@ namespace Model.Parser
             {
                 this.Opcode = 0x0;
             }
-            else if (menemonicToOpCodeMapper.ContainsKey(this.menemonic))
+            else if (MenemonicToOpCodeMapper.ContainsKey(this.menemonic))
             {
-                this.Opcode = (int)menemonicToOpCodeMapper[this.menemonic];
+                this.Opcode = (int)MenemonicToOpCodeMapper[this.menemonic];
             }
             else
             {

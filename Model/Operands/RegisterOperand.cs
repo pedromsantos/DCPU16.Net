@@ -20,7 +20,7 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
     using System;
     using System.Collections.Generic;

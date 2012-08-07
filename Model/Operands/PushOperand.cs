@@ -20,28 +20,24 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    public class OverflowOperand : Operand
+    public class PushOperand : Operand
     {
-        public override ushort Read(ICpuStateOperations cpuStateManager)
-        {
-            return cpuStateManager.Overflow;
-        }
-
         public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
-            cpuStateManager.Overflow = value;
+            var stackPointerValue = cpuStateManager.DecrementStackPointer();
+            cpuStateManager.WriteMemoryValueAtAddress(stackPointerValue, value);
         }
 
         public override string ToString()
         {
-            return "Ov";
+            return "PUSH";
         }
 
         protected override ushort Assemble(ushort shift)
         {
-            return (ushort)((ushort)OperandType.OO << shift);
+            return (ushort)((ushort)OperandType.OPush << shift);
         }
     }
 }

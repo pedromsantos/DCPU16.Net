@@ -26,7 +26,7 @@ namespace ModelTests
 
     using Model;
     using Model.Lexer.Tokens;
-    using Model.Parser.Operands;
+    using Model.Operands;
 
     using NUnit.Framework;
 

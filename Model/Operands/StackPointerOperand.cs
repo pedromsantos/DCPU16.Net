@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -20,29 +20,28 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    using Lexer.Tokens;
-
-    public class RegisterOperandBuilder : OperandBuilder
+    public class StackPointerOperand : Operand
     {
-        protected override Operand CreateOperand(TokenBase token)
+        public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            var registerType = token.Content.ToUpper();
-            if (registerType == "PC") return new ProgramCounterOperand();
-            if (registerType == "SP") return new StackPointerOperand();
-            if (registerType == "O") return new OverflowOperand();
-            if (registerType == "POP") return new PopOperand();
-            if (registerType == "PEEK") return new PeekOperand();
-            if (registerType == "PUSH") return new PushOperand();
-
-            return new RegisterOperand();
+            return cpuStateManager.StackPointer;
         }
 
-        protected override void SetRegisterValue(TokenBase token)
+        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
-            this.Operand.RegisterValue = 
-                RegisterOperand.ConvertTokenContentToRegisterIdentifier(token.Content);
+            cpuStateManager.SetStackPointer(value);
+        }
+
+        public override string ToString()
+        {
+            return "SP";
+        }
+
+        protected override ushort Assemble(ushort shift)
+        {
+            return (ushort)((ushort)OperandType.OSp << shift);
         }
     }
 }

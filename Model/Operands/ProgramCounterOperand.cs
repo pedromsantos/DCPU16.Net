@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2012 Pedro Santos @pedromsantos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -20,23 +20,28 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Model.Parser.Operands
+namespace Model.Operands
 {
-    public class LiteralOperand : Operand
+    public class ProgramCounterOperand : Operand
     {
         public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            return (ushort)((this.OperandValue - 0x20) % NumberOfLiterals);
+            return cpuStateManager.ProgramCounter;
+        }
+
+        public override void Write(ICpuStateOperations cpuStateManager, ushort value)
+        {
+            cpuStateManager.SetProgramCounter(value);
         }
 
         public override string ToString()
         {
-            return ((this.OperandValue - 0x20) % NumberOfLiterals).ToString();
+            return "PC";
         }
 
         protected override ushort Assemble(ushort shift)
         {
-            return 1;
+            return (ushort)((ushort)OperandType.OPc << shift);
         }
     }
 }
