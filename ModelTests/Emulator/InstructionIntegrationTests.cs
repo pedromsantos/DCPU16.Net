@@ -58,8 +58,7 @@ namespace ModelTests.Emulator
         {
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-            var instruction = builder.Build(rawInstruction, cpu);
+            var instruction = builder.Build(rawInstruction, null);
 
             Assert.That(instruction, Is.InstanceOf(expectedInstruction));
         }
