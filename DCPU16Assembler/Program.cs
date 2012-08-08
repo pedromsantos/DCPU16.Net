@@ -157,7 +157,7 @@ namespace DCPU16Assembler
 
             emulator.MemoryWillChange += MemoryChanged.Add;
             emulator.MemoryDidChange += MemoryDidChange;
-            emulator.RunLoadedProgramWithDelay(25);
+            emulator.RunLoadedProgramWithDelay(100);
         }
 
         private static void AssembleFile(string inputFileName, string outputFileName)
