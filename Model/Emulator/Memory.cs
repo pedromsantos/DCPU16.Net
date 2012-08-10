@@ -76,29 +76,11 @@ namespace Model.Emulator
 
         public void WriteValueAtAddress(int address, ushort value)
         {
-            if (this.MemoryWillChange != null)
-            {
-                this.MemoryWillChange(address, value);
-            }
+            this.NotifyMemoryWillChange(address, value);
 
             this.ram[address] = value;
 
-            if (this.VideoMemoryDidChange != null 
-                && (address >= VideoMemoryStart && address <= VideoMemoryEnd))
-            {
-                this.VideoMemoryDidChange(address, value);
-            }
-
-            if (this.KeyboardMemoryDidChange != null
-                && (address >= KeyboardMemoryStart && address <= KeyboardMemoryEnd))
-            {
-                this.KeyboardMemoryDidChange(address, value);
-            }
-
-            if (this.MemoryDidChange != null)
-            {
-                this.MemoryDidChange(address, value);
-            }
+            this.NotifyMemoryDidChange(address, value);
         }
 
         public void LoadProgram(IEnumerable<ushort> program)
@@ -130,6 +112,34 @@ namespace Model.Emulator
             if (address >= KeyboardMemoryStart && address <= KeyboardMemoryEnd)
             {
                 this.WriteValueAtAddress(address, 0);
+            }
+        }
+
+        private void NotifyMemoryDidChange(int address, ushort value)
+        {
+            if (this.VideoMemoryDidChange != null
+                && (address >= VideoMemoryStart && address <= VideoMemoryEnd))
+            {
+                this.VideoMemoryDidChange(address, value);
+            }
+
+            if (this.KeyboardMemoryDidChange != null
+                && (address >= KeyboardMemoryStart && address <= KeyboardMemoryEnd))
+            {
+                this.KeyboardMemoryDidChange(address, value);
+            }
+
+            if (this.MemoryDidChange != null)
+            {
+                this.MemoryDidChange(address, value);
+            }
+        }
+
+        private void NotifyMemoryWillChange(int address, ushort value)
+        {
+            if (this.MemoryWillChange != null)
+            {
+                this.MemoryWillChange(address, value);
             }
         }
     }

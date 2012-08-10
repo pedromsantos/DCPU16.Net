@@ -157,7 +157,7 @@ namespace DCPU16Assembler
 
             emulator.MemoryWillChange += MemoryChanged.Add;
             emulator.MemoryDidChange += MemoryDidChange;
-            emulator.RunLoadedProgramWithDelay(25);
+            emulator.RunLoadedProgramWithDelay(10);
         }
 
         private static void AssembleFile(string inputFileName, string outputFileName)
@@ -204,17 +204,6 @@ namespace DCPU16Assembler
 
             var prevBackColor = Console.BackgroundColor;
             var prevForeColor = Console.ForegroundColor;
-
-            /*
-            var color = (value >> 8) & 0x0f;
-            Console.BackgroundColor = Enum.IsDefined(typeof(ConsoleColor), color)
-                                          ? (ConsoleColor)color
-                                          : ConsoleColor.Blue;
-            color = value >> 12;
-            Console.ForegroundColor = Enum.IsDefined(typeof(ConsoleColor), color)
-                                          ? (ConsoleColor)color
-                                          : ConsoleColor.White;
-            */
 
             var celladdress = address - Vidmem;
             var column = (celladdress % Vidwidth) + 21;

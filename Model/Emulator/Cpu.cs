@@ -259,28 +259,20 @@ namespace Model.Emulator
 
         public bool ExecuteNextInstruction()
         {
-            if (this.memory.ReadValueAtAddress(this.registers.ProgramCounter) == 0x0)
+            var rawInstruction = this.ReadValueAtProgramCounter();
+
+            if (rawInstruction == 0x0)
             {
                 return false;
             }
-
-            var rawInstruction = this.memory.ReadValueAtAddress(this.registers.ProgramCounter);
 
             var instruction = this.instructionBuilder.Build(rawInstruction, this);
 
             if (!this.IgnoreNextInstruction)
             {
-                if (this.InstructionWillExecute != null)
-                {
-                    this.InstructionWillExecute(rawInstruction, instruction);
-                }
-
+                this.NotifyInstrictionWillExecute(rawInstruction, instruction);
                 instruction.Execute();
-
-                if (this.InstructionDidExecute != null)
-                {
-                    this.InstructionDidExecute(rawInstruction, instruction);
-                }
+                this.NotifyInstructionDidExacute(rawInstruction, instruction);
             }
             else
             {
@@ -348,6 +340,22 @@ namespace Model.Emulator
         {
             this.registers.Reset();
             this.memory.Reset();
+        }
+
+        private void NotifyInstructionDidExacute(ushort rawInstruction, Instruction instruction)
+        {
+            if (this.InstructionDidExecute != null)
+            {
+                this.InstructionDidExecute(rawInstruction, instruction);
+            }
+        }
+
+        private void NotifyInstrictionWillExecute(ushort rawInstruction, Instruction instruction)
+        {
+            if (this.InstructionWillExecute != null)
+            {
+                this.InstructionWillExecute(rawInstruction, instruction);
+            }
         }
 
         private void UpdateProgramCounter()
