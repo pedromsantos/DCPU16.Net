@@ -63,6 +63,11 @@ namespace Model.Lexer
 
         public IEnumerable<TokenBase> TokenMatchers { get; private set; }
 
+        public void Dispose()
+        {
+            this.Reader.Dispose();
+        }
+
         public TokenBase ConsumeTokenUsingStrategy(IConsumeTokenStrategy tokenConsumingStrategy)
         {
             var oldStrategy = this.ConsumeTokenStrategy;
@@ -75,33 +80,34 @@ namespace Model.Lexer
 
         public TokenBase NextToken()
         {
-            if (this.LineRemaining == null)
-            {
-                return null;
-            }
+            return this.LineRemaining != null ? this.MatchToken() : null;
+        }
 
+        private TokenBase MatchToken()
+        {
             foreach (var matcher in this.TokenMatchers)
             {
                 var matched = matcher.Match(this.LineRemaining);
-                
-                if (matched != string.Empty)
+
+                if (matched == string.Empty)
                 {
-                    matcher.Content = matched;
-                    this.LineRemaining = this.ConsumeTokenStrategy.ConsumeToken(this.LineRemaining, matcher);
-                    this.Position += this.LineRemaining.StartsWith(matched) ? 0 : matched.Length;
-
-                    if (this.LineRemaining.Length == 0)
-                    {
-                        this.NextLine();
-                    }
-
-                    if (this.ConsumeTokenStrategy.IsTokenToBeIgnored(matcher))
-                    {
-                        continue;
-                    }
-
-                    return matcher;
+                    continue;
                 }
+
+                matcher.Content = matched;
+                this.ConsumeToken(matcher);
+
+                if (this.LineRemaining.Length == 0)
+                {
+                    this.NextLine();
+                }
+
+                if (this.ConsumeTokenStrategy.IsTokenToBeIgnored(matcher))
+                {
+                    continue;
+                }
+
+                return matcher;
             }
 
             throw new Exception(
@@ -112,9 +118,10 @@ namespace Model.Lexer
                     this.LineRemaining));
         }
 
-        public void Dispose()
+        private void ConsumeToken(TokenBase matcher)
         {
-            this.Reader.Dispose();
+            this.LineRemaining = this.ConsumeTokenStrategy.ConsumeToken(this.LineRemaining, matcher);
+            this.Position += this.LineRemaining.StartsWith(matcher.Content) ? 0 : matcher.Content.Length;
         }
 
         private void NextLine()
