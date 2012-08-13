@@ -22,13 +22,20 @@
 
 namespace Model.Lexer.Tokens
 {
-    using Model.Lexer.Tokens;
-
     public class LabelReferenceToken : TokenBase
     {
         public LabelReferenceToken()
         {
             this.Matcher = new RegExMatcher("[a-zA-Z0-9_]+");
+        }
+
+        public override TokenBase Clone()
+        {
+            return new LabelReferenceToken
+            {
+                Matcher = this.Matcher,
+                Content = string.Copy(this.Content)
+            };
         }
     }
 }

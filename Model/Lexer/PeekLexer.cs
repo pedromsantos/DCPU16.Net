@@ -25,6 +25,7 @@ namespace Model.Lexer
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     using Model.Lexer.Tokens;
 
@@ -80,33 +81,36 @@ namespace Model.Lexer
 
         public TokenBase NextToken()
         {
-            return this.LineRemaining != null ? this.MatchToken() : null;
+            if (this.LineRemaining == null)
+            {
+                return null;
+            }
+
+            var matcher = this.MatchToken();
+
+            if (this.ConsumeTokenStrategy.IsTokenToBeIgnored(matcher))
+            {
+                matcher = this.NextToken();
+            }
+
+            return matcher;
         }
 
         private TokenBase MatchToken()
         {
-            foreach (var matcher in this.TokenMatchers)
+            var matcher = (from m in this.TokenMatchers 
+                           where m.Match(this.LineRemaining) != string.Empty
+                           select m).FirstOrDefault();
+
+            if (matcher != null)
             {
-                var matched = matcher.Match(this.LineRemaining);
-
-                if (matched == string.Empty)
-                {
-                    continue;
-                }
-
-                matcher.Content = matched;
                 this.ConsumeToken(matcher);
 
                 if (this.LineRemaining.Length == 0)
                 {
                     this.NextLine();
-                }
-
-                if (this.ConsumeTokenStrategy.IsTokenToBeIgnored(matcher))
-                {
-                    continue;
-                }
-
+                }   
+ 
                 return matcher;
             }
 

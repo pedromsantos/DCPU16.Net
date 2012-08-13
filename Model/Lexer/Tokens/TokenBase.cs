@@ -30,7 +30,18 @@ namespace Model.Lexer.Tokens
 
         public string Match(string input)
         {
-            return this.Matcher.Match(input);
+            var content = this.Matcher.Match(input);
+            this.Content = content;
+            return this.Content;
+        }
+
+        public virtual TokenBase Clone()
+        {
+            return new TokenBase
+                {
+                    Matcher = this.Matcher, 
+                    Content = string.Copy(this.Content)
+                };
         }
     }
 }

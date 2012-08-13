@@ -22,13 +22,20 @@
 
 namespace Model.Lexer.Tokens
 {
-    using Model.Lexer.Tokens;
-
     public class HexToken : TokenBase
     {
         public HexToken()
         {
             this.Matcher = new RegExMatcher("(0(?i)x[0-9a-fA-F]+)");
+        }
+
+        public override TokenBase Clone()
+        {
+            return new HexToken
+            {
+                Matcher = this.Matcher,
+                Content = string.Copy(this.Content)
+            };
         }
     }
 }

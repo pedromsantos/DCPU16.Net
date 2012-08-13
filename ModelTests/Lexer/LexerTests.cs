@@ -155,5 +155,20 @@ namespace ModelTests.Lexer
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(CommaToken)));
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(DecimalToken)));
         }
+
+        [Test]
+        public void CanLexSource1()
+        {
+            const string Code = @"SET [0x1000], 0x20";
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers, new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
+
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(InstructionToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(OpenBracketToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(HexToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(CloseBracketToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(CommaToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(HexToken)));
+        }
     }
 }

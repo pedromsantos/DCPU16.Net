@@ -177,7 +177,7 @@ namespace Model.Parser
 
         private Operand ParseIndirectOperand()
         {
-            var token = this.ConsumeNextToken();
+            var token = this.ConsumeNextToken().Clone();
 
             Operand operand;
 

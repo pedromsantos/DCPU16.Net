@@ -22,13 +22,20 @@
 
 namespace Model.Lexer.Tokens
 {
-    using Model.Lexer.Tokens;
-
     public class RegisterToken : TokenBase
     {
         public RegisterToken()
         {
             this.Matcher = new RegExMatcher(@"\b(((?i)a)|((?i)b)|((?i)c)|((?i)x)|((?i)y)|((?i)z)|((?i)i)|((?i)j)|((?i)pop)|((?i)push)|((?i)peek)|((?i)pc)|((?i)sp)|((?i)o))\b");
+        }
+
+        public override TokenBase Clone()
+        {
+            return new RegisterToken
+            {
+                Matcher = this.Matcher,
+                Content = string.Copy(this.Content)
+            };
         }
     }
 }
