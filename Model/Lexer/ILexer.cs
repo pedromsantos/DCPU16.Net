@@ -26,8 +26,6 @@ namespace Model.Lexer
 
     public interface ILexer
     {
-        IIgnoreTokenStrategy IgnoreTokenStrategy { get; set; }
-
         IConsumeTokenStrategy ConsumeTokenStrategy { get; set; }
 
         int LineNumber { get; set; }

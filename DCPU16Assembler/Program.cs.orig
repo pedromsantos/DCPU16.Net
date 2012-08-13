@@ -26,19 +26,13 @@ namespace DCPU16Assembler
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-<<<<<<< HEAD
-=======
 
-    using Assembler;
-
-    using CPU;
-
-    using Lexer;
-    using Lexer.Tokens;
->>>>>>> bdce49dfb3b00cad1a39f54e64b881e2d19f96cb
+    using Castle.MicroKernel.Registration;
+    using Castle.Windsor;
 
     using Microsoft.GotDotNet;
 
+    using Model;
     using Model.Assembler;
     using Model.Emulator;
     using Model.Lexer;
@@ -126,14 +120,22 @@ namespace DCPU16Assembler
 
         private static void RunProgram(string inputFileName, string displayOption = "")
         {
+            var container = new WindsorContainer();
+
+            container.Register(
+                Component.For<IInstructionOperandFactory>().ImplementedBy<InstructionOperandFactory>(),
+                Component.For<IInstructionBuilder>().ImplementedBy<InstructionBuilder>(),
+                Component.For<ICpu>().ImplementedBy<Cpu>(),
+                Component.For<IEmulator>().ImplementedBy<Emulator>());
+
             var programData = File.ReadAllBytes(inputFileName);
 
             if ((programData.Length % 2) != 0)
             {
                 return;
             }
-
-            var emulator = new Emulator();
+            
+            var emulator = container.Resolve<IEmulator>();
             emulator.InstructionDidLoad += LoadedInstructions.Add;
             emulator.LoadProgram(programData);
 
@@ -155,7 +157,11 @@ namespace DCPU16Assembler
 
             emulator.MemoryWillChange += MemoryChanged.Add;
             emulator.MemoryDidChange += MemoryDidChange;
-            emulator.RunLoadedProgramWithDelay(25);
+<<<<<<< HEAD
+            emulator.RunLoadedProgramWithDelay(10);
+=======
+            emulator.RunLoadedProgramWithDelay(100);
+>>>>>>> 4bd9402e75721e2f34b88b86237a6120b2f2482f
         }
 
         private static void AssembleFile(string inputFileName, string outputFileName)
@@ -202,17 +208,6 @@ namespace DCPU16Assembler
 
             var prevBackColor = Console.BackgroundColor;
             var prevForeColor = Console.ForegroundColor;
-
-            /*
-            var color = (value >> 8) & 0x0f;
-            Console.BackgroundColor = Enum.IsDefined(typeof(ConsoleColor), color)
-                                          ? (ConsoleColor)color
-                                          : ConsoleColor.Blue;
-            color = value >> 12;
-            Console.ForegroundColor = Enum.IsDefined(typeof(ConsoleColor), color)
-                                          ? (ConsoleColor)color
-                                          : ConsoleColor.White;
-            */
 
             var celladdress = address - Vidmem;
             var column = (celladdress % Vidwidth) + 21;

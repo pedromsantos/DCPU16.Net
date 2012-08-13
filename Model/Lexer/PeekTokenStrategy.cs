@@ -24,11 +24,21 @@ namespace Model.Lexer
 {
     using Lexer.Tokens;
 
-    public class PeekTokenStrategy : IConsumeTokenStrategy
+    public class PeekTokenStrategy : ConsumeTokenStrategyBase, IConsumeTokenStrategy
     {
+        public PeekTokenStrategy(IIgnoreTokenStrategy ignoreTokenStrategy)
+            : base(ignoreTokenStrategy)
+        {
+        }
+
         public bool IsTokenToBeConsumed(TokenBase token)
         {
-            return false;
+            return this.IsTokenToBeIgnored(token);
+        }
+
+        public string ConsumeToken(string line, TokenBase token)
+        {
+            return this.IsTokenToBeConsumed(token) ? line.Substring(token.Content.Length) : line;
         }
     }
 }

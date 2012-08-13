@@ -114,8 +114,7 @@ namespace ModelTests.Lexer
             var lexer = new PeekLexer(
                 reader,
                 new List<TokenBase> { new WhiteSpaceToken(), new InstructionToken() },
-                new IgnoreNoneTokenStrategy(),
-                new ConsumeTokenStrategy());
+                new ConsumeTokenStrategy(new IgnoreNoneTokenStrategy()));
 
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(InstructionToken)));
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(WhiteSpaceToken)));
@@ -128,10 +127,33 @@ namespace ModelTests.Lexer
             var lexer = new PeekLexer(
                 reader,
                 new List<TokenBase> { new WhiteSpaceToken(), new InstructionToken() },
-                new IgnoreWhiteSpaceTokenStrategy(),
-                new ConsumeTokenStrategy());
+                new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
 
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(InstructionToken)));
+        }
+
+        [Test]
+        public void CanLexSource()
+        {
+            const string Code = @"DAT 0x10, 0x20, 0x30, 0x40, 0x50
+                                 SET I, 0";
+            var reader = new StringReader(Code);
+            var lexer = new PeekLexer(reader, this.matchers, new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
+
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(InstructionToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(HexToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(CommaToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(HexToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(CommaToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(HexToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(CommaToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(HexToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(CommaToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(HexToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(InstructionToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(RegisterToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(CommaToken)));
+            Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(DecimalToken)));
         }
     }
 }

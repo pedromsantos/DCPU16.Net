@@ -24,8 +24,10 @@ namespace Model.Lexer
 {
     using Lexer.Tokens;
 
-    public interface IConsumeTokenStrategy
+    public interface IConsumeTokenStrategy : IIgnoreTokenStrategy
     {
         bool IsTokenToBeConsumed(TokenBase token);
+
+        string ConsumeToken(string line, TokenBase token);
     }
 }

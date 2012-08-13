@@ -30,8 +30,8 @@ namespace ModelTests.Parser
     using Model;
     using Model.Lexer;
     using Model.Lexer.Tokens;
-    using Model.Parser;
     using Model.Operands;
+    using Model.Parser;
 
     using NUnit.Framework;
 
@@ -241,7 +241,7 @@ namespace ModelTests.Parser
             const string Code = @"DAT 0x10, ""Hello"", 0x20, 0x30, 0x40, 0x50
                                  SET I, 0";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new PeekLexer(reader, this.matchers, new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);

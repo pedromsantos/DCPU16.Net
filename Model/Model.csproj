@@ -70,6 +70,7 @@
     <Compile Include="IInstructionOperandFactory.cs" />
     <Compile Include="InstructionOperandFactory.cs" />
     <Compile Include="Lexer\ConsumeTokenStrategy.cs" />
+    <Compile Include="Lexer\ConsumeTokenStrategyBase.cs" />
     <Compile Include="Lexer\IConsumeTokenStrategy.cs" />
     <Compile Include="Lexer\IgnoreNoneTokenStrategy.cs" />
     <Compile Include="Lexer\IgnoreWhiteSpaceTokenStrategy.cs" />

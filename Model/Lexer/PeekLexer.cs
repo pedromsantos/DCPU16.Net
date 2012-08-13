@@ -34,8 +34,7 @@ namespace Model.Lexer
             TextReader reader,
             IEnumerable<TokenBase> tokenMatchers)
         {
-            this.IgnoreTokenStrategy = new IgnoreNoneTokenStrategy();
-            this.ConsumeTokenStrategy = new PeekTokenStrategy();
+            this.ConsumeTokenStrategy = new PeekTokenStrategy(new IgnoreNoneTokenStrategy());
             this.Reader = reader;
             this.TokenMatchers = tokenMatchers;
             this.NextLine();
@@ -44,10 +43,8 @@ namespace Model.Lexer
         public PeekLexer(
             TextReader reader, 
             IEnumerable<TokenBase> tokenMatchers, 
-            IIgnoreTokenStrategy ignoreTokenStrategy, 
             IConsumeTokenStrategy consumeTokenStrategy)
         {
-            this.IgnoreTokenStrategy = ignoreTokenStrategy;
             this.ConsumeTokenStrategy = consumeTokenStrategy;
             this.Reader = reader;
             this.TokenMatchers = tokenMatchers;
@@ -55,8 +52,6 @@ namespace Model.Lexer
         }
 
         public IConsumeTokenStrategy ConsumeTokenStrategy { get; set; }
-
-        public IIgnoreTokenStrategy IgnoreTokenStrategy { get; set; }
 
         public string LineRemaining { get; set; }
 
@@ -91,27 +86,21 @@ namespace Model.Lexer
                 
                 if (matched != string.Empty)
                 {
-                    var token = matcher;
-                    token.Content = matched;
-
-                    if (this.ConsumeTokenStrategy.IsTokenToBeConsumed(matcher)
-                        || this.IgnoreTokenStrategy.IsTokenToBeIgnored(token))
-                    {
-                        this.Position += matched.Length;
-                        this.LineRemaining = this.LineRemaining.Substring(matched.Length);
-                    }
+                    matcher.Content = matched;
+                    this.LineRemaining = this.ConsumeTokenStrategy.ConsumeToken(this.LineRemaining, matcher);
+                    this.Position += this.LineRemaining.StartsWith(matched) ? 0 : matched.Length;
 
                     if (this.LineRemaining.Length == 0)
                     {
                         this.NextLine();
                     }
 
-                    if (this.IgnoreTokenStrategy.IsTokenToBeIgnored(token))
+                    if (this.ConsumeTokenStrategy.IsTokenToBeIgnored(matcher))
                     {
                         continue;
                     }
-                        
-                    return token;
+
+                    return matcher;
                 }
             }
 

@@ -34,7 +34,7 @@ namespace Model.Parser
 
     public class Parser : IParser
     {
-        private readonly IConsumeTokenStrategy consumeStrategy = new ConsumeTokenStrategy();
+        private readonly IConsumeTokenStrategy consumeStrategy = new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy());
 
         private readonly IOperandFactory directOperandFactory;
         private readonly IOperandFactory indirectOperandFactory;
@@ -49,8 +49,7 @@ namespace Model.Parser
             this.indirectOperandFactory = indirectOperandFactory;
             this.directOperandFactory = directOperandFactory;
 
-            lexer.ConsumeTokenStrategy = new PeekTokenStrategy();
-            lexer.IgnoreTokenStrategy = new IgnoreWhiteSpaceTokenStrategy();
+            lexer.ConsumeTokenStrategy = new PeekTokenStrategy(new IgnoreWhiteSpaceTokenStrategy());
 
             this.Statments = new List<Statment>();
         }
