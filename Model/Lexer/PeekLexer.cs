@@ -98,9 +98,8 @@ namespace Model.Lexer
 
         private TokenBase MatchToken()
         {
-            var matcher = (from m in this.TokenMatchers 
-                           where m.Match(this.LineRemaining) != string.Empty
-                           select m).FirstOrDefault();
+            var matcher = this.TokenMatchers.Where(m => m.Match(this.LineRemaining) != string.Empty)
+                .FirstOrDefault();
 
             if (matcher != null)
             {
