@@ -22,11 +22,19 @@
 
 namespace Model.Operands
 {
+    using System;
+
     public class PushOperand : Operand
     {
         public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
             var stackPointerValue = cpuStateManager.DecrementStackPointer();
+            
+            if (cpuStateManager.ReadMemoryValueAtAddress(stackPointerValue) != 0x0)
+            {
+                throw new Exception("DCPU16 Stack overflow");
+            }
+
             cpuStateManager.WriteMemoryValueAtAddress(stackPointerValue, value);
         }
 

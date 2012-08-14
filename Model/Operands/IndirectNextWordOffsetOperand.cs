@@ -30,9 +30,8 @@ namespace Model.Operands
 
         public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            var value = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
             return
-                (ushort)(cpuStateManager.ReadMemoryValueAtAddress((ushort)(this.nextWordAddress + value)) & ShortMask);
+                (ushort)(cpuStateManager.ReadMemoryValueAtAddress((ushort)(this.nextWordAddress + this.registerValue)) & ShortMask);
         }
 
         public override void Write(ICpuStateOperations cpuStateManager, ushort value)

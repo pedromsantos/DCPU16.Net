@@ -45,22 +45,63 @@ namespace ModelTests.Emulator
         private IList<TokenBase> matchers;
 
         [Test]
-        [TestCase((ushort)0x7c01, typeof(SetInstruction))] // SET A 
-        [TestCase((ushort)0x7de1, typeof(SetInstruction))] // SET [0xxxxx] 
-        [TestCase((ushort)0xA861, typeof(SetInstruction))] // SET I, 10
-        [TestCase((ushort)0x9031, typeof(SetInstruction))] // SET X, 0x4
-        [TestCase((ushort)0x8463, typeof(SubInstruction))] // SUB I, 1
-        [TestCase((ushort)0x8463, typeof(SubInstruction))] // SUB I, 1
-        [TestCase((ushort)0x7803, typeof(SubInstruction))] // SUB A,  [0xxxxx]
-        [TestCase((ushort)0x9037, typeof(ShlInstruction))] // SHL X, 4
+        [TestCase((ushort)0x7c01, typeof(SetInstruction), "SET")] // SET A 
+        [TestCase((ushort)0x7de1, typeof(SetInstruction), "SET")] // SET [0xxxxx] 
+        [TestCase((ushort)0xA861, typeof(SetInstruction), "SET")] // SET I, 10
+        [TestCase((ushort)0x9031, typeof(SetInstruction), "SET")] // SET X, 0x4
+        [TestCase((ushort)0x8463, typeof(SubInstruction), "SUB")] // SUB I, 1
+        [TestCase((ushort)0x8463, typeof(SubInstruction), "SUB")] // SUB I, 1
+        [TestCase((ushort)0x7803, typeof(SubInstruction), "SUB")] // SUB A,  [0xxxxx]
+        [TestCase((ushort)0x9037, typeof(ShlInstruction), "SHL")] // SHL X, 4
         public void BuildWhenCalledForRawInstructionBuildsExpectedInstructionInstance(
-            ushort rawInstruction, Type expectedInstruction)
+            ushort rawInstruction, Type expectedInstruction, string token)
         {
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
             var instruction = builder.Build(rawInstruction, null);
 
             Assert.That(instruction, Is.InstanceOf(expectedInstruction));
+            Assert.That(instruction.Token, Is.EqualTo(token));
+        }
+
+        [Test]
+        [TestCase("SET A, 0x10")]
+        [TestCase("ADD A, 0x10")]
+        [TestCase("SUB A, 0x10")]
+        [TestCase("MUL A, 0x10")]
+        [TestCase("DIV A, 0x10")]
+        [TestCase("AND A, 0x10")]
+        [TestCase("BOR A, 0x10")]
+        [TestCase("IFB A, 0x10")]
+        [TestCase("IFE A, 0x10")]
+        [TestCase("IFG A, 0x10")]
+        [TestCase("IFN A, 0x10")]
+        [TestCase("JSR 0x10")]
+        [TestCase("MOD A, 0x10")]
+        [TestCase("SHL A, 0x10")]
+        [TestCase("SHR A, 0x10")]
+        [TestCase("XOR A, 0x10")]
+        public void BuildWhenCalledForRawInstructionBuildsExpectedInstructionToken(
+            string code)
+        {
+            var reader = new StringReader(code);
+            var lexer = new PeekLexer(reader, this.matchers);
+            var directOperandFactory = new DirectOperandFactory();
+            var indirectOperandFactory = new IndirectOperandFactory();
+            var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
+
+            var statments = parser.Parse();
+            var assembler = new Assembler();
+            var program = assembler.AssembleStatments(statments);
+
+            var operandFactory = new InstructionOperandFactory();
+            var builder = new InstructionBuilder(operandFactory);
+            var cpu = new Cpu(builder);
+
+            cpu.LoadProgram(program);
+            var instruction = builder.Build(program[0], cpu);
+
+            Assert.That(instruction.Token, Is.EqualTo(code.Substring(0, 3)));
         }
 
         [Test]

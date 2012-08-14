@@ -24,16 +24,22 @@ namespace Model.Operands
 {
     public class IndirectRegisterOperand : Operand
     {
+        private ushort registerValue;
+
         public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            var address = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
-            return cpuStateManager.ReadMemoryValueAtAddress(address);
+            return cpuStateManager.ReadMemoryValueAtAddress(this.registerValue);
         }
 
         public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
-            var memoryAddress = cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
-            cpuStateManager.WriteMemoryValueAtAddress(memoryAddress, value);
+            cpuStateManager.WriteMemoryValueAtAddress(this.registerValue, value);
+        }
+
+        public override void Process(ICpuStateOperations cpuStateManager)
+        {
+            this.registerValue =
+                cpuStateManager.ReadGeneralPursoseRegisterValue((ushort)(this.OperandValue % NumberOfRegisters));
         }
 
         public override string ToString()

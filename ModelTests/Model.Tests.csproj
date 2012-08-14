@@ -70,6 +70,9 @@
     <Compile Include="Lexer\StringTokenTests.cs" />
     <Compile Include="Lexer\WhiteSpaceTokenTests.cs" />
     <Compile Include="OperandBuilderTests.cs" />
+    <Compile Include="Operands\IndirectNextWordOffsetOperandTests.cs" />
+    <Compile Include="Operands\IndirectNextWordOperandTests.cs" />
+    <Compile Include="Operands\IndirectRegisterOperandTests.cs" />
     <Compile Include="Parser\ParserIntegrationTests.cs" />
     <Compile Include="Parser\ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,6 +89,7 @@
     <None Include="Lexer\packages.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
