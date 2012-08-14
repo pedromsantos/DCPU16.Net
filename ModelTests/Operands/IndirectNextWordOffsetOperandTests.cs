@@ -30,10 +30,25 @@ namespace ModelTests.Operands
     using NUnit.Framework;
 
     [TestFixture]
-    public class IndirectNextWordOffsetOperandTests
+    public class IndirectNextWordOffsetOperandTests : OperandTests
     {
-        private const ushort OpcodeWidth = 4;
-        private const ushort OperandWidth = 6;
+        [Test]
+        public void ToStringReturnsOperandStringRepresentation()
+        {
+            var cpuStateManager = new Mock<ICpuStateOperations>();
+            var operand = new IndirectNextWordOffsetOperand();
+
+            cpuStateManager.Setup(m => m.IncrementProgramCounter()).Returns(0x1);
+            cpuStateManager.Setup(m => m.ReadMemoryValueAtAddress(0x1)).Returns(0x10);
+            cpuStateManager.Setup(m => m.ReadGeneralPursoseRegisterValue(0x0)).Returns(0x0);
+
+            operand.Process(cpuStateManager.Object);
+
+            var expected = string.Format(
+                "[{0}+{1}={2}]", string.Format("0x{0:X4}", 0x10), "A", string.Format("0x{0:X4}", 0x0));
+
+            Assert.That(operand.ToString(), Is.EqualTo(expected));
+        }
 
         [Test]
         public void ProcessSetsNextWordAdressToNextInstruction()

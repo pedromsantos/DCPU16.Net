@@ -8,11 +8,23 @@ namespace ModelTests.Operands
     using NUnit.Framework;
 
     [TestFixture]
-    public class IndirectNextWordOperandTests
+    public class IndirectNextWordOperandTests : OperandTests
     {
-        private const ushort OpcodeWidth = 4;
-        private const ushort OperandWidth = 6;
-        private const ushort OperandLiteralOffset = 0x20;
+        [Test]
+        public void ToStringReturnsOperandStringRepresentation()
+        {
+            var cpuStateManager = new Mock<ICpuStateOperations>();
+            var operand = new IndirectNextWordOperand();
+
+            cpuStateManager.Setup(m => m.IncrementProgramCounter()).Returns(0x1);
+            cpuStateManager.Setup(m => m.ReadMemoryValueAtAddress(0x1)).Returns(0x10);
+
+            operand.Process(cpuStateManager.Object);
+
+            var expected = string.Format("[0x{0:X4}]", 0x10);
+
+            Assert.That(operand.ToString(), Is.EqualTo(expected));
+        }
 
         [Test]
         public void ProcessSetsNextWordAdressToNextInstruction()
@@ -59,25 +71,25 @@ namespace ModelTests.Operands
         [Test]
         public void AssembleGeneratesCorrectValueIfNextWordLessThan32AndOperandIsFirstOperand()
         {
-            var operand = new IndirectNextWordOperand { NextWord = 0x21 };
+            var operand = new IndirectNextWordOperand { NextWord = 0x10 };
 
             const int Index = 0;
             const ushort Shift = (ushort)(OpcodeWidth + (Index * OperandWidth));
 
             Assert.That(
-                operand.AssembleOperand(Index), Is.EqualTo((ushort)((ushort)OperandType.OIndirectNextWord << Shift)));
+                operand.AssembleOperand(Index), Is.EqualTo((ushort)((0x10 + OperandLiteralOffset) << Shift)));
         }
 
         [Test]
         public void AssembleGeneratesCorrectValueIfNextWordLessThan32AndOperandIsSecondOperand()
         {
-            var operand = new IndirectNextWordOperand { NextWord = 0x21 };
+            var operand = new IndirectNextWordOperand { NextWord = 0x10 };
 
             const int Index = 1;
             const ushort Shift = (ushort)(OpcodeWidth + (Index * OperandWidth));
 
             Assert.That(
-                operand.AssembleOperand(Index), Is.EqualTo((ushort)((ushort)OperandType.OIndirectNextWord << Shift)));
+                operand.AssembleOperand(Index), Is.EqualTo((ushort)((0x10 + OperandLiteralOffset) << Shift)));
         }
     }
 }

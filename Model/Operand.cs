@@ -43,17 +43,9 @@ namespace Model
 
         public int NextWord { get; set; }
 
-        public string Token
-        {
-            get
-            {
-                return string.Empty;
-            }
-        }
-
         public virtual ushort Read(ICpuStateOperations cpuStateManager)
         {
-            return 0;
+            throw new InvalidOperationException();
         }
 
         public virtual void Write(ICpuStateOperations cpuStateManager, ushort value)

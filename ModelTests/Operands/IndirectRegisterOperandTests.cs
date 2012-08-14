@@ -8,10 +8,23 @@ namespace ModelTests.Operands
     using NUnit.Framework;
 
     [TestFixture]
-    public class IndirectRegisterOperandTests
+    public class IndirectRegisterOperandTests : OperandTests
     {
-        private const ushort OpcodeWidth = 4;
-        private const ushort OperandWidth = 6;
+
+        [Test]
+        public void ToStringReturnsOperandStringRepresentation()
+        {
+            var cpuStateManager = new Mock<ICpuStateOperations>();
+            var operand = new IndirectRegisterOperand { OperandValue = 6 };
+
+            cpuStateManager.Setup(m => m.ReadGeneralPursoseRegisterValue(0x6)).Returns(0x10);
+            
+            operand.Process(cpuStateManager.Object);
+
+            var expected = string.Format("[{0}]", "I");
+
+            Assert.That(operand.ToString(), Is.EqualTo(expected));
+        }
 
         [Test]
         public void ProcessSetsRegisterValueToAdressOfMemory()
