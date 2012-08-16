@@ -26,8 +26,8 @@ namespace Model.Assembler
     using System.Collections.Generic;
 
     using Model;
-    using Model.Parser;
     using Model.Operands;
+    using Model.Parser;
 
     public class Assembler
     {

@@ -22,6 +22,8 @@
 
 namespace ModelTests.Operands
 {
+    using System;
+
     using Model;
     using Model.Operands;
 
@@ -30,63 +32,44 @@ namespace ModelTests.Operands
     using NUnit.Framework;
 
     [TestFixture]
-    public class IndirectRegisterOperandTests : OperandTests
+    public class LiteralOperandTests : OperandTests
     {
-
         [Test]
         public void ToStringReturnsOperandStringRepresentation()
         {
             var cpuStateManager = new Mock<ICpuStateOperations>();
-            var operand = new IndirectRegisterOperand { OperandValue = 6 };
-
-            cpuStateManager.Setup(m => m.ReadGeneralPursoseRegisterValue(0x6)).Returns(0x10);
-            
+            var operand = new LiteralOperand { OperandValue = 0x0 };
             operand.Process(cpuStateManager.Object);
 
-            var expected = string.Format("[{0}]", "I");
+            var expected = string.Format("0x{0:X4}", 0x0);
 
             Assert.That(operand.ToString(), Is.EqualTo(expected));
         }
 
         [Test]
-        public void ProcessSetsRegisterValueToAdressOfMemory()
+        public void ProcessExtractsLiteralFromOperandValue()
         {
             var cpuStateManager = new Mock<ICpuStateOperations>();
-            var operand = new IndirectRegisterOperand { OperandValue = 6 };
-
-            cpuStateManager.Setup(m => m.ReadGeneralPursoseRegisterValue(0x6)).Returns(0x10);
+            var operand = new LiteralOperand { OperandValue = 0x0 };
             
             operand.Process(cpuStateManager.Object);
-
-            cpuStateManager.Setup(m => m.ReadMemoryValueAtAddress(0x10));
-
-            operand.Read(cpuStateManager.Object);
-
-            cpuStateManager.VerifyAll();
+            var literal = operand.Read(cpuStateManager.Object);
+            
+            Assert.That(literal, Is.EqualTo(0x0));
         }
 
         [Test]
-        public void AssembleGeneratesCorrectValueIfOperandIsFirstOperand()
+        public void AssembleThrowsInvalidOperationExceptionorFirstOperand()
         {
-            var operand = new IndirectRegisterOperand { RegisterValue = 0 };
-
-            const int Index = 0;
-            const ushort Shift = (ushort)(OpcodeWidth + (Index * OperandWidth));
-
-            Assert.That(
-                operand.AssembleOperand(Index), Is.EqualTo(((ushort)OperandType.OIndirectReg + 0) << Shift));
+            var operand = new LiteralOperand { OperandValue = 0x10 };
+            Assert.Throws<InvalidOperationException>(() => operand.AssembleOperand(0));
         }
 
         [Test]
-        public void AssembleGeneratesCorrectValueIfOperandIsSecondOperand()
+        public void AssembleThrowsInvalidOperationExceptionForSecondOperand()
         {
-            var operand = new IndirectRegisterOperand { RegisterValue = 0 };
-
-            const int Index = 1;
-            const ushort Shift = (ushort)(OpcodeWidth + (Index * OperandWidth));
-
-            Assert.That(
-                operand.AssembleOperand(Index), Is.EqualTo(((ushort)OperandType.OIndirectReg + 0) << Shift));
+            var operand = new LiteralOperand { OperandValue = 0x10 };
+            Assert.Throws<InvalidOperationException>(() => operand.AssembleOperand(1));
         }
     }
 }

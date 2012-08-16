@@ -31,11 +31,6 @@ namespace Model.Lexer
         {
         }
 
-        public bool IsTokenToBeConsumed(TokenBase token)
-        {
-            return true;
-        }
-
         public string ConsumeToken(string line, TokenBase token)
         {
             return line.Substring(token.Content.Length);

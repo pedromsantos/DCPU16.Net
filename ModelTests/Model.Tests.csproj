@@ -73,6 +73,7 @@
     <Compile Include="Operands\IndirectNextWordOffsetOperandTests.cs" />
     <Compile Include="Operands\IndirectNextWordOperandTests.cs" />
     <Compile Include="Operands\IndirectRegisterOperandTests.cs" />
+    <Compile Include="Operands\LiteralOperandTests.cs" />
     <Compile Include="Operands\OperandTests.cs" />
     <Compile Include="Parser\ParserIntegrationTests.cs" />
     <Compile Include="Parser\ParserTests.cs" />

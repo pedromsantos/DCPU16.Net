@@ -22,21 +22,30 @@
 
 namespace Model.Operands
 {
+    using System;
+
     public class LiteralOperand : Operand
     {
+        private ushort literal;
+
         public override ushort Read(ICpuStateOperations cpuStateManager)
         {
-            return (ushort)((this.OperandValue - 0x20) % NumberOfLiterals);
+            return this.literal;
+        }
+
+        public override void Process(ICpuStateOperations cpuStateManager)
+        {
+            this.literal = (ushort)((this.OperandValue - 0x20) % NumberOfLiterals);
         }
 
         public override string ToString()
         {
-            return ((this.OperandValue - 0x20) % NumberOfLiterals).ToString();
+            return string.Format("0x{0:X4}", this.literal);
         }
 
         protected override ushort Assemble(ushort shift)
         {
-            return 1;
+            throw new InvalidOperationException();
         }
     }
 }

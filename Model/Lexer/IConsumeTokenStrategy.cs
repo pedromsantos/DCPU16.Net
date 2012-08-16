@@ -26,8 +26,6 @@ namespace Model.Lexer
 
     public interface IConsumeTokenStrategy : IIgnoreTokenStrategy
     {
-        bool IsTokenToBeConsumed(TokenBase token);
-
         string ConsumeToken(string line, TokenBase token);
     }
 }
