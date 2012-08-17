@@ -76,6 +76,12 @@
     <Compile Include="Operands\LiteralOperandTests.cs" />
     <Compile Include="Operands\NextWordOperandTests.cs" />
     <Compile Include="Operands\OperandTests.cs" />
+    <Compile Include="Operands\OverflowOperandTests.cs" />
+    <Compile Include="Operands\PeekOperandTests.cs" />
+    <Compile Include="Operands\PopOperandTests.cs" />
+    <Compile Include="Operands\ProgramCounterOperandTests.cs" />
+    <Compile Include="Operands\PushOperandTests.cs" />
+    <Compile Include="Operands\StackPointerOperandTests.cs" />
     <Compile Include="Parser\ParserIntegrationTests.cs" />
     <Compile Include="Parser\ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
