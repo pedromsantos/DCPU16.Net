@@ -22,11 +22,19 @@
 
 namespace Model.Lexer.Tokens
 {
-    public class HexToken : TokenBase
+    public class HexToken : INumericToken, TokenBase
     {
         public HexToken()
         {
             this.Matcher = new RegExMatcher("(0(?i)x[0-9a-fA-F]+)");
+        }
+
+        public int NumericValue
+        {
+            get
+            {
+                Convert.ToUInt16(token.Content, 16);
+            }
         }
 
         public override TokenBase Clone()

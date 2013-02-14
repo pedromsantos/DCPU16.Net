@@ -24,11 +24,24 @@ namespace Model.Lexer.Tokens
 {
     using Model.Lexer.Tokens;
 
-    public class DecimalToken : TokenBase
+    public Interface INumericToken
+    {
+        int NumericToken { get; }
+    }
+
+    public class DecimalToken : INumericToken, TokenBase
     {
         public DecimalToken()
         {
             this.Matcher = new RegExMatcher("[0-9]+");
+        }
+
+        public int NumericValue
+        {
+            get
+            {
+              Convert.ToUInt16(token.Content, 10);
+            }
         }
     }
 }

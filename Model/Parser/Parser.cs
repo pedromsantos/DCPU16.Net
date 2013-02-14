@@ -43,6 +43,8 @@ namespace Model.Parser
 
         private Statment currentStatment;
 
+        private IList<Statment> statments;
+
         public Parser(ILexer lexer, IOperandFactory directOperandFactory, IOperandFactory indirectOperandFactory)
         {
             this.lexer = lexer;
@@ -51,10 +53,8 @@ namespace Model.Parser
 
             lexer.ConsumeTokenStrategy = new PeekTokenStrategy(new IgnoreWhiteSpaceTokenStrategy());
 
-            this.Statments = new List<Statment>();
+            this.statments = new List<Statment>();
         }
-
-        public IList<Statment> Statments { get; private set; }
 
         public IEnumerable<Statment> Parse()
         {
@@ -62,7 +62,7 @@ namespace Model.Parser
             {
             }
 
-            return this.Statments;
+            return this.statments;
         }
 
         public bool ParseStatment()
@@ -78,18 +78,10 @@ namespace Model.Parser
 
             this.ParseLabel();
             this.ParseMenemonic();
-            
-            if (this.currentStatment.Opcode == BasicOpcode.OpDat)
-            {
-                this.ParseData();
-            }
-            else
-            {
-                this.ParseOperands();
-            }
-
-            this.Statments.Add(this.currentStatment);
+            this.ParseInstruction();
             this.ParseComments();
+
+            this.statments.Add(this.currentStatment);
 
             return true;
         }
@@ -97,6 +89,7 @@ namespace Model.Parser
         private void DiscardEmptyLines()
         {
             TokenBase token;
+
             do
             {
                 token = this.PeekNextToken();
@@ -141,14 +134,32 @@ namespace Model.Parser
             this.currentStatment.Opcode = ((InstructionToken)token).Opcode;
         }
 
-        private void ParseComments()
+        private void ParseIstruction()
         {
-            var token = this.PeekNextToken();
-
-            if (token is CommentToken)
+            if (this.currentStatment.Opcode == BasicOpcode.OpDat)
             {
-                this.ConsumeNextToken();
+                this.ParseData();
             }
+            else
+            {
+                this.ParseOperands();
+            }
+        }
+
+        private void ParseData()
+        {
+            do
+            {
+                if (this.PeekNextToken() is CommaToken)
+                {
+                    this.ConsumeNextToken();
+                }
+
+                var token = this.ConsumeNextToken();
+
+                this.AddDatToCurrentStatment(token);
+            }
+            while (this.PeekNextToken() is CommaToken);
         }
 
         private void ParseOperands()
@@ -212,31 +223,11 @@ namespace Model.Parser
             }
         }
 
-        private void ParseData()
-        {
-            do
-            {
-                if (this.PeekNextToken() is CommaToken)
-                {
-                    this.ConsumeNextToken();
-                }
-
-                var token = this.ConsumeNextToken();
-
-                this.AddDatToCurrentStatment(token);
-            }
-            while (this.PeekNextToken() is CommaToken);
-        }
-
         private void AddDatToCurrentStatment(TokenBase token)
         {
-            if (token is HexToken)
+            if (token is INumericToken)
             {
-                this.currentStatment.Dat.Add(Convert.ToUInt16(token.Content, 16));
-            }
-            else if (token is DecimalToken)
-            {
-                this.currentStatment.Dat.Add(Convert.ToUInt16(token.Content, 10));
+                this.currentStatment.Dat.Add(token.NumericValue));
             }
             else if (token is StringToken)
             {
@@ -244,6 +235,16 @@ namespace Model.Parser
                 {
                     this.currentStatment.Dat.Add(t);
                 }
+            }
+        }
+
+        private void ParseComments()
+        {
+            var token = this.PeekNextToken();
+
+            if (token is CommentToken)
+            {
+                this.ConsumeNextToken();
             }
         }
 

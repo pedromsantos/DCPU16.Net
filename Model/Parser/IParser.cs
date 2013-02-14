@@ -26,8 +26,6 @@ namespace Model.Parser
 
     internal interface IParser
     {
-        IList<Statment> Statments { get; }
-
         IEnumerable<Statment> Parse();
     }
 }
