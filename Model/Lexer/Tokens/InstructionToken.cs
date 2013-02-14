@@ -20,15 +20,55 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace Model.Lexer.Tokens
 {
-    using Model.Lexer.Tokens;
-
     public class InstructionToken : TokenBase
     {
+        private static readonly IDictionary<string, BasicOpcode> MenemonicToOpCodeMapper = new Dictionary<string, BasicOpcode>
+            {
+                { "DAT", BasicOpcode.OpDat },
+                { "JSR", BasicOpcode.OpJsr },
+                { "SET", BasicOpcode.OpSet },
+                { "ADD", BasicOpcode.OpAdd },
+                { "SUB", BasicOpcode.OpSub },
+                { "MUL", BasicOpcode.OpMul },
+                { "DIV", BasicOpcode.OpDiv },
+                { "MOD", BasicOpcode.OpMod },
+                { "SHL", BasicOpcode.OpShl },
+                { "SHR", BasicOpcode.OpShr },
+                { "AND", BasicOpcode.OpAnd },
+                { "BOR", BasicOpcode.OpBor },
+                { "XOR", BasicOpcode.OpXor },
+                { "IFE", BasicOpcode.OpIfe },
+                { "IFN", BasicOpcode.OpIfn },
+                { "IFG", BasicOpcode.OpIfg },
+                { "IFB", BasicOpcode.OpIfb },
+            };
+
+        public BasicOpcode Opcode { get; set; }
+
         public InstructionToken()
         {
             this.Matcher = new RegExMatcher(@"\b(((?i)dat)|((?i)set)|((?i)add)|((?i)sub)|((?i)mul)|((?i)div)|((?i)mod)|((?i)shl)|((?i)shr)|((?i)and)|((?i)bor)|((?i)xor)|((?i)ife)|((?i)ifn)|((?i)ifg)|((?i)ifb)|((?i)jsr))\b");
+        }
+
+        public override string Match(string input)
+        {
+            base.Match(input);
+
+            if (!string.IsNullOrEmpty(this.Content))
+            {
+                this.SetOpCodeForMenemonic(this.Content);
+            }
+            return this.Content;
+        }
+
+        private void SetOpCodeForMenemonic(string content)
+        {
+            content = content.ToUpper();
+            this.Opcode = MenemonicToOpCodeMapper[content];
         }
     }
 }

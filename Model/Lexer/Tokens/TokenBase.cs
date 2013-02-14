@@ -28,7 +28,7 @@ namespace Model.Lexer.Tokens
 
         public string Content { get; set; }
 
-        public string Match(string input)
+        public virtual string Match(string input)
         {
             var content = this.Matcher.Match(input);
             this.Content = content;

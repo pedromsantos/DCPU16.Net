@@ -36,7 +36,7 @@ namespace Model.Operands
 
         public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
-            cpuStateManager.WriteMemoryValueAtAddress(((this.nextWordAddress + this.registerValue) & ShortMask), value);
+            cpuStateManager.WriteMemoryValueAtAddress((this.nextWordAddress + this.registerValue) & ShortMask, value);
         }
 
         public override void Process(ICpuStateOperations cpuStateManager)

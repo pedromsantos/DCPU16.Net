@@ -254,7 +254,7 @@ namespace Model.Emulator
         public void LoadProgram(IEnumerable<ushort> program)
         {
             this.Reset();
-            this.memory.LoadProgram(program);    
+            this.memory.LoadProgram(program);
         }
 
         public bool ExecuteNextInstruction()

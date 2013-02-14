@@ -24,6 +24,8 @@ namespace Model
 {
     public enum BasicOpcode
     {
+        OpDat = -0x1,
+        OpJsr = 0x0,
         OpSet = 0x1,
         OpAdd = 0x2,
         OpSub = 0x3,

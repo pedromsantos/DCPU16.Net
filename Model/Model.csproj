@@ -95,7 +95,6 @@
     <Compile Include="Lexer\Tokens\TokenBase.cs" />
     <Compile Include="Lexer\Tokens\WhiteSpaceToken.cs" />
     <Compile Include="NonBasicOpcode.cs" />
-    <Compile Include="Opcode.cs" />
     <Compile Include="Operand.cs" />
     <Compile Include="OperandBuilder.cs" />
     <Compile Include="Assembler\Assembler.cs" />

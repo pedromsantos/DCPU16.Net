@@ -75,8 +75,7 @@ namespace ModelTests.Parser
 
             var statment = parser.Statments.First();
 
-            Assert.That(statment.Menemonic, Is.EqualTo("SET"));
-            Assert.That(statment.Opcode, Is.EqualTo((int)BasicOpcode.OpSet));
+            Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpSet));
             Assert.That(statment.OperandA is RegisterOperand);
             Assert.That(statment.OperandA.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegI));
             Assert.That(statment.OperandB is NextWordOperand);
@@ -97,8 +96,7 @@ namespace ModelTests.Parser
 
             var statment = parser.Statments.First();
 
-            Assert.That(statment.Menemonic, Is.EqualTo("SET"));
-            Assert.That(statment.Opcode, Is.EqualTo((int)BasicOpcode.OpSet));
+            Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpSet));
             Assert.That(statment.OperandA is RegisterOperand);
             Assert.That(statment.OperandA.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegX));
             Assert.That(statment.OperandB is NextWordOperand);
@@ -119,8 +117,7 @@ namespace ModelTests.Parser
 
             var statment = parser.Statments.First();
 
-            Assert.That(statment.Menemonic, Is.EqualTo("SET"));
-            Assert.That(statment.Opcode, Is.EqualTo((int)BasicOpcode.OpSet));
+            Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpSet));
             Assert.That(statment.OperandA is IndirectNextWordOperand);
             Assert.That(statment.OperandA.NextWord, Is.EqualTo(4096));
             Assert.That(statment.OperandB is NextWordOperand);
@@ -141,8 +138,7 @@ namespace ModelTests.Parser
 
             var statment = parser.Statments.First();
 
-            Assert.That(statment.Menemonic, Is.EqualTo("SET"));
-            Assert.That(statment.Opcode, Is.EqualTo((int)BasicOpcode.OpSet));
+            Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpSet));
             Assert.That(statment.OperandA is ProgramCounterOperand);
             Assert.That(statment.OperandB is NextWordOperand);
             Assert.That(statment.OperandB.Label, Is.EqualTo("crash"));
@@ -163,8 +159,7 @@ namespace ModelTests.Parser
 
             var statment = parser.Statments.First();
 
-            Assert.That(statment.Menemonic, Is.EqualTo("JSR"));
-            Assert.That(statment.Opcode, Is.EqualTo(0));
+            Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpJsr));
             Assert.That(statment.OperandA is NextWordOperand);
             Assert.That(statment.OperandA.Label, Is.EqualTo("testsub"));
             Assert.That(statment.OperandA.NextWord, Is.EqualTo(0));
@@ -223,8 +218,7 @@ namespace ModelTests.Parser
             parser.Parse();
 
             var statment = parser.Statments.First();
-            Assert.That(statment.Menemonic, Is.EqualTo("DAT"));
-            Assert.That(statment.Opcode, Is.EqualTo(-1));
+            Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpDat));
             Assert.That(statment.OperandA, Is.Null);
             Assert.That(statment.OperandB, Is.Null);
             Assert.That(statment.Label, Is.Null);
@@ -249,8 +243,7 @@ namespace ModelTests.Parser
             parser.Parse();
 
             var statment = parser.Statments.First();
-            Assert.That(statment.Menemonic, Is.EqualTo("DAT"));
-            Assert.That(statment.Opcode, Is.EqualTo(-1));
+            Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpDat));
             Assert.That(statment.OperandA, Is.Null);
             Assert.That(statment.OperandB, Is.Null);
             Assert.That(statment.Label, Is.Null);
@@ -350,8 +343,7 @@ namespace ModelTests.Parser
 
             var statment5 = parser.Statments[5]; // ife [data+i], 0
 
-            Assert.That(statment5.Menemonic, Is.EqualTo("IFE"));
-            Assert.That(statment5.Opcode, Is.EqualTo((int)BasicOpcode.OpIfe));
+            Assert.That(statment5.Opcode, Is.EqualTo(BasicOpcode.OpIfe));
             Assert.That(statment5.OperandA, Is.InstanceOf(typeof(IndirectNextWordOffsetOperand)));
             Assert.That(statment5.OperandA.Label, Is.EqualTo("data"));
             Assert.That(statment5.OperandA.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegI));
@@ -360,8 +352,7 @@ namespace ModelTests.Parser
 
             var statment7 = parser.Statments[7]; // set [0x8000+i], [data+i]
 
-            Assert.That(statment7.Menemonic, Is.EqualTo("SET"));
-            Assert.That(statment7.Opcode, Is.EqualTo((int)BasicOpcode.OpSet));
+            Assert.That(statment7.Opcode, Is.EqualTo(BasicOpcode.OpSet));
             Assert.That(statment7.OperandA, Is.InstanceOf(typeof(IndirectNextWordOffsetOperand)));
             Assert.That(statment7.OperandA.NextWord, Is.EqualTo(0x8000));
             Assert.That(statment7.OperandA.RegisterValue, Is.EqualTo((int)RegisterIdentifier.RegI));

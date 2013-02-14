@@ -30,7 +30,7 @@ namespace Model
 
     public class InstructionOperandFactory : IInstructionOperandFactory
     {
-        private static readonly IDictionary<IList<int>, Func<Operand>> operandTypeMapper =
+        private static readonly IDictionary<IList<int>, Func<Operand>> OperandTypeMapper =
             new Dictionary<IList<int>, Func<Operand>>
                 {
                     { new List<int>
@@ -45,26 +45,26 @@ namespace Model
                             (int)RegisterIdentifier.RegZ,
                         }, () => { return new RegisterOperand(); }
                     },
-                    { new List<int> { (int)OperandType.OIndirectReg }, () => { return new IndirectRegisterOperand(); } },
-                    { new List<int> { (int)OperandType.OIndirectNextWordOffset }, () => { return new IndirectNextWordOffsetOperand(); } },
-                    { new List<int> { (int)OperandType.OPop }, () => { return new PopOperand(); } },
-                    { new List<int> { (int)OperandType.OPeek }, () => { return new PeekOperand(); } },
-                    { new List<int> { (int)OperandType.OPush }, () => { return new PushOperand(); } },
-                    { new List<int> { (int)OperandType.OSp }, () => { return new StackPointerOperand(); } },
-                    { new List<int> { (int)OperandType.OPc }, () => { return new ProgramCounterOperand(); } },
-                    { new List<int> { (int)OperandType.OO }, () => { return new OverflowOperand(); } },
-                    { new List<int> { (int)OperandType.OIndirectNextWord }, () => { return new IndirectNextWordOperand(); } },
-                    { new List<int> { (int)OperandType.ONextWord }, () => { return new NextWordOperand(); } },
-                    { new List<int> { (int)OperandType.OLiteral }, () => { return new LiteralOperand(); } },
-                    { new List<int> { (int)OperandType.ONull }, () => { return new NullOperand(); } },
+                    { new List<int> { (int)OperandType.OIndirectReg }, () => new IndirectRegisterOperand()},
+                    { new List<int> { (int)OperandType.OIndirectNextWordOffset }, () => new IndirectNextWordOffsetOperand()},
+                    { new List<int> { (int)OperandType.OPop }, () => new PopOperand()},
+                    { new List<int> { (int)OperandType.OPeek }, () => new PeekOperand()},
+                    { new List<int> { (int)OperandType.OPush }, () => new PushOperand()},
+                    { new List<int> { (int)OperandType.OSp }, () => new StackPointerOperand()},
+                    { new List<int> { (int)OperandType.OPc }, () => new ProgramCounterOperand()},
+                    { new List<int> { (int)OperandType.OO }, () => new OverflowOperand()},
+                    { new List<int> { (int)OperandType.OIndirectNextWord }, () => new IndirectNextWordOperand()},
+                    { new List<int> { (int)OperandType.ONextWord }, () => new NextWordOperand()},
+                    { new List<int> { (int)OperandType.OLiteral }, () => new LiteralOperand()},
+                    { new List<int> { (int)OperandType.ONull }, () => new NullOperand()},
                 };
 
         protected Operand Operand { get; set; }
 
         public Operand Create(ushort operandValue)
         {
-            var key = operandTypeMapper.Keys.Last(k => k.Any(e => e <= operandValue));
-            this.Operand = operandTypeMapper[key]();
+            var key = OperandTypeMapper.Keys.Last(k => k.Any(e => e <= operandValue));
+            this.Operand = OperandTypeMapper[key]();
             this.Operand.OperandValue = operandValue;
             return this.Operand;
         }

@@ -22,7 +22,7 @@
 
 namespace Model.Parser
 {
-    using Model.Lexer.Tokens;
+    using Lexer.Tokens;
 
     public interface IOperandFactory
     {

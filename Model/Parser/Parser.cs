@@ -29,8 +29,8 @@ namespace Model.Parser
     using Lexer.Tokens;
 
     using Model;
-    using Model.Lexer;
-    using Model.Operands;
+    using Lexer;
+    using Operands;
 
     public class Parser : IParser
     {
@@ -79,7 +79,7 @@ namespace Model.Parser
             this.ParseLabel();
             this.ParseMenemonic();
             
-            if (this.currentStatment.Menemonic == "DAT")
+            if (this.currentStatment.Opcode == BasicOpcode.OpDat)
             {
                 this.ParseData();
             }
@@ -138,7 +138,7 @@ namespace Model.Parser
                     token.Content));
             }
 
-            this.currentStatment.Menemonic = token.Content.ToUpper();
+            this.currentStatment.Opcode = ((InstructionToken)token).Opcode;
         }
 
         private void ParseComments()

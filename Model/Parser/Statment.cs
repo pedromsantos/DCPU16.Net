@@ -22,32 +22,10 @@
 
 namespace Model.Parser
 {
-    using System;
     using System.Collections.Generic;
 
     public class Statment
     {
-        private static readonly IDictionary<string, BasicOpcode> MenemonicToOpCodeMapper = new Dictionary<string, BasicOpcode>
-            {
-                { "SET", BasicOpcode.OpSet },
-                { "ADD", BasicOpcode.OpAdd },
-                { "SUB", BasicOpcode.OpSub },
-                { "MUL", BasicOpcode.OpMul },
-                { "DIV", BasicOpcode.OpDiv },
-                { "MOD", BasicOpcode.OpMod },
-                { "SHL", BasicOpcode.OpShl },
-                { "SHR", BasicOpcode.OpShr },
-                { "AND", BasicOpcode.OpAnd },
-                { "BOR", BasicOpcode.OpBor },
-                { "XOR", BasicOpcode.OpXor },
-                { "IFE", BasicOpcode.OpIfe },
-                { "IFN", BasicOpcode.OpIfn },
-                { "IFG", BasicOpcode.OpIfg },
-                { "IFB", BasicOpcode.OpIfb },
-            };
-
-        private string menemonic;
-
         public Statment()
         {
             this.Dat = new List<int>();
@@ -55,46 +33,12 @@ namespace Model.Parser
 
         public string Label { get; set; }
 
-        public int Opcode { get; set; }
+        public BasicOpcode Opcode { get; set; }
 
         public Operand OperandA { get; set; }
 
         public Operand OperandB { get; set; }
 
         public IList<int> Dat { get; set; }
-
-        public string Menemonic
-        {
-            get
-            {
-                return this.menemonic;
-            }
-
-            set
-            {
-                this.menemonic = value;
-                this.SetOpCodeForMenemonic();
-            }
-        }
-
-        public void SetOpCodeForMenemonic()
-        {
-            if (this.menemonic == "DAT")
-            {
-                this.Opcode = -1;
-            }
-            else if (this.menemonic == "JSR")
-            {
-                this.Opcode = 0x0;
-            }
-            else if (MenemonicToOpCodeMapper.ContainsKey(this.menemonic))
-            {
-                this.Opcode = (int)MenemonicToOpCodeMapper[this.menemonic];
-            }
-            else
-            {
-                throw new Exception("No operand for instruction: " + this.menemonic);
-            }
-        }
     }
 }

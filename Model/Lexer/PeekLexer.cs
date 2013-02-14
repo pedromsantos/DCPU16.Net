@@ -27,7 +27,7 @@ namespace Model.Lexer
     using System.IO;
     using System.Linq;
 
-    using Model.Lexer.Tokens;
+    using Tokens;
 
     public class PeekLexer : ILexer, IDisposable
     {
@@ -98,8 +98,7 @@ namespace Model.Lexer
 
         private TokenBase MatchToken()
         {
-            var matcher = this.TokenMatchers.Where(m => m.Match(this.LineRemaining) != string.Empty)
-                .FirstOrDefault();
+            var matcher = this.TokenMatchers.FirstOrDefault(m => m.Match(this.LineRemaining) != string.Empty);
 
             if (matcher != null)
             {

@@ -22,7 +22,7 @@
 
 namespace Model.Lexer
 {
-    using Model.Lexer.Tokens;
+    using Tokens;
 
     public interface ILexer
     {

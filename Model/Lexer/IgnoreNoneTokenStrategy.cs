@@ -22,7 +22,7 @@
 
 namespace Model.Lexer
 {
-    using Lexer.Tokens;
+    using Tokens;
 
     public class IgnoreNoneTokenStrategy : IIgnoreTokenStrategy
     {

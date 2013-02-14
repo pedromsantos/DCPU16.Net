@@ -32,7 +32,6 @@ namespace ModelTests.Operands
     [TestFixture]
     public class IndirectRegisterOperandTests : OperandTests
     {
-
         [Test]
         public void ToStringReturnsOperandStringRepresentation()
         {
