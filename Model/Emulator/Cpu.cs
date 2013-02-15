@@ -272,7 +272,7 @@ namespace Model.Emulator
             {
                 this.NotifyInstrictionWillExecute(rawInstruction, instruction);
                 instruction.Execute();
-                this.NotifyInstructionDidExacute(rawInstruction, instruction);
+                this.NotifyInstructionDidExecute(rawInstruction, instruction);
             }
             else
             {
@@ -342,7 +342,7 @@ namespace Model.Emulator
             this.memory.Reset();
         }
 
-        private void NotifyInstructionDidExacute(ushort rawInstruction, Instruction instruction)
+        private void NotifyInstructionDidExecute(ushort rawInstruction, Instruction instruction)
         {
             if (this.InstructionDidExecute != null)
             {
