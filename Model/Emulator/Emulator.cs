@@ -62,16 +62,16 @@ namespace Model.Emulator
             }
         }
 
-        public event Action<int, ushort> InstructionDidLoad
+        public event Action<int, ushort> ValueDidLoad
         {
             add
             {
-                this.cpu.InstructionDidLoad += value;
+                this.cpu.ValueDidLoad += value;
             }
 
             remove
             {
-                this.cpu.InstructionDidLoad -= value;
+                this.cpu.ValueDidLoad -= value;
             }
         }
 
@@ -265,7 +265,7 @@ namespace Model.Emulator
                 program.Add(word);
             }
 
-            this.cpu.LoadProgram(program);
+            this.cpu.LoadData(program);
         }
 
         public void RunLoadedProgram()

@@ -65,7 +65,7 @@ namespace Model.Parser
             return this.statments;
         }
 
-        public bool ParseStatment()
+        private bool ParseStatment()
         {
             this.DiscardEmptyLines();
 
@@ -255,7 +255,7 @@ namespace Model.Parser
 
         private TokenBase ConsumeNextToken()
         {
-            return this.lexer.ConsumeTokenUsingStrategy(this.consumeStrategy);
+            return this.lexer.NextTokenUsingStrategy(this.consumeStrategy);
         }
     }
 }

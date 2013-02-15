@@ -31,9 +31,8 @@ namespace Model.Assembler
 
     public class Assembler
     {
-        protected const int OpcodeWidth = 4;
-        protected const int OperandWidth = 6;
-        protected const int OperandLiteralMax = 0x1F;
+        private const int OpcodeWidth = 4;
+        private const int OperandLiteralMax = 0x1F;
 
         private readonly IDictionary<string, int> labelAddresses;
         private readonly IDictionary<int, string> labelReferences;
@@ -42,10 +41,9 @@ namespace Model.Assembler
 
         public Assembler()
         {
+            this.program = new List<ushort>();
             this.labelAddresses = new Dictionary<string, int>();
             this.labelReferences = new Dictionary<int, string>();
-
-            this.program = new List<ushort>();
         }
 
         public IList<ushort> AssembleStatments(IEnumerable<Statment> statments)
@@ -62,12 +60,7 @@ namespace Model.Assembler
 
         private void AssembleStatment(Statment statment)
         {
-            var opcode = (ushort)statment.Opcode;
-
-            if (!string.IsNullOrEmpty(statment.Label))
-            {
-                this.labelAddresses[statment.Label.Substring(1)] = this.program.Count;
-            }
+            this.AssembleLabel(statment);
 
             if (statment.Dat.Count != 0)
             {
@@ -79,30 +72,55 @@ namespace Model.Assembler
                 return;
             }
 
+            this.AssembleOperands(statment);
+        }
+
+        private void AssembleLabel(Statment statment)
+        {
+            if (!string.IsNullOrEmpty(statment.Label))
+            {
+                this.labelAddresses[statment.Label.Substring(1)] = this.program.Count;
+            }
+        }
+
+        private void AssembleOperands(Statment statment)
+        {
+            var opcode = (ushort)statment.Opcode;
+
             if (opcode == 0)
             {
-                if (statment.OperandB != null)
-                {
-                    throw new Exception("Non-basic opcode must have single operand.");
-                }
-
-                opcode |= (ushort)NonBasicOpcode.OpJsr << OpcodeWidth;
-                opcode |= statment.OperandA.AssembleOperand(1);
-                this.program.Add(opcode);
-                this.AssembleNextWordOperand(statment.OperandA);
+                this.AssembleSpecialOperand(statment, opcode);
             }
             else
             {
-                opcode |= statment.OperandA.AssembleOperand(0);
-                opcode |= statment.OperandB.AssembleOperand(1);
-
-                this.program.Add(opcode);
-
-                this.AssembleNextWordOperand(statment.OperandA);
-                this.AssembleNextWordOperand(statment.OperandB);
+                this.AssembleBasicOperand(statment, opcode);
             }
         }
-        
+
+        private void AssembleBasicOperand(Statment statment, ushort opcode)
+        {
+            opcode |= statment.OperandA.AssembleOperand(0);
+            opcode |= statment.OperandB.AssembleOperand(1);
+
+            this.program.Add(opcode);
+
+            this.AssembleNextWordOperand(statment.OperandA);
+            this.AssembleNextWordOperand(statment.OperandB);
+        }
+
+        private void AssembleSpecialOperand(Statment statment, ushort opcode)
+        {
+            if (statment.OperandB != null)
+            {
+                throw new Exception("Non-basic opcode must have single operand.");
+            }
+
+            opcode |= (ushort) NonBasicOpcode.OpJsr << OpcodeWidth;
+            opcode |= statment.OperandA.AssembleOperand(1);
+            this.program.Add(opcode);
+            this.AssembleNextWordOperand(statment.OperandA);
+        }
+
         private void AssembleNextWordOperand(Operand operand)
         {
             if (operand is NextWordOperand || operand is IndirectNextWordOperand || operand is IndirectNextWordOffsetOperand)

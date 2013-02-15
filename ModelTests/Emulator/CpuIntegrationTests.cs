@@ -103,7 +103,7 @@ namespace ModelTests.Emulator
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
             var cpu = new Cpu(builder);
-            cpu.LoadProgram(program);
+            cpu.LoadData(program);
 
             var executed = true;
 
@@ -151,7 +151,7 @@ namespace ModelTests.Emulator
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
             var cpu = new Cpu(builder);
-            cpu.LoadProgram(program);
+            cpu.LoadData(program);
             var receivedEvents = new Dictionary<int, ushort>();
             cpu.VideoMemoryDidChange += receivedEvents.Add;
 

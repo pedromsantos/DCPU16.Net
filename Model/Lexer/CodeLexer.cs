@@ -31,13 +31,16 @@ namespace Model.Lexer
 
     public class CodeLexer : ILexer, IDisposable
     {
+        private readonly TextReader reader;
+        private readonly IEnumerable<TokenBase> tokenMatchers;
+
         public CodeLexer(
             TextReader reader,
             IEnumerable<TokenBase> tokenMatchers)
         {
             this.ConsumeTokenStrategy = new PeekTokenStrategy(new IgnoreNoneTokenStrategy());
-            this.Reader = reader;
-            this.TokenMatchers = tokenMatchers;
+            this.reader = reader;
+            this.tokenMatchers = tokenMatchers;
             this.NextLine();
         }
         
@@ -47,36 +50,22 @@ namespace Model.Lexer
             IConsumeTokenStrategy consumeTokenStrategy)
         {
             this.ConsumeTokenStrategy = consumeTokenStrategy;
-            this.Reader = reader;
-            this.TokenMatchers = tokenMatchers;
+            this.reader = reader;
+            this.tokenMatchers = tokenMatchers;
             this.NextLine();
         }
 
-        public IConsumeTokenStrategy ConsumeTokenStrategy { get; set; }
+        public string LineRemaining { get; private set; }
 
-        public string LineRemaining { get; set; }
+        public IConsumeTokenStrategy ConsumeTokenStrategy { private get; set; }
 
-        public int LineNumber { get; set; }
+        public int LineNumber { get; private set; }
 
-        public int Position { get; set; }
-
-        public TextReader Reader { get; set; }
-
-        public IEnumerable<TokenBase> TokenMatchers { get; private set; }
+        public int Position { get; private set; }
 
         public void Dispose()
         {
-            this.Reader.Dispose();
-        }
-
-        public TokenBase ConsumeTokenUsingStrategy(IConsumeTokenStrategy tokenConsumingStrategy)
-        {
-            var oldStrategy = this.ConsumeTokenStrategy;
-            this.ConsumeTokenStrategy = tokenConsumingStrategy;
-            var token = this.NextToken();
-            this.ConsumeTokenStrategy = oldStrategy;
-
-            return token;
+            this.reader.Dispose();
         }
 
         public TokenBase NextToken()
@@ -96,9 +85,19 @@ namespace Model.Lexer
             return matcher;
         }
 
+        public TokenBase NextTokenUsingStrategy(IConsumeTokenStrategy tokenConsumingStrategy)
+        {
+            var oldStrategy = this.ConsumeTokenStrategy;
+            this.ConsumeTokenStrategy = tokenConsumingStrategy;
+            var token = this.NextToken();
+            this.ConsumeTokenStrategy = oldStrategy;
+
+            return token;
+        }
+
         private TokenBase MatchToken()
         {
-            var matcher = this.TokenMatchers.FirstOrDefault(m => m.Match(this.LineRemaining) != string.Empty);
+            var matcher = this.tokenMatchers.FirstOrDefault(m => m.Match(this.LineRemaining) != string.Empty);
 
             if (matcher != null)
             {
@@ -130,7 +129,7 @@ namespace Model.Lexer
         {
             do
             {
-                this.LineRemaining = this.Reader.ReadLine();
+                this.LineRemaining = this.reader.ReadLine();
                 ++this.LineNumber;
                 this.Position = 0;
             }

@@ -51,16 +51,16 @@ namespace Model.Emulator
 
         public event Action<ushort, Instruction> InstructionDidExecute;
 
-        public event Action<int, ushort> InstructionDidLoad
+        public event Action<int, ushort> ValueDidLoad
         {
             add
             {
-                this.memory.InstructionDidLoad += value;
+                this.memory.ValueDidLoad += value;
             }
 
             remove
             {
-                this.memory.InstructionDidLoad -= value;
+                this.memory.ValueDidLoad -= value;
             }
         }
 
@@ -251,10 +251,10 @@ namespace Model.Emulator
 
         public bool IgnoreNextInstruction { get; set; }
 
-        public void LoadProgram(IEnumerable<ushort> program)
+        public void LoadData(IEnumerable<ushort> data)
         {
             this.Reset();
-            this.memory.LoadProgram(program);
+            this.memory.LoadData(data);
         }
 
         public bool ExecuteNextInstruction()

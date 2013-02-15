@@ -8,7 +8,7 @@
 
         event Action<ushort, Instruction> InstructionDidExecute;
 
-        event Action<int, ushort> InstructionDidLoad;
+        event Action<int, ushort> ValueDidLoad;
 
         event Action<int, ushort> MemoryWillChange;
 

@@ -26,14 +26,14 @@ namespace Model.Lexer
 
     public interface ILexer
     {
-        IConsumeTokenStrategy ConsumeTokenStrategy { get; set; }
+        IConsumeTokenStrategy ConsumeTokenStrategy { set; }
 
-        int LineNumber { get; set; }
+        int LineNumber { get; }
 
-        int Position { get; set; }
+        int Position { get; }
 
         TokenBase NextToken();
 
-        TokenBase ConsumeTokenUsingStrategy(IConsumeTokenStrategy tokenConsumingStrategy);
+        TokenBase NextTokenUsingStrategy(IConsumeTokenStrategy tokenConsumingStrategy);
     }
 }

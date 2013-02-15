@@ -59,10 +59,10 @@ namespace ModelTests.Emulator
             var instructionBuilder = new InstructionBuilder(operandFactory);
             var cpu = new Cpu(instructionBuilder);
             cpu.InstructionWillExecute += receivedEvents.Add;
-            cpu.LoadProgram(program);
+            cpu.LoadData(program);
             cpu.ExecuteNextInstruction();
 
-            Assert.That(receivedEvents.Keys.First() == program[0]);
+            Assert.That(receivedEvents.Keys.First() == program.ToList()[0]);
         }
 
         [Test]
@@ -84,10 +84,10 @@ namespace ModelTests.Emulator
             var builder = new InstructionBuilder(operandFactory);
             var cpu = new Cpu(builder);
             cpu.InstructionDidExecute += receivedEvents.Add;
-            cpu.LoadProgram(program);
+            cpu.LoadData(program);
             cpu.ExecuteNextInstruction();
 
-            Assert.That(receivedEvents.Keys.First() == program[0]);
+            Assert.That(receivedEvents.Keys.First() == program.ToList()[0]);
         }
 
         [SetUp]

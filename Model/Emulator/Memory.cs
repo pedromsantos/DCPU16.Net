@@ -59,7 +59,7 @@ namespace Model.Emulator
 
         public event Action<int, ushort> MemoryDidChange;
 
-        public event Action<int, ushort> InstructionDidLoad;
+        public event Action<int, ushort> ValueDidLoad;
 
         public event Action<int, ushort> VideoMemoryDidChange;
 
@@ -83,19 +83,19 @@ namespace Model.Emulator
             this.NotifyMemoryDidChange(address, value);
         }
 
-        public void LoadProgram(IEnumerable<ushort> program)
+        public void LoadData(IEnumerable<ushort> data)
         {
             this.Reset();
 
             var address = 0;
 
-            foreach (var instruction in program)
+            foreach (var value in data)
             {
-                this.WriteValueAtAddress(address, instruction);
+                this.WriteValueAtAddress(address, value);
                 
-                if (this.InstructionDidLoad != null)
+                if (this.ValueDidLoad != null)
                 {
-                    this.InstructionDidLoad(address, instruction);
+                    this.ValueDidLoad(address, value);
                 }
 
                 address++;

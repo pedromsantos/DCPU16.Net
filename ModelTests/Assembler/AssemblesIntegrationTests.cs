@@ -20,6 +20,8 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Linq;
+
 namespace ModelTests.Assembler
 {
     using System.Collections.Generic;
@@ -74,7 +76,7 @@ namespace ModelTests.Assembler
             var program = assembler.AssembleStatments(statments);
 
             Assert.That(program.Count, Is.EqualTo(1));
-            Assert.That(program[0], Is.EqualTo(0xA861));
+            Assert.That(program.ToList()[0], Is.EqualTo(0xA861));
         }
 
         [Test]
@@ -93,8 +95,8 @@ namespace ModelTests.Assembler
             var program = assembler.AssembleStatments(statments);
 
             Assert.That(program.Count, Is.EqualTo(2));
-            Assert.That(program[0], Is.EqualTo(0x7C01));
-            Assert.That(program[1], Is.EqualTo(0x0030));
+            Assert.That(program.ToList()[0], Is.EqualTo(0x7C01));
+            Assert.That(program.ToList()[1], Is.EqualTo(0x0030));
         }
 
         [Test]
@@ -113,9 +115,9 @@ namespace ModelTests.Assembler
             var program = assembler.AssembleStatments(statments);
 
             Assert.That(program.Count, Is.EqualTo(3));
-            Assert.That(program[0], Is.EqualTo(0x7DE1));
-            Assert.That(program[1], Is.EqualTo(0x1000));
-            Assert.That(program[2], Is.EqualTo(0x0020));
+            Assert.That(program.ToList()[0], Is.EqualTo(0x7DE1));
+            Assert.That(program.ToList()[1], Is.EqualTo(0x1000));
+            Assert.That(program.ToList()[2], Is.EqualTo(0x0020));
         }
 
         [Test]
@@ -134,8 +136,8 @@ namespace ModelTests.Assembler
             var program = assembler.AssembleStatments(statments);
 
             Assert.That(program.Count, Is.EqualTo(2));
-            Assert.That(program[0], Is.EqualTo(0x2161));
-            Assert.That(program[1], Is.EqualTo(0x2000));
+            Assert.That(program.ToList()[0], Is.EqualTo(0x2161));
+            Assert.That(program.ToList()[1], Is.EqualTo(0x2000));
         }
 
         [Test]
@@ -155,11 +157,11 @@ namespace ModelTests.Assembler
             var program = assembler.AssembleStatments(statments);
 
             Assert.That(program.Count, Is.EqualTo(6));
-            Assert.That(program[0], Is.EqualTo(0x10));
-            Assert.That(program[1], Is.EqualTo(0x20));
-            Assert.That(program[2], Is.EqualTo(0x30));
-            Assert.That(program[3], Is.EqualTo(0x40));
-            Assert.That(program[4], Is.EqualTo(0x50));
+            Assert.That(program.ToList()[0], Is.EqualTo(0x10));
+            Assert.That(program.ToList()[1], Is.EqualTo(0x20));
+            Assert.That(program.ToList()[2], Is.EqualTo(0x30));
+            Assert.That(program.ToList()[3], Is.EqualTo(0x40));
+            Assert.That(program.ToList()[4], Is.EqualTo(0x50));
         }
 
         [Test]
@@ -216,7 +218,7 @@ namespace ModelTests.Assembler
 
             for (var i = 0; i < 28; i++)
             {
-                Assert.That(program[i], Is.EqualTo(expectedInstruction[i]));
+                Assert.That(program.ToList()[i], Is.EqualTo(expectedInstruction[i]));
             }
         }
 
@@ -266,7 +268,7 @@ namespace ModelTests.Assembler
             
             for (var i = 0; i < 28; i++)
             {
-                Assert.That(program[i], Is.EqualTo(expectedInstruction[i]));
+                Assert.That(program.ToList()[i], Is.EqualTo(expectedInstruction[i]));
             }
         }
     }

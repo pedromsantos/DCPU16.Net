@@ -136,7 +136,7 @@ namespace DCPU16Assembler
             }
             
             var emulator = container.Resolve<IEmulator>();
-            emulator.InstructionDidLoad += LoadedInstructions.Add;
+            emulator.ValueDidLoad += LoadedInstructions.Add;
             emulator.LoadProgram(programData);
 
             emulator.RegisterDidChange += RegisterDidChange;

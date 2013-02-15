@@ -4,7 +4,7 @@
 
     public interface ICpu : ICpuStateOperations, ICpuNotifications
     {
-        void LoadProgram(IEnumerable<ushort> program);
+        void LoadData(IEnumerable<ushort> data);
 
         bool ExecuteNextInstruction();
 
