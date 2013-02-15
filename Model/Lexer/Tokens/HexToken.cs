@@ -20,10 +20,10 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-
 namespace Model.Lexer.Tokens
 {
+    using System;
+
     public class HexToken : TokenBase, INumericToken
     {
         public HexToken()

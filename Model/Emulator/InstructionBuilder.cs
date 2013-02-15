@@ -26,7 +26,7 @@ namespace Model.Emulator
     using System.Collections.Generic;
 
     using Model;
-    using Model.Emulator.Instructions;
+    using Instructions;
 
     public class InstructionBuilder : IInstructionBuilder
     {
@@ -67,8 +67,8 @@ namespace Model.Emulator
                     { BasicOpcode.OpXor, () => new XorInstruction(this.opcode, this.operationA, this.operationB)},
                     { BasicOpcode.OpIfe, () => new IfeInstruction(this.opcode, this.operationA, this.operationB)},
                     { BasicOpcode.OpIfn, () => new IfnInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpIfg, () => { return new IfgInstruction(this.opcode, this.operationA, this.operationB); } },
-                    { BasicOpcode.OpIfb, () => { return new IfbInstruction(this.opcode, this.operationA, this.operationB); } },
+                    { BasicOpcode.OpIfg, () => new IfgInstruction(this.opcode, this.operationA, this.operationB)},
+                    { BasicOpcode.OpIfb, () => new IfbInstruction(this.opcode, this.operationA, this.operationB)},
                 };
         }
 

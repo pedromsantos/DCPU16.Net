@@ -310,7 +310,7 @@ namespace ModelTests
         {
             var builder = new IndirectNextWordOperandBuilder();
 
-            var token = new HexToken() { Content = "0xF" };
+            var token = new HexToken { Content = "0xF" };
 
             var operand = builder.Build(token);
 
@@ -320,11 +320,11 @@ namespace ModelTests
         [Test]
         public void BuildWhenCalledOnIndirectNextWordOffsetOperandBuilderSetsNextWordValueToTokenContentForHexValue()
         {
-            var leftToken = new HexToken() { Content = "0xF" };
+            var leftToken = new HexToken { Content = "0xF" };
 
             var builder = new IndirectNextWordOffsetOperandBuilder(leftToken);
 
-            var rigthToken = new RegisterToken() { Content = "A" };
+            var rigthToken = new RegisterToken { Content = "A" };
 
             var operand = builder.Build(rigthToken);
 
@@ -334,11 +334,11 @@ namespace ModelTests
         [Test]
         public void BuildWhenCalledOnIndirectNextWordOffsetOperandBuilderSetsRegisterToRightTokenContent()
         {
-            var leftToken = new HexToken() { Content = "0xF" };
+            var leftToken = new HexToken { Content = "0xF" };
 
             var builder = new IndirectNextWordOffsetOperandBuilder(leftToken);
 
-            var rigthToken = new RegisterToken() { Content = "A" };
+            var rigthToken = new RegisterToken { Content = "A" };
 
             var operand = builder.Build(rigthToken);
 

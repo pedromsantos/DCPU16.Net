@@ -23,8 +23,6 @@
 namespace ModelTests.Assembler
 {
     using System.Collections.Generic;
-
-    using Model;
     using Model.Assembler;
     using Model.Parser;
 

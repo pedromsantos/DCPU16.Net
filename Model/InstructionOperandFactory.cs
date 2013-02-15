@@ -26,7 +26,7 @@ namespace Model
     using System.Collections.Generic;
     using System.Linq;
 
-    using Model.Operands;
+    using Operands;
 
     public class InstructionOperandFactory : IInstructionOperandFactory
     {
@@ -43,7 +43,7 @@ namespace Model
                             (int)RegisterIdentifier.RegX,
                             (int)RegisterIdentifier.RegY,
                             (int)RegisterIdentifier.RegZ,
-                        }, () => { return new RegisterOperand(); }
+                        }, () => new RegisterOperand()
                     },
                     { new List<int> { (int)OperandType.OIndirectReg }, () => new IndirectRegisterOperand()},
                     { new List<int> { (int)OperandType.OIndirectNextWordOffset }, () => new IndirectNextWordOffsetOperand()},

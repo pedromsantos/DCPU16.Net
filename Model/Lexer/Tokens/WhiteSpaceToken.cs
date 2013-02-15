@@ -22,8 +22,6 @@
 
 namespace Model.Lexer.Tokens
 {
-    using Model.Lexer.Tokens;
-
     public class WhiteSpaceToken : TokenBase
     {
         public WhiteSpaceToken()

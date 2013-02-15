@@ -20,10 +20,10 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace Model.Lexer.Tokens
 {
+    using System.Collections.Generic;
+
     public class InstructionToken : TokenBase
     {
         private static readonly IDictionary<string, BasicOpcode> MenemonicToOpCodeMapper = new Dictionary<string, BasicOpcode>
@@ -47,12 +47,12 @@ namespace Model.Lexer.Tokens
                 { "IFB", BasicOpcode.OpIfb },
             };
 
-        public BasicOpcode Opcode { get; set; }
-
         public InstructionToken()
         {
             this.Matcher = new RegExMatcher(@"\b(((?i)dat)|((?i)set)|((?i)add)|((?i)sub)|((?i)mul)|((?i)div)|((?i)mod)|((?i)shl)|((?i)shr)|((?i)and)|((?i)bor)|((?i)xor)|((?i)ife)|((?i)ifn)|((?i)ifg)|((?i)ifb)|((?i)jsr))\b");
         }
+
+        public BasicOpcode Opcode { get; set; }
 
         public override string Match(string input)
         {
@@ -62,6 +62,7 @@ namespace Model.Lexer.Tokens
             {
                 this.SetOpCodeForMenemonic(this.Content);
             }
+
             return this.Content;
         }
 

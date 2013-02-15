@@ -41,9 +41,9 @@ namespace Model.Parser
 
         private readonly ILexer lexer;
 
-        private Statment currentStatment;
-
         private readonly IList<Statment> statments;
+
+        private Statment currentStatment;
 
         public Parser(ILexer lexer, IOperandFactory directOperandFactory, IOperandFactory indirectOperandFactory)
         {

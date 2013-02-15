@@ -20,11 +20,9 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-
 namespace Model.Lexer.Tokens
 {
-    using Model.Lexer.Tokens;
+    using System;
 
     public class DecimalToken : TokenBase, INumericToken
     {
