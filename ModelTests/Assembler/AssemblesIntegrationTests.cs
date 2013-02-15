@@ -63,7 +63,7 @@ namespace ModelTests.Assembler
         {
             const string Code = "SET I, 10";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -82,7 +82,7 @@ namespace ModelTests.Assembler
         {
             const string Code = "SET A, 0x30";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -102,7 +102,7 @@ namespace ModelTests.Assembler
         {
             const string Code = "SET [0x1000], 0x20";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -123,7 +123,7 @@ namespace ModelTests.Assembler
         {
             const string Code = "SET [0x2000+I], [A]";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -144,7 +144,7 @@ namespace ModelTests.Assembler
             const string Code = @"DAT 0x10, 0x20, 0x30, 0x40, 0x50
                                  SET I, 0";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -195,15 +195,12 @@ namespace ModelTests.Assembler
                                     ;      but my assembler doesn't support short form labels yet.";
 
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
-
-            var statments = parser.Statments;
-
+            var statments = parser.Parse();
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
@@ -247,15 +244,12 @@ namespace ModelTests.Assembler
 :end         SET A, 1                             ; Freeze the CPU forever";
 
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
-
-            var statments = parser.Statments;
-
+            var statments = parser.Parse();
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 

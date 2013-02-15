@@ -43,7 +43,7 @@ namespace Model.Parser
 
         private Statment currentStatment;
 
-        private IList<Statment> statments;
+        private readonly IList<Statment> statments;
 
         public Parser(ILexer lexer, IOperandFactory directOperandFactory, IOperandFactory indirectOperandFactory)
         {
@@ -56,7 +56,7 @@ namespace Model.Parser
             this.statments = new List<Statment>();
         }
 
-        public IEnumerable<Statment> Parse()
+        public ICollection<Statment> Parse()
         {
             while (this.ParseStatment())
             {
@@ -134,7 +134,7 @@ namespace Model.Parser
             this.currentStatment.Opcode = ((InstructionToken)token).Opcode;
         }
 
-        private void ParseIstruction()
+        private void ParseInstruction()
         {
             if (this.currentStatment.Opcode == BasicOpcode.OpDat)
             {
@@ -227,7 +227,7 @@ namespace Model.Parser
         {
             if (token is INumericToken)
             {
-                this.currentStatment.Dat.Add(token.NumericValue));
+                this.currentStatment.Dat.Add(((INumericToken)token).NumericValue);
             }
             else if (token is StringToken)
             {

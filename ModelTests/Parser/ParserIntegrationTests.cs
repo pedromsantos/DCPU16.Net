@@ -66,14 +66,14 @@ namespace ModelTests.Parser
         {
             const string Code = "SET I, 10";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
+            var statments = parser.Parse();
 
-            var statment = parser.Statments.First();
+            var statment = statments.First();
 
             Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpSet));
             Assert.That(statment.OperandA is RegisterOperand);
@@ -87,14 +87,14 @@ namespace ModelTests.Parser
         {
             const string Code = "SET X, 0x4";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
+            var statments = parser.Parse();
 
-            var statment = parser.Statments.First();
+            var statment = statments.First();
 
             Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpSet));
             Assert.That(statment.OperandA is RegisterOperand);
@@ -108,14 +108,14 @@ namespace ModelTests.Parser
         {
             const string Code = "SET [0x1000], 0x20";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
+            var statments = parser.Parse();
 
-            var statment = parser.Statments.First();
+            var statment = statments.First();
 
             Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpSet));
             Assert.That(statment.OperandA is IndirectNextWordOperand);
@@ -129,14 +129,14 @@ namespace ModelTests.Parser
         {
             const string Code = "SET PC, crash";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
+            var statments = parser.Parse();
 
-            var statment = parser.Statments.First();
+            var statment = statments.First();
 
             Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpSet));
             Assert.That(statment.OperandA is ProgramCounterOperand);
@@ -150,14 +150,14 @@ namespace ModelTests.Parser
         {
             const string Code = "JSR testsub";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
+            var statments = parser.Parse();
 
-            var statment = parser.Statments.First();
+            var statment = statments.First();
 
             Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpJsr));
             Assert.That(statment.OperandA is NextWordOperand);
@@ -170,7 +170,7 @@ namespace ModelTests.Parser
         {
             const string Code = "JSM testsub";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -183,7 +183,7 @@ namespace ModelTests.Parser
         {
             const string Code = "JSM \"testsub\"";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -196,7 +196,7 @@ namespace ModelTests.Parser
         {
             const string Code = "SET [0x1000, 0x20";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -210,23 +210,24 @@ namespace ModelTests.Parser
             const string Code = @"DAT 0x10, 0x20, 0x30, 0x40, 0x50
                                  SET I, 0";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
+            var statments = parser.Parse();
 
-            var statment = parser.Statments.First();
+            var statment = statments.First();
             Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpDat));
             Assert.That(statment.OperandA, Is.Null);
             Assert.That(statment.OperandB, Is.Null);
             Assert.That(statment.Label, Is.Null);
-            Assert.That(statment.Dat[0], Is.EqualTo(0x10));
-            Assert.That(statment.Dat[1], Is.EqualTo(0x20));
-            Assert.That(statment.Dat[2], Is.EqualTo(0x30));
-            Assert.That(statment.Dat[3], Is.EqualTo(0x40));
-            Assert.That(statment.Dat[4], Is.EqualTo(0x50));
+            var statmentDat = statment.Dat.ToList();
+            Assert.That(statmentDat[0], Is.EqualTo(0x10));
+            Assert.That(statmentDat[1], Is.EqualTo(0x20));
+            Assert.That(statmentDat[2], Is.EqualTo(0x30));
+            Assert.That(statmentDat[3], Is.EqualTo(0x40));
+            Assert.That(statmentDat[4], Is.EqualTo(0x50));
         }
 
         [Test]
@@ -235,30 +236,31 @@ namespace ModelTests.Parser
             const string Code = @"DAT 0x10, ""Hello"", 0x20, 0x30, 0x40, 0x50
                                  SET I, 0";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers, new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
+            var lexer = new CodeLexer(reader, this.matchers, new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
+            var statments = parser.Parse();
 
-            var statment = parser.Statments.First();
+            var statment = statments.First();
             Assert.That(statment.Opcode, Is.EqualTo(BasicOpcode.OpDat));
             Assert.That(statment.OperandA, Is.Null);
             Assert.That(statment.OperandB, Is.Null);
             Assert.That(statment.Label, Is.Null);
-            Assert.That(statment.Dat[0], Is.EqualTo(0x10));
-            Assert.That(statment.Dat[1], Is.EqualTo((ushort)'"'));
-            Assert.That(statment.Dat[2], Is.EqualTo((ushort)'H'));
-            Assert.That(statment.Dat[3], Is.EqualTo((ushort)'e'));
-            Assert.That(statment.Dat[4], Is.EqualTo((ushort)'l'));
-            Assert.That(statment.Dat[5], Is.EqualTo((ushort)'l'));
-            Assert.That(statment.Dat[6], Is.EqualTo((ushort)'o'));
-            Assert.That(statment.Dat[7], Is.EqualTo((ushort)'"'));
-            Assert.That(statment.Dat[8], Is.EqualTo(0x20));
-            Assert.That(statment.Dat[9], Is.EqualTo(0x30));
-            Assert.That(statment.Dat[10], Is.EqualTo(0x40));
-            Assert.That(statment.Dat[11], Is.EqualTo(0x50));
+            var statmentDat = statment.Dat.ToList();
+            Assert.That(statmentDat[0], Is.EqualTo(0x10));
+            Assert.That(statmentDat[1], Is.EqualTo((ushort)'"'));
+            Assert.That(statmentDat[2], Is.EqualTo((ushort)'H'));
+            Assert.That(statmentDat[3], Is.EqualTo((ushort)'e'));
+            Assert.That(statmentDat[4], Is.EqualTo((ushort)'l'));
+            Assert.That(statmentDat[5], Is.EqualTo((ushort)'l'));
+            Assert.That(statmentDat[6], Is.EqualTo((ushort)'o'));
+            Assert.That(statmentDat[7], Is.EqualTo((ushort)'"'));
+            Assert.That(statmentDat[8], Is.EqualTo(0x20));
+            Assert.That(statmentDat[9], Is.EqualTo(0x30));
+            Assert.That(statmentDat[10], Is.EqualTo(0x40));
+            Assert.That(statmentDat[11], Is.EqualTo(0x50));
         }
 
         [Test]
@@ -294,16 +296,14 @@ namespace ModelTests.Parser
                                     ;      but my assembler doesn't support short form labels yet.";
 
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
-
-            var statments = parser.Statments;
-
-            Assert.That(statments.Count, Is.EqualTo(17));
+            var statments = parser.Parse();
+            
+            Assert.That(statments.Count(), Is.EqualTo(17));
         }
 
         [Test]
@@ -330,18 +330,16 @@ namespace ModelTests.Parser
 :end         SET A, 1                             ; Freeze the CPU forever";
 
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
-
-            var statments = parser.Statments;
+            var statments = parser.Parse();
 
             Assert.That(statments.Count, Is.EqualTo(12));
 
-            var statment5 = parser.Statments[5]; // ife [data+i], 0
+            var statment5 = statments.ToList()[5]; // ife [data+i], 0
 
             Assert.That(statment5.Opcode, Is.EqualTo(BasicOpcode.OpIfe));
             Assert.That(statment5.OperandA, Is.InstanceOf(typeof(IndirectNextWordOffsetOperand)));
@@ -350,7 +348,7 @@ namespace ModelTests.Parser
             Assert.That(statment5.OperandB, Is.InstanceOf(typeof(NextWordOperand)));
             Assert.That(statment5.OperandB.NextWord, Is.EqualTo(0));
 
-            var statment7 = parser.Statments[7]; // set [0x8000+i], [data+i]
+            var statment7 = statments.ToList()[7]; // set [0x8000+i], [data+i]
 
             Assert.That(statment7.Opcode, Is.EqualTo(BasicOpcode.OpSet));
             Assert.That(statment7.OperandA, Is.InstanceOf(typeof(IndirectNextWordOffsetOperand)));

@@ -20,9 +20,11 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Model.Lexer.Tokens
 {
-    public class HexToken : INumericToken, TokenBase
+    public class HexToken : TokenBase, INumericToken
     {
         public HexToken()
         {
@@ -33,7 +35,7 @@ namespace Model.Lexer.Tokens
         {
             get
             {
-                Convert.ToUInt16(token.Content, 16);
+                return Convert.ToUInt16(this.Content, 16);
             }
         }
 

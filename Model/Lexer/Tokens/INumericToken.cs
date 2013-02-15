@@ -20,25 +20,10 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-
 namespace Model.Lexer.Tokens
 {
-    using Model.Lexer.Tokens;
-
-    public class DecimalToken : TokenBase, INumericToken
+    public interface INumericToken
     {
-        public DecimalToken()
-        {
-            this.Matcher = new RegExMatcher("[0-9]+");
-        }
-
-        public int NumericValue
-        {
-            get
-            {
-                return Convert.ToUInt16(this.Content, 10);
-            }
-        }
+        int NumericValue { get; }
     }
 }

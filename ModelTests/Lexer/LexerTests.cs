@@ -61,7 +61,7 @@ namespace ModelTests.Lexer
         public void ConsumeTokenWhenCalledForEmptyInputReturnsNull()
         {
             var reader = new StringReader(string.Empty);
-            var lexer = new PeekLexer(reader, null);
+            var lexer = new CodeLexer(reader, null);
 
             Assert.That(lexer.NextToken(), Is.Null); 
         }
@@ -83,7 +83,7 @@ namespace ModelTests.Lexer
         public void ConsumeTokenWhenCalledWithCommentInputReturnsCommentToken(string input, Type expectedToken)
         {
             var reader = new StringReader(input);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
 
             Assert.That(lexer.NextToken(), Is.InstanceOf(expectedToken));
         }
@@ -92,7 +92,7 @@ namespace ModelTests.Lexer
         public void PeekNextTokenWhenCalledDoesNotConsumeToken()
         {
             var reader = new StringReader("SET ");
-            var lexer = new PeekLexer(reader, new List<TokenBase> { new WhiteSpaceToken(), new InstructionToken() });
+            var lexer = new CodeLexer(reader, new List<TokenBase> { new WhiteSpaceToken(), new InstructionToken() });
 
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(InstructionToken)));
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(InstructionToken)));
@@ -102,7 +102,7 @@ namespace ModelTests.Lexer
         public void ConsumeTokenWhenCalledAndNoTokenMatchesInputThrows()
         {
             var reader = new StringReader("A");
-            var lexer = new PeekLexer(reader, new List<TokenBase> { new WhiteSpaceToken(), new InstructionToken() });
+            var lexer = new CodeLexer(reader, new List<TokenBase> { new WhiteSpaceToken(), new InstructionToken() });
 
             Assert.Throws<Exception>(() => lexer.NextToken());
         }
@@ -111,7 +111,7 @@ namespace ModelTests.Lexer
         public void ConsumeTokenWhenCalledConsumesToken()
         {
             var reader = new StringReader("SET ");
-            var lexer = new PeekLexer(
+            var lexer = new CodeLexer(
                 reader,
                 new List<TokenBase> { new WhiteSpaceToken(), new InstructionToken() },
                 new ConsumeTokenStrategy(new IgnoreNoneTokenStrategy()));
@@ -124,7 +124,7 @@ namespace ModelTests.Lexer
         public void ConsumeTokenWhenCalledIgnoresWhiteSpace()
         {
             var reader = new StringReader(" SET");
-            var lexer = new PeekLexer(
+            var lexer = new CodeLexer(
                 reader,
                 new List<TokenBase> { new WhiteSpaceToken(), new InstructionToken() },
                 new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
@@ -138,7 +138,7 @@ namespace ModelTests.Lexer
             const string Code = @"DAT 0x10, 0x20, 0x30, 0x40, 0x50
                                  SET I, 0";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers, new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
+            var lexer = new CodeLexer(reader, this.matchers, new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
 
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(InstructionToken)));
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(HexToken)));
@@ -161,7 +161,7 @@ namespace ModelTests.Lexer
         {
             const string Code = @"SET [0x1000], 0x20";
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers, new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
+            var lexer = new CodeLexer(reader, this.matchers, new ConsumeTokenStrategy(new IgnoreWhiteSpaceTokenStrategy()));
 
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(InstructionToken)));
             Assert.That(lexer.NextToken(), Is.InstanceOf(typeof(OpenBracketToken)));

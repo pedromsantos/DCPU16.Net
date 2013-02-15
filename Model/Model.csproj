@@ -77,7 +77,7 @@
     <Compile Include="Lexer\IIgnoreTokenStrategy.cs" />
     <Compile Include="Lexer\ILexer.cs" />
     <Compile Include="Lexer\IMatcher.cs" />
-    <Compile Include="Lexer\PeekLexer.cs" />
+    <Compile Include="Lexer\CodeLexer.cs" />
     <Compile Include="Lexer\PeekTokenStrategy.cs" />
     <Compile Include="Lexer\RegExMatcher.cs" />
     <Compile Include="Lexer\Tokens\CloseBracketToken.cs" />
@@ -86,6 +86,7 @@
     <Compile Include="Lexer\Tokens\DecimalToken.cs" />
     <Compile Include="Lexer\Tokens\HexToken.cs" />
     <Compile Include="Lexer\Tokens\InstructionToken.cs" />
+    <Compile Include="Lexer\Tokens\INumericToken.cs" />
     <Compile Include="Lexer\Tokens\LabelReferenceToken.cs" />
     <Compile Include="Lexer\Tokens\LabelToken.cs" />
     <Compile Include="Lexer\Tokens\OpenBracketToken.cs" />

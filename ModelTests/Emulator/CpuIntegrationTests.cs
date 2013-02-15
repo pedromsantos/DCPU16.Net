@@ -91,13 +91,12 @@ namespace ModelTests.Emulator
 									:crash        SET A, 0            ; 7dc1 001a [*]";
 
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
-            var statments = parser.Statments;
+            var statments = parser.Parse();
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
@@ -140,13 +139,12 @@ namespace ModelTests.Emulator
 :end         SET A, 1                             ; Freeze the CPU forever";
 
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
-            var statments = parser.Statments;
+            var statments = parser.Parse();
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 

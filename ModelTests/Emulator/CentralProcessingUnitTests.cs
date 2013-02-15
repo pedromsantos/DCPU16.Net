@@ -46,7 +46,7 @@ namespace ModelTests.Emulator
             var receivedEvents = new Dictionary<ushort, Instruction>();
 
             var reader = new StringReader("SET PUSH, 0x10");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -71,7 +71,7 @@ namespace ModelTests.Emulator
             var receivedEvents = new Dictionary<ushort, Instruction>();
 
             var reader = new StringReader("SET PUSH, 0x10");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);

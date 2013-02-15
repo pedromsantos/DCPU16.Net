@@ -39,6 +39,6 @@ namespace Model.Parser
 
         public Operand OperandB { get; set; }
 
-        public IEnumerable<int> Dat { get; set; }
+        public ICollection<int> Dat { get; set; }
     }
 }

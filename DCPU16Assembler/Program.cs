@@ -169,14 +169,14 @@ namespace DCPU16Assembler
             }
 
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, Matchers);
+            var lexer = new CodeLexer(reader, Matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
+            var statments = parser.Parse();
             var assembler = new Assembler();
-            var program = assembler.AssembleStatments(parser.Statments);
+            var program = assembler.AssembleStatments(statments);
             
             var data = new List<byte>();
             foreach (var word in program)

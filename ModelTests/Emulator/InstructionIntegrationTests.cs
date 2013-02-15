@@ -85,7 +85,7 @@ namespace ModelTests.Emulator
             string code)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -117,7 +117,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -144,7 +144,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledAndOperationOverflowsSetsOverflowRegister(string code, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -180,7 +180,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -215,7 +215,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -250,7 +250,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -285,7 +285,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -320,7 +320,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -355,7 +355,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -390,7 +390,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -424,7 +424,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithXorLiteralWithRegisterValueSetsCorrectRegisterValue(string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -453,7 +453,7 @@ namespace ModelTests.Emulator
 								  SET I, POP";
 
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -482,7 +482,7 @@ namespace ModelTests.Emulator
 								  SET I, PEEK";
 
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -517,7 +517,7 @@ namespace ModelTests.Emulator
             string code, ushort memoryAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -543,7 +543,7 @@ namespace ModelTests.Emulator
             string code, ushort memoryAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -569,7 +569,7 @@ namespace ModelTests.Emulator
             string code, ushort memoryAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -595,7 +595,7 @@ namespace ModelTests.Emulator
             string code, ushort memoryAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -621,7 +621,7 @@ namespace ModelTests.Emulator
             string code, ushort memoryAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -645,7 +645,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithSetOverflowRegisterWithLiteralSetsCorrectOverflowRegisterValue()
         {
             var reader = new StringReader("SET O, 0x10");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -669,7 +669,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithSetProgramCounterWithLiteralSetsCorrectProgramCounterValue()
         {
             var reader = new StringReader("SET PC, 0x10");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -693,7 +693,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithSetPushWithLiteralDecrementsStackPointerValue()
         {
             var reader = new StringReader("SET PUSH, 0x10");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -717,7 +717,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithSetPushWithLiteralSetsCorrectMemoryValue()
         {
             var reader = new StringReader("SET PUSH, 0x10");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -750,7 +750,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -783,7 +783,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -816,7 +816,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -843,7 +843,7 @@ namespace ModelTests.Emulator
 								  SET I, POP";
 
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -869,7 +869,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithSetStackPointerWithLiteralSetsCorrectStackPointerValue()
         {
             var reader = new StringReader("SET SP, 0x10");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -902,7 +902,7 @@ namespace ModelTests.Emulator
             string code, ushort registerAddress, int expectedValue)
         {
             var reader = new StringReader(code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -928,7 +928,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithIfEqualsAndResultIsFalseSetsIgnoreNextInstruction()
         {
             var reader = new StringReader("IFE A, 1");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -952,7 +952,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithJsrSaveCurrentProgramCounterInStack()
         {
             var reader = new StringReader("JSR 0x04");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -977,7 +977,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithJsrSetsProgramCounterToOperandValue()
         {
             var reader = new StringReader("JSR 0x04");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -1002,7 +1002,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithIfNotEqualsAndResultIsFalseSetsIgnoreNextInstruction()
         {
             var reader = new StringReader("IFN A, 0");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -1026,7 +1026,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithIfGreaterAndResultIsFalseSetsIgnoreNextInstruction()
         {
             var reader = new StringReader("IFG A, 0");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -1050,7 +1050,7 @@ namespace ModelTests.Emulator
         public void ExecuteWhenCalledWithIfBinaryAndResultIsFalseSetsIgnoreNextInstruction()
         {
             var reader = new StringReader("IFB A, 0x0");
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
@@ -1101,13 +1101,12 @@ namespace ModelTests.Emulator
                                     :crash        SET PC, crash            ; 7dc1 001a [*]";
 
             var reader = new StringReader(Code);
-            var lexer = new PeekLexer(reader, this.matchers);
+            var lexer = new CodeLexer(reader, this.matchers);
             var directOperandFactory = new DirectOperandFactory();
             var indirectOperandFactory = new IndirectOperandFactory();
             var parser = new Parser(lexer, directOperandFactory, indirectOperandFactory);
 
-            parser.Parse();
-            var statments = parser.Statments;
+            var statments = parser.Parse();
             var assembler = new Assembler();
             var program = assembler.AssembleStatments(statments);
 
