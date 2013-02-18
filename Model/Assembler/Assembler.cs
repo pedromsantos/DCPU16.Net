@@ -39,6 +39,9 @@ namespace Model.Assembler
 
         private readonly IList<ushort> program;
 
+        private Statment currentStatment;
+        private ushort currentOpcode;
+
         public Assembler()
         {
             this.program = new List<ushort>();
@@ -50,7 +53,8 @@ namespace Model.Assembler
         {
             foreach (var statment in statments)
             {
-                this.AssembleStatment(statment);
+                this.currentStatment = statment;
+                this.AssembleStatment();
             }
 
             this.ResolveLabelReferences();
@@ -58,13 +62,13 @@ namespace Model.Assembler
             return this.program;
         }
 
-        private void AssembleStatment(Statment statment)
+        private void AssembleStatment()
         {
-            this.AssembleLabel(statment);
+            this.AssembleLabel();
 
-            if (statment.Dat.Count != 0)
+            if (this.currentStatment.Dat.Count != 0)
             {
-                foreach (var dat in statment.Dat)
+                foreach (var dat in this.currentStatment.Dat)
                 {
                     this.program.Add((ushort)dat);
                 }
@@ -72,53 +76,53 @@ namespace Model.Assembler
                 return;
             }
 
-            this.AssembleOperands(statment);
+            this.AssembleOperands();
         }
 
-        private void AssembleLabel(Statment statment)
+        private void AssembleLabel()
         {
-            if (!string.IsNullOrEmpty(statment.Label))
+            if (!string.IsNullOrEmpty(this.currentStatment.Label))
             {
-                this.labelAddresses[statment.Label.Substring(1)] = this.program.Count;
+                this.labelAddresses[this.currentStatment.Label.Substring(1)] = this.program.Count;
             }
         }
 
-        private void AssembleOperands(Statment statment)
+        private void AssembleOperands()
         {
-            var opcode = (ushort)statment.Opcode;
+            this.currentOpcode = (ushort)this.currentStatment.Opcode;
 
-            if (opcode == 0)
+            if (this.currentOpcode == 0)
             {
-                this.AssembleSpecialOperand(statment, opcode);
+                this.AssembleSpecialOperand();
             }
             else
             {
-                this.AssembleBasicOperand(statment, opcode);
+                this.AssembleBasicOperand();
             }
         }
 
-        private void AssembleBasicOperand(Statment statment, ushort opcode)
+        private void AssembleBasicOperand()
         {
-            opcode |= statment.OperandA.AssembleOperand(0);
-            opcode |= statment.OperandB.AssembleOperand(1);
+            this.currentOpcode |= this.currentStatment.OperandA.AssembleOperand(0);
+            this.currentOpcode |= this.currentStatment.OperandB.AssembleOperand(1);
 
-            this.program.Add(opcode);
+            this.program.Add(this.currentOpcode);
 
-            this.AssembleNextWordOperand(statment.OperandA);
-            this.AssembleNextWordOperand(statment.OperandB);
+            this.AssembleNextWordOperand(this.currentStatment.OperandA);
+            this.AssembleNextWordOperand(this.currentStatment.OperandB);
         }
 
-        private void AssembleSpecialOperand(Statment statment, ushort opcode)
+        private void AssembleSpecialOperand()
         {
-            if (statment.OperandB != null)
+            if (this.currentStatment.OperandB != null)
             {
                 throw new Exception("Non-basic opcode must have single operand.");
             }
 
-            opcode |= (ushort) NonBasicOpcode.OpJsr << OpcodeWidth;
-            opcode |= statment.OperandA.AssembleOperand(1);
-            this.program.Add(opcode);
-            this.AssembleNextWordOperand(statment.OperandA);
+            this.currentOpcode |= (ushort)NonBasicOpcode.OpJsr << OpcodeWidth;
+            this.currentOpcode |= this.currentStatment.OperandA.AssembleOperand(1);
+            this.program.Add(this.currentOpcode);
+            this.AssembleNextWordOperand(this.currentStatment.OperandA);
         }
 
         private void AssembleNextWordOperand(Operand operand)
