@@ -26,7 +26,7 @@ namespace Model.Emulator
     using System.Collections.Generic;
 
     using Model;
-    using Instructions;
+    using Model.Emulator.Instructions;
 
     public class InstructionBuilder : IInstructionBuilder
     {
@@ -54,21 +54,21 @@ namespace Model.Emulator
             this.instructionCache = new Dictionary<ushort, Instruction>();
             this.instructionMapper = new Dictionary<BasicOpcode, Func<Instruction>>
                 {
-                    { BasicOpcode.OpSet, () => new SetInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpAdd, () => new AddInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpSub, () => new SubInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpMul, () => new MulInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpDiv, () => new DivInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpMod, () => new ModInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpShl, () => new ShlInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpShr, () => new ShrInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpAnd, () => new AndInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpBor, () => new BorInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpXor, () => new XorInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpIfe, () => new IfeInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpIfn, () => new IfnInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpIfg, () => new IfgInstruction(this.opcode, this.operationA, this.operationB)},
-                    { BasicOpcode.OpIfb, () => new IfbInstruction(this.opcode, this.operationA, this.operationB)},
+                    { BasicOpcode.OpSet, () => new SetInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpAdd, () => new AddInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpSub, () => new SubInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpMul, () => new MulInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpDiv, () => new DivInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpMod, () => new ModInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpShl, () => new ShlInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpShr, () => new ShrInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpAnd, () => new AndInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpBor, () => new BorInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpXor, () => new XorInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpIfe, () => new IfeInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpIfn, () => new IfnInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpIfg, () => new IfgInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpIfb, () => new IfbInstruction(this.opcode, this.operationA, this.operationB) },
                 };
         }
 

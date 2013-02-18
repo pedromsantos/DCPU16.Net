@@ -44,7 +44,7 @@ namespace Model.Operands
 
         public override string ToString()
         {
-            return string.Format("[{0}]", RegisterOperand.ConvertRegisterIdentifierToTokenString(this.OperandValue % NumberOfRegisters));
+            return string.Format("[{0}]", RegisterOperand.ConvertRegisterIdentifierToTokenString(this.OperandValue % Operand.NumberOfRegisters));
         }
 
         protected override ushort Assemble(ushort shift)

@@ -36,7 +36,7 @@ namespace Model.Operands
 
         public override void Write(ICpuStateOperations cpuStateManager, ushort value)
         {
-            cpuStateManager.WriteMemoryValueAtAddress((this.nextWordAddress + this.registerValue) & ShortMask, value);
+            cpuStateManager.WriteMemoryValueAtAddress((this.nextWordAddress + this.registerValue) & Operand.ShortMask, value);
         }
 
         public override void Process(ICpuStateOperations cpuStateManager)
@@ -52,7 +52,7 @@ namespace Model.Operands
             return string.Format(
                 "[{0}+{1}={2}]",
                 string.Format("0x{0:X4}", this.nextWordAddress),
-                RegisterOperand.ConvertRegisterIdentifierToTokenString(this.OperandValue % NumberOfRegisters),
+                RegisterOperand.ConvertRegisterIdentifierToTokenString(this.OperandValue % Operand.NumberOfRegisters),
                 string.Format("0x{0:X4}", this.registerValue));
         }
 

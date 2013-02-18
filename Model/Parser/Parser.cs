@@ -26,11 +26,10 @@ namespace Model.Parser
     using System.Collections.Generic;
     using System.Linq;
 
-    using Lexer.Tokens;
-
     using Model;
-    using Lexer;
-    using Operands;
+    using Model.Lexer;
+    using Model.Lexer.Tokens;
+    using Model.Operands;
 
     public class Parser : IParser
     {

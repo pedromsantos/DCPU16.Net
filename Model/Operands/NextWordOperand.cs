@@ -43,7 +43,7 @@ namespace Model.Operands
 
         protected override ushort Assemble(ushort shift)
         {
-            if ((this.NextWord <= OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
+            if ((this.NextWord <= Operand.OperandLiteralMax) && string.IsNullOrEmpty(this.Label))
             {
                 return (ushort)((this.NextWord + OperandLiteralOffset) << shift);
             }

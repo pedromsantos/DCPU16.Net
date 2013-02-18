@@ -22,21 +22,29 @@
 
 namespace Model.Operands
 {
+    using System;
+    using System.Collections.Generic;
+
     using Lexer.Tokens;
 
     public class RegisterOperandBuilder : OperandBuilder
     {
+        private static readonly IDictionary<string, Func<Operand>> RegisterCreationStrategyMapper =
+           new Dictionary<string, Func<Operand>>
+                {
+                    { "PC", () => new ProgramCounterOperand() },
+                    { "SP", () => new StackPointerOperand() },
+                    { "O", () => new OverflowOperand() },
+                    { "POP", () => new PopOperand() },
+                    { "PEEK", () => new PeekOperand() },
+                    { "PUSH", () => new PushOperand() },
+                };
+
         protected override Operand CreateOperand(TokenBase token)
         {
             var registerType = token.Content.ToUpper();
-            if (registerType == "PC") return new ProgramCounterOperand();
-            if (registerType == "SP") return new StackPointerOperand();
-            if (registerType == "O") return new OverflowOperand();
-            if (registerType == "POP") return new PopOperand();
-            if (registerType == "PEEK") return new PeekOperand();
-            if (registerType == "PUSH") return new PushOperand();
 
-            return new RegisterOperand();
+            return RegisterCreationStrategyMapper.ContainsKey(registerType) ? RegisterCreationStrategyMapper[registerType]() : new RegisterOperand();
         }
 
         protected override void SetRegisterValue(TokenBase token)

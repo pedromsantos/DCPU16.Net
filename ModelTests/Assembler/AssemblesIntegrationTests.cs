@@ -20,12 +20,11 @@
 // SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Linq;
-
 namespace ModelTests.Assembler
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     using Model.Assembler;
     using Model.Lexer;

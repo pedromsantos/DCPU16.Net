@@ -35,9 +35,9 @@ namespace Model.Parser
         private static readonly IDictionary<Type, Func<TokenBase, Operand>> OperandCreationStrategyMapper =
             new Dictionary<Type, Func<TokenBase, Operand>>
                 {
-                    { typeof(RegisterToken), t => new IndirectRegisterOperandBuilder().Build(t)},
-                    { typeof(LabelReferenceToken), t => new LabelReferenceOperandBuilder().Build(t)},
-                    { typeof(HexToken), t => new IndirectNextWordOperandBuilder().Build(t)},
+                    { typeof(RegisterToken), t => new IndirectRegisterOperandBuilder().Build(t) },
+                    { typeof(LabelReferenceToken), t => new LabelReferenceOperandBuilder().Build(t) },
+                    { typeof(HexToken), t => new IndirectNextWordOperandBuilder().Build(t) },
                 };
 
         public Operand CreateOperand(TokenBase token)
