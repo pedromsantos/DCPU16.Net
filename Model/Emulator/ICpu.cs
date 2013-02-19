@@ -24,10 +24,10 @@ namespace Model.Emulator
 {
     public interface ICpu : ICpuNotifications 
     {
+        Memory Memory { set; }
+
         bool ExecuteNextInstruction();
 
         void Reset();
-
-        Memory Memory { set; }
     }
 }
