@@ -96,9 +96,10 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
 
-            cpu.LoadData(program);
             var instruction = builder.Build(program.ToList()[0], cpu);
 
             Assert.That(instruction.Token, Is.EqualTo(code.Substring(0, 3)));
@@ -128,9 +129,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -155,9 +156,10 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
 
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -191,9 +193,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -226,11 +228,11 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
-            Instruction instruction1 = builder.Build(program.ToList()[0], cpu);
-            Instruction instruction2 = builder.Build(program.ToList()[1], cpu);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
+            var instruction1 = builder.Build(program.ToList()[0], cpu);
+            var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -261,9 +263,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -296,9 +298,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -331,9 +333,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -366,9 +368,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -401,9 +403,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -435,9 +437,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -464,11 +466,11 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
-            Instruction instruction1 = builder.Build(program.ToList()[0], cpu);
-            Instruction instruction2 = builder.Build(program.ToList()[1], cpu);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
+            var instruction1 = builder.Build(program.ToList()[0], cpu);
+            var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
             instruction2.Execute();
 
@@ -493,9 +495,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -528,10 +530,10 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
-            Instruction instruction = builder.Build(program.ToList()[0], cpu);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
+            var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
@@ -554,10 +556,10 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
-            Instruction instruction = builder.Build(program.ToList()[0], cpu);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
+            var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
             Assert.That(cpu.ReadMemoryValueAtAddress(memoryAddress), Is.EqualTo(expectedValue));
@@ -580,9 +582,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -606,9 +608,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -632,9 +634,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -656,9 +658,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -680,9 +682,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -704,9 +706,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -728,9 +730,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -761,9 +763,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -794,9 +796,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -827,9 +829,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -854,9 +856,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -880,9 +882,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -913,9 +915,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction1 = builder.Build(program.ToList()[0], cpu);
             var instruction2 = builder.Build(program.ToList()[1], cpu);
             instruction1.Execute();
@@ -939,9 +941,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -963,9 +965,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             cpu.SetProgramCounter(0x10);
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
@@ -988,9 +990,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             cpu.SetProgramCounter(0x10);
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
@@ -1013,9 +1015,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -1037,9 +1039,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 
@@ -1061,9 +1063,9 @@ namespace ModelTests.Emulator
 
             var operandFactory = new InstructionOperandFactory();
             var builder = new InstructionBuilder(operandFactory);
-            var cpu = new Cpu(builder);
-
-            cpu.LoadData(program);
+            var memory = new Memory();
+            memory.LoadData(program);
+            var cpu = new Cpu(builder) { Memory = memory };
             var instruction = builder.Build(program.ToList()[0], cpu);
             instruction.Execute();
 

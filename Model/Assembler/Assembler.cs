@@ -121,7 +121,9 @@ namespace Model.Assembler
 
             this.currentOpcode |= (ushort)NonBasicOpcode.OpJsr << OpcodeWidth;
             this.currentOpcode |= this.currentStatment.OperandA.AssembleOperand(1);
+
             this.program.Add(this.currentOpcode);
+
             this.AssembleNextWordOperand(this.currentStatment.OperandA);
         }
 

@@ -30,10 +30,13 @@ namespace Model.Emulator
     public class Emulator : IEmulator
     {
         private readonly ICpu cpu;
+        private readonly Memory memory;
 
         public Emulator(ICpu cpu)
         {
+            this.memory = new Memory();
             this.cpu = cpu;
+            this.cpu.Memory = this.memory;
         }
 
         public event Action<ushort, Instruction> InstructionWillExecute
@@ -66,12 +69,12 @@ namespace Model.Emulator
         {
             add
             {
-                this.cpu.ValueDidLoad += value;
+                this.memory.ValueDidLoad += value;
             }
 
             remove
             {
-                this.cpu.ValueDidLoad -= value;
+                this.memory.ValueDidLoad -= value;
             }
         }
 
@@ -79,12 +82,12 @@ namespace Model.Emulator
         {
             add
             {
-                this.cpu.MemoryWillChange += value;
+                this.memory.MemoryWillChange += value;
             }
 
             remove
             {
-                this.cpu.MemoryWillChange -= value;
+                this.memory.MemoryWillChange -= value;
             }
         }
 
@@ -92,12 +95,12 @@ namespace Model.Emulator
         {
             add
             {
-                this.cpu.MemoryDidChange += value;
+                this.memory.MemoryDidChange += value;
             }
 
             remove
             {
-                this.cpu.MemoryDidChange -= value;
+                this.memory.MemoryDidChange -= value;
             }
         }
 
@@ -209,12 +212,12 @@ namespace Model.Emulator
         {
             add
             {
-                this.cpu.VideoMemoryDidChange += value;
+                this.memory.VideoMemoryDidChange += value;
             }
 
             remove
             {
-                this.cpu.VideoMemoryDidChange -= value;
+                this.memory.VideoMemoryDidChange -= value;
             }
         }
 
@@ -222,12 +225,12 @@ namespace Model.Emulator
         {
             add
             {
-                this.cpu.KeyboardMemoryDidChange += value;
+                this.memory.KeyboardMemoryDidChange += value;
             }
 
             remove
             {
-                this.cpu.KeyboardMemoryDidChange -= value;
+                this.memory.KeyboardMemoryDidChange -= value;
             }
         }
 
@@ -265,7 +268,7 @@ namespace Model.Emulator
                 program.Add(word);
             }
 
-            this.cpu.LoadData(program);
+            this.memory.LoadData(program);
         }
 
         public void RunLoadedProgram()

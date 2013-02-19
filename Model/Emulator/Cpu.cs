@@ -23,14 +23,11 @@
 namespace Model.Emulator
 {
     using System;
-    using System.Collections.Generic;
 
-    public class Cpu : ICpu
+    public class Cpu : ICpu, ICpuStateOperations
     {
         private readonly IInstructionBuilder instructionBuilder;
         
-        private readonly Memory memory;
-
         private readonly Registers registers;
 
         private bool programCounterSet;
@@ -43,52 +40,12 @@ namespace Model.Emulator
 
         protected Cpu()
         {
-            this.memory = new Memory();
             this.registers = new Registers();
         }
 
         public event Action<ushort, Instruction> InstructionWillExecute;
 
         public event Action<ushort, Instruction> InstructionDidExecute;
-
-        public event Action<int, ushort> ValueDidLoad
-        {
-            add
-            {
-                this.memory.ValueDidLoad += value;
-            }
-
-            remove
-            {
-                this.memory.ValueDidLoad -= value;
-            }
-        }
-
-        public event Action<int, ushort> MemoryWillChange
-        {
-            add
-            {
-                this.memory.MemoryWillChange += value;
-            }
-
-            remove
-            {
-                this.memory.MemoryWillChange -= value;
-            }
-        }
-
-        public event Action<int, ushort> MemoryDidChange
-        {
-            add
-            {
-                this.memory.MemoryDidChange += value;
-            }
-
-            remove
-            {
-                this.memory.MemoryDidChange -= value;
-            }
-        }
 
         public event Action<int, ushort> RegisterWillChange
         {
@@ -194,31 +151,7 @@ namespace Model.Emulator
             }
         }
 
-        public event Action<int, ushort> VideoMemoryDidChange
-        {
-            add
-            {
-                this.memory.VideoMemoryDidChange += value;
-            }
-
-            remove
-            {
-                this.memory.VideoMemoryDidChange -= value;
-            }
-        }
-
-        public event Action<int, ushort> KeyboardMemoryDidChange
-        {
-            add
-            {
-                this.memory.KeyboardMemoryDidChange += value;
-            }
-
-            remove
-            {
-                this.memory.KeyboardMemoryDidChange -= value;
-            }
-        }
+        public Memory Memory { private get; set; }
 
         public ushort ProgramCounter
         {
@@ -251,12 +184,6 @@ namespace Model.Emulator
 
         public bool IgnoreNextInstruction { get; set; }
 
-        public void LoadData(IEnumerable<ushort> data)
-        {
-            this.Reset();
-            this.memory.LoadData(data);
-        }
-
         public bool ExecuteNextInstruction()
         {
             var rawInstruction = this.ReadValueAtProgramCounter();
@@ -287,12 +214,12 @@ namespace Model.Emulator
 
         public ushort ReadMemoryValueAtAddress(ushort address)
         {
-            return this.memory.ReadValueAtAddress(address);
+            return this.Memory.ReadValueAtAddress(address);
         }
 
         public void WriteMemoryValueAtAddress(int address, ushort value)
         {
-            this.memory.WriteValueAtAddress(address, value);
+            this.Memory.WriteValueAtAddress(address, value);
         }
 
         public ushort ReadGeneralPursoseRegisterValue(ushort register)
@@ -339,7 +266,6 @@ namespace Model.Emulator
         public void Reset()
         {
             this.registers.Reset();
-            this.memory.Reset();
         }
 
         private void NotifyInstructionDidExecute(ushort rawInstruction, Instruction instruction)

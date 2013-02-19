@@ -22,6 +22,8 @@
 
 namespace Model.Emulator
 {
+    using System;
+
     public interface IEmulator : ICpuNotifications
     {
         bool LoadProgram(string fileName);
@@ -31,5 +33,15 @@ namespace Model.Emulator
         void RunLoadedProgram();
 
         void RunLoadedProgramWithDelay(int intervalBetweenInstructions);
+
+        event Action<int, ushort> ValueDidLoad;
+
+        event Action<int, ushort> MemoryWillChange;
+
+        event Action<int, ushort> MemoryDidChange;
+
+        event Action<int, ushort> VideoMemoryDidChange;
+
+        event Action<int, ushort> KeyboardMemoryDidChange;
     }
 }
