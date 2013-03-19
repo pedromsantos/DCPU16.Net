@@ -197,7 +197,7 @@ namespace Model.Emulator
 
             if (!this.IgnoreNextInstruction)
             {
-                this.NotifyInstrictionWillExecute(rawInstruction, instruction);
+                this.NotifyInstructionWillExecute(rawInstruction, instruction);
                 instruction.Execute();
                 this.NotifyInstructionDidExecute(rawInstruction, instruction);
             }
@@ -276,7 +276,7 @@ namespace Model.Emulator
             }
         }
 
-        private void NotifyInstrictionWillExecute(ushort rawInstruction, Instruction instruction)
+        private void NotifyInstructionWillExecute(ushort rawInstruction, Instruction instruction)
         {
             if (this.InstructionWillExecute != null)
             {
