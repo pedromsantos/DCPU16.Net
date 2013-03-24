@@ -186,7 +186,7 @@ namespace Model.Emulator
 
         public bool ExecuteNextInstruction()
         {
-            var rawInstruction = this.ReadValueAtProgramCounter();
+            var rawInstruction = this.ReadNextInstruction();
 
             if (rawInstruction == 0x0)
             {
@@ -195,17 +195,9 @@ namespace Model.Emulator
 
             var instruction = this.instructionBuilder.Build(rawInstruction, this);
 
-            if (!this.IgnoreNextInstruction)
-            {
-                this.NotifyInstructionWillExecute(rawInstruction, instruction);
-                instruction.Execute();
-                this.NotifyInstructionDidExecute(rawInstruction, instruction);
-            }
-            else
-            {
-                instruction.NoOp();
-                this.IgnoreNextInstruction = false;
-            }
+            this.NotifyInstructionWillExecute(rawInstruction, instruction);
+            instruction.Execute();
+            this.NotifyInstructionDidExecute(rawInstruction, instruction);
 
             this.UpdateProgramCounter();
 
@@ -245,6 +237,17 @@ namespace Model.Emulator
         public ushort DecrementStackPointer()
         {
             return --this.registers.StackPointer;
+        }
+
+        public void ushort ReadNextInstruction()
+        {
+            if (!this.IgnoreNextInstruction)
+            {
+                return this.ReadValueAtProgramCounter();
+            }
+
+            this.IgnoreNextInstruction = false;
+            return instruction.NoOp();
         }
 
         public ushort ReadValueAtProgramCounter()
