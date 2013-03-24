@@ -34,8 +34,8 @@ namespace Model.Emulator
 
         public Emulator(ICpu cpu)
         {
-            this.memory = new Memory();
             this.cpu = cpu;
+            this.memory = new Memory();
             this.cpu.Memory = this.memory;
         }
 
