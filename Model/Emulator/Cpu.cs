@@ -24,6 +24,8 @@ namespace Model.Emulator
 {
     using System;
 
+    using Model.Emulator.Instructions;
+
     public class Cpu : ICpu, ICpuStateOperations
     {
         private readonly IInstructionBuilder instructionBuilder;
@@ -186,18 +188,11 @@ namespace Model.Emulator
 
         public bool ExecuteNextInstruction()
         {
-            var rawInstruction = this.ReadNextInstruction();
+            var instruction = this.ReadNextInstruction();
 
-            if (rawInstruction == 0x0)
-            {
-                return false;
-            }
-
-            var instruction = this.instructionBuilder.Build(rawInstruction, this);
-
-            this.NotifyInstructionWillExecute(rawInstruction, instruction);
+            this.NotifyInstructionWillExecute(instruction.RawInstruction, instruction);
             instruction.Execute();
-            this.NotifyInstructionDidExecute(rawInstruction, instruction);
+            this.NotifyInstructionDidExecute(instruction.RawInstruction, instruction);
 
             this.UpdateProgramCounter();
 
@@ -239,15 +234,22 @@ namespace Model.Emulator
             return --this.registers.StackPointer;
         }
 
-        public void ushort ReadNextInstruction()
+        public Instruction ReadNextInstruction()
         {
+            var rawInstruction = this.ReadValueAtProgramCounter();
+            
+            if (rawInstruction == 0x0)
+            {
+                return new NoOp();
+            }
+
             if (!this.IgnoreNextInstruction)
             {
-                return this.ReadValueAtProgramCounter();
+                return this.instructionBuilder.Build(rawInstruction, this);
             }
 
             this.IgnoreNextInstruction = false;
-            return instruction.NoOp();
+            return new NoOp();
         }
 
         public ushort ReadValueAtProgramCounter()

@@ -45,7 +45,7 @@ namespace Model.Emulator
 
         protected CpuOperation OperationB { get; private set; }
 
-        protected ushort RawInstruction { get; private set; }
+        public ushort RawInstruction { get; private set; }
 
         public virtual ushort Execute()
         {

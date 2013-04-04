@@ -89,7 +89,7 @@ namespace ModelTests.Emulator
             cpu.InstructionDidExecute += receivedEvents.Add;
             cpu.ExecuteNextInstruction();
 
-            Assert.That(receivedEvents.Keys.First() == program.ToList()[0]);
+            Assert.That(receivedEvents.Keys.First(), Is.EqualTo(program.ToList()[0]));
         }
 
         [SetUp]

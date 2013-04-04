@@ -48,27 +48,29 @@ namespace Model.Emulator
 
         private CpuOperation operationB;
 
+        private ushort rawInstruction;
+
         public InstructionBuilder(IInstructionOperandFactory operandFactory)
         {
             this.operandFactory = operandFactory;
             this.instructionCache = new Dictionary<ushort, Instruction>();
             this.instructionMapper = new Dictionary<BasicOpcode, Func<Instruction>>
                 {
-                    { BasicOpcode.OpSet, () => new SetInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpAdd, () => new AddInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpSub, () => new SubInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpMul, () => new MulInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpDiv, () => new DivInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpMod, () => new ModInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpShl, () => new ShlInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpShr, () => new ShrInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpAnd, () => new AndInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpBor, () => new BorInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpXor, () => new XorInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpIfe, () => new IfeInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpIfn, () => new IfnInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpIfg, () => new IfgInstruction(this.opcode, this.operationA, this.operationB) },
-                    { BasicOpcode.OpIfb, () => new IfbInstruction(this.opcode, this.operationA, this.operationB) },
+                    { BasicOpcode.OpSet, () => new SetInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpAdd, () => new AddInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpSub, () => new SubInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpMul, () => new MulInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpDiv, () => new DivInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpMod, () => new ModInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpShl, () => new ShlInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpShr, () => new ShrInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpAnd, () => new AndInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpBor, () => new BorInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpXor, () => new XorInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpIfe, () => new IfeInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpIfn, () => new IfnInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpIfg, () => new IfgInstruction(this.rawInstruction, this.operationA, this.operationB) },
+                    { BasicOpcode.OpIfb, () => new IfbInstruction(this.rawInstruction, this.operationA, this.operationB) },
                 };
         }
 
@@ -79,7 +81,9 @@ namespace Model.Emulator
                 return this.instructionCache[instructionValue];
             }
 
-            this.opcode = (ushort)(instructionValue & OpMask);
+            this.rawInstruction = instructionValue;
+
+            this.opcode = (ushort)(rawInstruction & OpMask);
 
             if (this.opcode == 0)
             {
@@ -108,6 +112,7 @@ namespace Model.Emulator
             this.operationB = new CpuOperation(this.operandFactory.Create(secondOperandValue), cpuState);
 
             var instruction = this.instructionMapper[(BasicOpcode)this.opcode]();
+
             this.instructionCache[instructionValue] = instruction;
 
             return instruction;
