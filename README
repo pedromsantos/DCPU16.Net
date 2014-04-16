@@ -1,4 +1,4 @@
-Just another DCPU implementation.
+Just another Icomplete DCPU implementation in C#. I'll be working on it whenever I feel bored.
 
 Getting started:
 There are a few unit tests that can be used as an starting point into the code.
